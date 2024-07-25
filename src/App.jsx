@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
 import { Register } from './components/views/Register/Register'
-import { Register } from './components/views/Register'
 import { Login } from './components/views/Login'
 import { Home } from './components/views/Home'
 
