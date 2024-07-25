@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import { Register } from './components/views/Register'
+import { Register } from './components/views/Register/Register'
 
 function App() {
 
