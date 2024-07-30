@@ -1,7 +1,11 @@
 import { Card, CardContent, Grid, IconButton, Typography} from '@mui/material';
 import { FormacionProfesionalCard } from './UserContentCards/FormacionProfesionalCards';
-import { AddCircle } from '@mui/icons-material';
 import { CondicionMedicaCards } from './UserContentCards/CondicionMedicaCards';
+import { SegurosCards } from './UserContentCards/SegurosCards';
+import { AddCircle } from '@mui/icons-material';
+import { IdiomasCards } from './UserContentCards/IdiomasCards';
+import { ExperienciaLaboralCard } from './UserContentCards/ExperienciaLaboralCard';
+import { FamiliaresCard } from './UserContentCards/FamiliaresCard';
 
 
 function renderComponents(contentType, data, index) {
@@ -20,19 +24,34 @@ function renderComponents(contentType, data, index) {
                 key={index}
               />
             )
-            break;
         case "secure":
-
-        break;
+          return(
+            <SegurosCards 
+            seguro={data}
+            key={index}
+            />
+        )
         case "experience":
-
-        break;
-        case "languajes":
-
-        break;
+          return(
+            <ExperienciaLaboralCard
+              experiencia={data}
+              key={index}
+            />
+          )
+        case "languages":
+          return(
+            <IdiomasCards
+              idioma={data}
+              key={index}
+            />
+          )
         case "familiar":
-
-        break;
+            return(
+              <FamiliaresCard
+                familiar={data}
+                key={index}
+              />
+            )
         default:
             return "unknown type"
     }
@@ -47,6 +66,7 @@ export function UserContentCard({title, contentType, data}) {
         padding: 3,
         my: 5,
         position: "relative",
+        boxShadow: "none"
       }}
     >
       <IconButton
@@ -63,7 +83,7 @@ export function UserContentCard({title, contentType, data}) {
         <AddCircle sx={{ width: 50, height: 50 }} />
       </IconButton>
       <CardContent>
-        <Typography variant="h5" marginBottom="20px">
+        <Typography variant="h5" marginBottom="20px" sx={{fontWeight: "500"}}>
           {title}
         </Typography>
         {data.map((value, index) =>

@@ -14,8 +14,38 @@ const dataPrueba = {
     ],
     historialMedico: [
         {
-            titulo: "Sindrome de Asma",
-            descripcion: "He padecido de asma desde que era pequeño, sin embargo es algo que tengo controlado."
+            titulo: "Asma",
+            descripcion: "He padecido de la condicion de asma desde que era pequeño, sin embargo es algo que tengo controlado."
+        }
+    ],
+    seguros: [
+        {
+            titulo: "Seguro Social", 
+            fechaAfiliacion: "23 Jun, 2022", 
+            fechaExpiracion: "23 Jun, 2026", 
+            numeroAfiliacion: "IHSS-40329"
+        }
+    ],
+    idiomas: [
+        {
+            titulo: "Inglés",
+            nivel: "Avanzado"
+        }
+    ],
+    experiencia: [
+       {
+            puesto: "Programador front-end",
+            empresa: "Meta Platforms, Inc.",
+            fechaInicio: "26 Abr, 2021",
+            fechaFinal: "28 Nov, 2024"
+       }
+    ],
+    familiares: [
+        {
+            nombre: "Juan Hernandez",
+            identificacion: "0801-1994-02345",
+            telefono: "+504 9412-2477",
+            parentesco: "Primo"
         }
     ]
 }
@@ -25,7 +55,12 @@ export function UserProfile(){
         <Container sx={{paddingY: 4}} maxWidth="md">
             <Grid container spacing={6}>
                 <Grid item xs={6}>
-                <UserProfileCard userName="Daniel Ochoa" description="Estudiante de Ingenieria en Sistemas" place="Talanga, Francisco Morazan, Honduras"></UserProfileCard>
+                <UserProfileCard 
+                userName="Daniel Ochoa" 
+                description="Estudiante de Ingenieria en Sistemas" 
+                place="Talanga, Francisco Morazan, Honduras"
+                gender="Masculino"
+                />
                 </Grid>
                 <Grid item xs={6}>
                 <UserInfoCard phoneNumber="9483-2396" email="danyochoa@gmail.com" birthdate="Marzo 08, 2003"/>
@@ -33,6 +68,10 @@ export function UserProfile(){
             </Grid>
             <UserContentCard title="Formacion Academica" contentType="academic" data={dataPrueba.formacion}></UserContentCard>
             <UserContentCard title="Historial Medico" contentType="medic" data={dataPrueba.historialMedico}></UserContentCard>
+            <UserContentCard title="Seguros" contentType="secure" data={dataPrueba.seguros}></UserContentCard>
+            <UserContentCard title="Idiomas" contentType="languages" data={dataPrueba.idiomas}></UserContentCard>
+            <UserContentCard title="Experiencia Laboral" contentType="experience" data={dataPrueba.experiencia}></UserContentCard>
+            <UserContentCard title="Familiares" contentType="familiar" data={dataPrueba.familiares}></UserContentCard>
         </Container>
     );
 }

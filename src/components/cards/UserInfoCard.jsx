@@ -3,7 +3,7 @@ import {Card, CardContent, Typography, Button, CardActions} from '@mui/material'
 
 export function UserInfoCard({phoneNumber, email, birthdate}) {
   return (
-    <Card sx={{ width: "100%", bgcolor: "#F1FAF9", padding: 3, height: 380}}>
+    <Card sx={{ width: "100%", bgcolor: "#F1FAF9", padding: 3, height: 380, boxShadow: "none"}}>
       <CardContent>
         <Typography sx={{fontWeight: "600", mb: 2}} variant="h6">Información General</Typography>
         <Typography variant="body1" component="div" sx={{fontWeight: "600"}}>
