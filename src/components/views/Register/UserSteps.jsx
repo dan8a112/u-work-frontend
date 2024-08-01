@@ -1,7 +1,7 @@
-import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl} from "@mui/material";
+import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText} from "@mui/material";
 
 
-const Step1 = ({handleChange, values, options}) => (
+const Step1 = ({handleChange, values, options, errors}) => (
     <Box>
     <Grid container spacing={2}>
       <Grid item xs={6}>
@@ -13,6 +13,8 @@ const Step1 = ({handleChange, values, options}) => (
           name="primerNombre"
           value={values.primerNombre}
           onChange={handleChange}
+          error={!!errors.primerNombre}
+          helperText={errors.primerNombre}
         />
       </Grid>
       <Grid item xs={6}>
@@ -37,6 +39,8 @@ const Step1 = ({handleChange, values, options}) => (
           name="primerApellido"
           value={values.primerApellido}
           onChange={handleChange}
+          error={!!errors.primerApellido}
+          helperText={errors.primerApellido}
         />
       </Grid>
       <Grid item xs={6}>
@@ -48,6 +52,8 @@ const Step1 = ({handleChange, values, options}) => (
           name="segundoApellido"
           value={values.segundoApellido}
           onChange={handleChange}
+          error={!!errors.segundoApellido}
+          helperText={errors.segundoApellido}
         />
       </Grid>
     </Grid>
@@ -61,6 +67,8 @@ const Step1 = ({handleChange, values, options}) => (
           name="identificacion"
           value={values.identificacion}
           onChange={handleChange}
+          error={!!errors.identificacion}
+          helperText={errors.identificacion}
         />
       </Grid>
       <Grid item xs={6}>
@@ -74,10 +82,12 @@ const Step1 = ({handleChange, values, options}) => (
           value={values.fechaNacimiento}
           onChange={handleChange}
           InputLabelProps={{ shrink: true }}
+          error={!!errors.fechaNacimiento}
+          helperText={errors.fechaNacimiento}
         />
       </Grid>
     </Grid>
-    <FormControl fullWidth sx={{ mt: 2 }}>
+    <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.nacionalidad}>
       <InputLabel>Nacionalidad</InputLabel>
       <Select
         name="nacionalidad"
@@ -89,10 +99,11 @@ const Step1 = ({handleChange, values, options}) => (
             <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
         ))}
       </Select>
+      <FormHelperText>{errors.nacionalidad}</FormHelperText>
     </FormControl>
     <Grid container spacing={2}>
       <Grid item xs={6}>
-        <FormControl fullWidth sx={{ mt: 2 }}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.genero}>
           <InputLabel>Genero</InputLabel>
           <Select
             name="genero"
@@ -104,10 +115,11 @@ const Step1 = ({handleChange, values, options}) => (
             <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
              ))}
           </Select>
+          <FormHelperText>{errors.genero}</FormHelperText>
         </FormControl>
       </Grid>
       <Grid item xs={6}>
-        <FormControl fullWidth sx={{ mt: 2 }}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.estadoCivil}>
           <InputLabel>Estado Civil</InputLabel>
           <Select
             name="estadoCivil"
@@ -119,31 +131,36 @@ const Step1 = ({handleChange, values, options}) => (
             <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
              ))}
           </Select>
+          <FormHelperText>{errors.estadoCivil}</FormHelperText>
         </FormControl>
       </Grid>
     </Grid>
   </Box>
 );
 
-const Step2 = ({handleChange, values}) => (
+const Step2 = ({handleChange, values, errors}) => (
     <Box>
     <TextField
           label="Correo Electronico"
           variant="outlined"
           fullWidth
           margin="normal"
-          name="email"
+          name="correo"
           value={values.correo}
           onChange={handleChange}
+          error={!!errors.correo}
+          helperText={errors.correo}
     />
     <TextField
           label="Contraseña"
           variant="outlined"
           fullWidth
           margin="normal"
-          name="password"
+          name="contrasena"
           value={values.contrasena}
           onChange={handleChange}
+          error={!!errors.contrasena}
+          helperText={errors.contrasena}
     />
   </Box>
 );
@@ -164,6 +181,15 @@ const Step3 = ({handleChange, values, options}) => (
       </Select>
     </FormControl>
     <TextField
+          label="Direccion"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          name="direccion"
+          value={values.direccion}
+          onChange={handleChange}
+    />
+    <TextField
           label="Numero de telefono"
           variant="outlined"
           fullWidth
@@ -171,6 +197,7 @@ const Step3 = ({handleChange, values, options}) => (
           name="numeroTelefono"
           value={values.numeroTelefono}
           onChange={handleChange}
+          type="number"
     />
     </Box>
 );
@@ -209,13 +236,13 @@ const options = {
     ]
 }
 
-export function getStepContent(step, handleChange, values) {
+export function getStepContent(step, handleChange, values, errors) {
 
     switch (step) {
         case 0:
-          return (<Step1 handleChange={handleChange} values={values} options={options}/>);
+          return (<Step1 handleChange={handleChange} values={values} options={options} errors={errors}/>);
         case 1:
-          return (<Step2 handleChange={handleChange} values={values}/>);
+          return (<Step2 handleChange={handleChange} values={values} errors={errors}/>);
         case 2:
           return (<Step3 handleChange={handleChange} values={values} options={options}/>);
         default:
