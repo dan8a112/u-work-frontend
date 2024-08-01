@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 
-const pages = ['Ofertas', 'Tus Aplicaciones', 'Notificaciones'];
+const pages = ['Ofertas', 'Tus Aplicaciones'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function ResponsiveAppBar() {
@@ -36,7 +36,7 @@ function ResponsiveAppBar() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <WorkOutlineIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
