@@ -1,7 +1,15 @@
-import {Card, CardContent, Typography, Button, CardActions} from '@mui/material';
+import {Card, CardContent, Typography, Button, CardActions, Dialog, DialogTitle, DialogContent, DialogActions} from '@mui/material';
+import { PreferenciasEmpleoModal } from '../modals/PreferenciasEmpleoModal';
+import { useState } from 'react';
 
 
 export function UserInfoCard({phoneNumber, email, birthdate}) {
+
+  const [openPreferences, setOpenPreferences] = useState(false);
+
+  const handleOpenPreferences = ()=>{setOpenPreferences(true)};
+  const handleClosePreferences = ()=>{setOpenPreferences(false)};
+
   return (
     <Card sx={{ width: "100%", bgcolor: "#F1FAF9", padding: 3, height: 380, boxShadow: "none"}}>
       <CardContent>
@@ -25,10 +33,11 @@ export function UserInfoCard({phoneNumber, email, birthdate}) {
             {birthdate}
         </Typography>
         <CardActions sx={{justifyContent: "center"}}>
-        <Button variant="outlined" sx={{mr: 2}}>Preferencias</Button>
+        <Button variant="outlined" sx={{mr: 2}} onClick={handleOpenPreferences}>Preferencias</Button>
         <Button variant="contained">Editar Perfil</Button>
         </CardActions>
       </CardContent>
+      <PreferenciasEmpleoModal open={openPreferences} handleClose={handleClosePreferences}/>
     </Card>
   );
 }

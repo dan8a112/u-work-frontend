@@ -9,7 +9,7 @@ export function SegurosCards({seguro, marginBottom}){
         <Card sx={marginBottom && {mb: 3}}>
           <CardContent>
             <Grid container >
-              <Grid item xs={1.5}>
+              <Grid item xs={1.5} color="#ffaa7b">
               <HealthAndSafety sx={{ width: 70, height: 70}}/>
               </Grid>
               <Grid item xs={10.5}>

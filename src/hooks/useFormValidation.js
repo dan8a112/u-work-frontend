@@ -31,7 +31,6 @@ export function useFormValidation(validations){
       });
       
       setErrors(newErrors);
-      console.log(newErrors)
       return valid;
     };
   

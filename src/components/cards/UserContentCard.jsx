@@ -1,4 +1,4 @@
-import { Card, CardContent, Grid, IconButton, Typography} from '@mui/material';
+import { Card, CardContent, IconButton, Modal, Typography} from '@mui/material';
 import { FormacionProfesionalCard } from './UserContentCards/FormacionProfesionalCards';
 import { CondicionMedicaCards } from './UserContentCards/CondicionMedicaCards';
 import { SegurosCards } from './UserContentCards/SegurosCards';
@@ -6,6 +6,13 @@ import { AddCircle } from '@mui/icons-material';
 import { IdiomasCards } from './UserContentCards/IdiomasCards';
 import { ExperienciaLaboralCard } from './UserContentCards/ExperienciaLaboralCard';
 import { FamiliaresCard } from './UserContentCards/FamiliaresCard';
+import { useState } from 'react';
+import { HistorialAcademicoForm } from '../forms/HistorialAcademicoForm';
+import { HistorialMedicoForm } from '../forms/HistorialMedicoForm';
+import { SegurosForm } from '../forms/SegurosForms';
+import { ExperienciaLaboralForm } from '../forms/ExperienciaLaboralForm';
+import { IdiomasForm } from '../forms/IdiomasForm';
+import { FamiliaresForm } from '../forms/FamiliaresForm';
 
 
 function renderComponents(contentType, data, index) {
@@ -57,7 +64,32 @@ function renderComponents(contentType, data, index) {
     }
 }
 
+function renderForm(contentType) {
+  switch (contentType) {
+      case "academic":
+          return(<HistorialAcademicoForm/>);
+      case "medic":
+          return(<HistorialMedicoForm/>);
+      case "secure":
+        return(<SegurosForm/>);
+      case "experience":
+        return(<ExperienciaLaboralForm/>);
+      case "languages":
+        return(<IdiomasForm/>);
+      case "familiar":
+          return(<FamiliaresForm/>)
+      default:
+          return "unknown type"
+  }
+}
+
 export function UserContentCard({title, contentType, data}) {
+
+  const[open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+
   return (
     <Card
       sx={{
@@ -72,6 +104,7 @@ export function UserContentCard({title, contentType, data}) {
       <IconButton
         color="primary"
         size="large"
+        onClick={handleOpen}
         sx={{
           position: "absolute",
           top: 16,
@@ -82,6 +115,16 @@ export function UserContentCard({title, contentType, data}) {
       >
         <AddCircle sx={{ width: 50, height: 50 }} />
       </IconButton>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <>
+        {renderForm(contentType)}
+        </>
+      </Modal>
       <CardContent>
         <Typography variant="h5" marginBottom="20px" sx={{fontWeight: "500"}}>
           {title}

@@ -9,7 +9,7 @@ export function IdiomasCards({idioma, marginBottom}){
         <Card sx={marginBottom && {mb: 3}}>
           <CardContent>
             <Grid container alignItems="center">
-              <Grid item xs={1.5}>
+              <Grid item xs={1.5}  color='#ffc839'>
               <Language sx={{ width: 70, height: 70}}/>
               </Grid>
               <Grid item xs={10.5}>

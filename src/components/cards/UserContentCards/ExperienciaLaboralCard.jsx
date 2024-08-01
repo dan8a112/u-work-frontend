@@ -1,4 +1,4 @@
-import {Work} from '@mui/icons-material';
+import {Work, WorkHistory, WorkOutline} from '@mui/icons-material';
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 
 export function ExperienciaLaboralCard({experiencia, marginBottom}){
@@ -9,8 +9,8 @@ export function ExperienciaLaboralCard({experiencia, marginBottom}){
         <Card sx={marginBottom && {mb: 3}}>
           <CardContent>
             <Grid container >
-              <Grid item xs={1.5}>
-              <Work sx={{ width: 70, height: 70}}/>
+              <Grid item xs={1.5} color="#382911">
+              <WorkOutline sx={{ width: 70, height: 70}}/>
               </Grid>
               <Grid item xs={10.5}>
                 <Box>

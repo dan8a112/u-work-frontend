@@ -2,6 +2,7 @@ import { Container, Grid } from "@mui/material";
 import { UserProfileCard } from "../cards/UserProfileCard";
 import { UserInfoCard } from "../cards/UserInfoCard";
 import { UserContentCard } from "../cards/UserContentCard";
+import { HistorialAcademicoForm } from "../forms/HistorialAcademicoForm";
 
 const dataPrueba = {
     formacion: [
@@ -63,15 +64,18 @@ export function UserProfile(){
                 />
                 </Grid>
                 <Grid item xs={6}>
-                <UserInfoCard phoneNumber="9483-2396" email="danyochoa@gmail.com" birthdate="Marzo 08, 2003"/>
+                <UserInfoCard 
+                phoneNumber="9483-2396" 
+                email="danyochoa@gmail.com" 
+                birthdate="Marzo 08, 2003"/>
                 </Grid>
             </Grid>
             <UserContentCard title="Formacion Academica" contentType="academic" data={dataPrueba.formacion}></UserContentCard>
-            <UserContentCard title="Historial Medico" contentType="medic" data={dataPrueba.historialMedico}></UserContentCard>
-            <UserContentCard title="Seguros" contentType="secure" data={dataPrueba.seguros}></UserContentCard>
-            <UserContentCard title="Idiomas" contentType="languages" data={dataPrueba.idiomas}></UserContentCard>
             <UserContentCard title="Experiencia Laboral" contentType="experience" data={dataPrueba.experiencia}></UserContentCard>
+            <UserContentCard title="Idiomas" contentType="languages" data={dataPrueba.idiomas}></UserContentCard>
+            <UserContentCard title="Seguros" contentType="secure" data={dataPrueba.seguros}></UserContentCard>
             <UserContentCard title="Familiares" contentType="familiar" data={dataPrueba.familiares}></UserContentCard>
+            <UserContentCard title="Historial Medico" contentType="medic" data={dataPrueba.historialMedico}></UserContentCard>
         </Container>
     );
 }
