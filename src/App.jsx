@@ -4,6 +4,7 @@ import { Login } from './components/views/Login'
 import { Home } from './components/views/Home'
 import { BussinesRegister } from './components/views/Register/BusinessRegister'
 import { UserProfile } from './components/views/UserProfile'
+import { OffersDetail } from './components/views/OffersDetail'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
         <Route path='/userProfile' element={<UserProfile/>}></Route>
+        <Route path='/offersDetail' element={<OffersDetail/>}></Route>
       </Routes>
     </>
   )

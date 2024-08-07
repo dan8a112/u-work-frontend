@@ -7,9 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const steps = ['Datos Personales', 'Cuenta', 'Contacto'];
 
-export function UserRegister(){
+export function UserRegister({userData, edit}){
 
   const navigate = useNavigate();
+
+  const sendForm = edit ? 
+  'http://localhost:5001/api/usuario/editar' : 
+  'http://localhost:5001/api/usuario/ingresar';
 
   /**
    * MANEJO DE LOS VALIDACIONES. VALORES REQUERIDOS Y PATRONES
@@ -56,7 +60,7 @@ export function UserRegister(){
   /**
    * MANEJO DE LOS VALORES DEL FORMULARIO
    */
-  const [formValues, setFormValues] = useState({
+  const [formValues, setFormValues] = useState( userData || {
     primerNombre: "",
     segundoNombre: "",
     primerApellido: "",
@@ -223,7 +227,7 @@ export function UserRegister(){
   return (
     <Container maxWidth="sm">
       <Typography variant="h4" sx={{ mb: 2 }}>
-        Registrate
+        {!edit && 'Registrate'}
       </Typography>
       <Box sx={{ width: "100%" }}>
         <Stepper activeStep={activeStep}>
