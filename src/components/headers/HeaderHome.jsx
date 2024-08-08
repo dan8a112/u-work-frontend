@@ -12,13 +12,36 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import { useNavigate } from 'react-router-dom';
 
-const pages = ['Ofertas', 'Tus Aplicaciones'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = [
+  {
+    text: "Inicio",
+    src: "/home",
+  },
+  {
+    text: "Tus Ofertas",
+    src: "/application",
+  }
+];
 
-function ResponsiveAppBar() {
+const settings = [
+  {
+    text: "Profile",
+    src: "/userProfile",
+  },
+  {
+    text: "Logout",
+    src: "/register",
+  }
+];
+
+function HeaderHome() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+
+  const [buttonSelected, setButtonSelected] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -33,6 +56,16 @@ function ResponsiveAppBar() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleMenuItemClick = (src) => {
+    setButtonSelected(src);
+    navigate(src);
+  };
+
+  const handleUserMenuItemClick = (src) => {
+    navigate(src);
+    setAnchorElUser(null); // Cerrar el menú de usuario después de la navegación
   };
 
   return (
@@ -88,8 +121,8 @@ function ResponsiveAppBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.text} onClick={() => handleMenuItemClick(page.src)}>
+                  <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -116,11 +149,16 @@ function ResponsiveAppBar() {
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
+                key={page.text}
+                onClick={() => handleMenuItemClick(page.src)}
+                sx={{
+                  my: 2,
+                  color: 'white',
+                  display: 'block',
+                  backgroundColor: buttonSelected === page.src ? '#56bba8' : '#0D9E82'
+                }}
               >
-                {page}
+                {page.text}
               </Button>
             ))}
           </Box>
@@ -148,8 +186,8 @@ function ResponsiveAppBar() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.text} onClick={() => handleUserMenuItemClick(setting.src)}>
+                  <Typography textAlign="center">{setting.text}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -159,4 +197,5 @@ function ResponsiveAppBar() {
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+
+export default HeaderHome;

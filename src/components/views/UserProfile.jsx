@@ -53,7 +53,7 @@ const dataPrueba = {
 
 export function UserProfile(){
     return(
-        <Container sx={{paddingY: 4}} maxWidth="md">
+        <Container sx={{paddingY: 4, marginTop: 8}} maxWidth="md">
             <Grid container spacing={6}>
                 <Grid item xs={6}>
                 <UserProfileCard 
