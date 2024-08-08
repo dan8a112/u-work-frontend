@@ -8,7 +8,7 @@ const Step1 = ({ handleChange, values, options, errors }) => (
       variant="outlined"
       fullWidth
       margin="normal"
-      name="correo"
+      name="nombre"
       value={values.nombre}
       onChange={handleChange}
       error={!!errors.nombre}
@@ -24,9 +24,9 @@ const Step1 = ({ handleChange, values, options, errors }) => (
             onChange={handleChange}
             label="Industria"
           >
-            {options.industria.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {options.industrias.map((value, index) => (
+              <MenuItem value={value.idIndustria} key={index}>
+                {value.industria}
               </MenuItem>
             ))}
           </Select>
@@ -42,9 +42,9 @@ const Step1 = ({ handleChange, values, options, errors }) => (
             onChange={handleChange}
             label="Pais"
           >
-            {options.pais.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {options.lugares.map((value, index) => (
+              <MenuItem value={value.id_lugar} key={index}>
+                {value.nombre_lugar}
               </MenuItem>
             ))}
           </Select>
@@ -53,6 +53,7 @@ const Step1 = ({ handleChange, values, options, errors }) => (
       </Grid>
     </Grid>
     <TextField
+      type="number"
       label="Numero de telefono"
       variant="outlined"
       fullWidth
@@ -91,6 +92,7 @@ const Step2 = ({handleChange, values, errors}) => (
           helperText={errors.correo}
     />
     <TextField
+          type="password"
           label="Contraseña"
           variant="outlined"
           fullWidth
@@ -113,7 +115,7 @@ const Step3 = ({ handleChange, values, options, errors }) => (
           variant="outlined"
           fullWidth
           margin="normal"
-          name="director.primerNombre"
+          name="primerNombre"
           value={values.primerNombre}
           onChange={handleChange}
           error={!!errors.primerNombre}
@@ -126,7 +128,7 @@ const Step3 = ({ handleChange, values, options, errors }) => (
           variant="outlined"
           fullWidth
           margin="normal"
-          name="director.segundoNombre"
+          name="segundoNombre"
           value={values.segundoNombre}
           onChange={handleChange}
         />
@@ -139,7 +141,7 @@ const Step3 = ({ handleChange, values, options, errors }) => (
           variant="outlined"
           fullWidth
           margin="normal"
-          name="director.primerApellido"
+          name="primerApellido"
           value={values.primerApellido}
           onChange={handleChange}
           error={!!errors.primerApellido}
@@ -152,7 +154,7 @@ const Step3 = ({ handleChange, values, options, errors }) => (
           variant="outlined"
           fullWidth
           margin="normal"
-          name="director.segundoApellido"
+          name="segundoApellido"
           value={values.segundoApellido}
           onChange={handleChange}
           error={!!errors.segundoApellido}
@@ -161,27 +163,39 @@ const Step3 = ({ handleChange, values, options, errors }) => (
       </Grid>
     </Grid>
     <TextField
-      label="Identificacion"
+      label="Identificacion del director"
       variant="outlined"
       fullWidth
       margin="normal"
-      name="director.identificacion"
+      name="identificacion"
       value={values.identificacion}
       onChange={handleChange}
       error={!!errors.identificacion}
       helperText={errors.identificacion}
     />
+    <TextField
+      type="number"
+      label="Telefono del director"
+      variant="outlined"
+      fullWidth
+      margin="normal"
+      name="telefonoContacto"
+      value={values.telefonoContacto}
+      onChange={handleChange}
+      error={!!errors.telefonoContacto}
+      helperText={errors.telefonoContacto}
+    />
     <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.genero}>
       <InputLabel>Genero</InputLabel>
       <Select
-        name="director.genero"
+        name="genero"
         value={values.genero}
         onChange={handleChange}
         label="Genero"
       >
-        {options.genero.map((value, index) => (
-          <MenuItem value={value.id} key={index}>
-            {value.label}
+        {options.generos.map((value, index) => (
+          <MenuItem value={value.id_genero} key={index}>
+            {value.genero}
           </MenuItem>
         ))}
       </Select>
@@ -190,41 +204,7 @@ const Step3 = ({ handleChange, values, options, errors }) => (
   </Box>
 );
 
-//Datos estaticos (de manera temporal del options)
-const options = {
-    pais: [
-        {
-            id: "1",
-            label: "Honduras"
-        },
-        {
-            id: "2",
-            label: "Nicaragua"
-        }
-    ],
-    genero: [
-        {
-            id: "1",
-            label: "Masculino"
-        },
-        {
-            id: "2",
-            label: "Femenino"
-        }
-    ],
-    industria: [
-        {
-            id: "1",
-            label: "Desarrollo Web"
-        },
-        {
-            id: "2",
-            label: "Alimentos"
-        }
-    ]
-}
-
-export function getStepContent(step, handleChange, values, errors) {
+export function getStepContent(step, handleChange, values, errors, options) {
 
     switch (step) {
         case 0:

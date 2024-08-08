@@ -1,5 +1,6 @@
 import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText} from "@mui/material";
-
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 const Step1 = ({handleChange, values, options, errors}) => (
     <Box>
@@ -95,8 +96,8 @@ const Step1 = ({handleChange, values, options, errors}) => (
         onChange={handleChange}
         label="Nacionalidad"
       >
-        {options.nacionalidad.map((value, index) => (
-            <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
+        {options.lugares.map((value, index) => (
+            <MenuItem value={value.id_lugar} key={index}>{value.nombre_lugar}</MenuItem>
         ))}
       </Select>
       <FormHelperText>{errors.nacionalidad}</FormHelperText>
@@ -111,8 +112,8 @@ const Step1 = ({handleChange, values, options, errors}) => (
             onChange={handleChange}
             label="Genero"
           >
-            {options.genero.map((value, index) => (
-            <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
+            {options.generos.map((value, index) => (
+            <MenuItem value={value.id_genero} key={index}>{value.genero}</MenuItem>
              ))}
           </Select>
           <FormHelperText>{errors.genero}</FormHelperText>
@@ -128,7 +129,7 @@ const Step1 = ({handleChange, values, options, errors}) => (
             label="Estado Civil"
           >
             {options.estadoCivil.map((value, index) => (
-            <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
+            <MenuItem value={value.id_estado_civil} key={index}>{value.estado_civil}</MenuItem>
              ))}
           </Select>
           <FormHelperText>{errors.estadoCivil}</FormHelperText>
@@ -152,6 +153,7 @@ const Step2 = ({handleChange, values, errors}) => (
           helperText={errors.correo}
     />
     <TextField
+          type="password"
           label="Contraseña"
           variant="outlined"
           fullWidth
@@ -165,21 +167,92 @@ const Step2 = ({handleChange, values, errors}) => (
   </Box>
 );
 
-const Step3 = ({handleChange, values, options}) => (
-    <Box>
+const Step3 = ({handleChange, values, options}) => {
+
+  const [departamentsData, setDepartamentsData] = useState([]);
+  const [municipiosData, setMunicipiosData] = useState([]);
+  const [showDepartments, setShowDepartments] = useState(false);
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5001/api/lugares/dep"
+        );
+        setDepartamentsData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if(values.paisResidencia==1){
+      fetchData();
+      setShowDepartments(true)
+    }else{
+      setShowDepartments(false)
+    }
+  }, [values.paisResidencia])
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5001/api/lugares/mun/${values.departamentoResidencia}`
+        );
+        setMunicipiosData(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    if (values.departamentoResidencia) {
+      fetchData();
+    }
+  }, [values.departamentoResidencia])
+
+  return(
+  <Box>
     <FormControl fullWidth sx={{ mt: 2 }}>
-      <InputLabel>Lugar de residencia</InputLabel>
+      <InputLabel>Pais de residencia</InputLabel>
       <Select
-        name="lugarResidencia"
-        value={values.lugarResidencia}
+        name="paisResidencia"
+        value={values.paisResidencia}
         onChange={handleChange}
-        label="Lugar de Residencia"
+        label="Pais de Residencia"
       >
-        {options.nacionalidad.map((value, index) => (
-            <MenuItem value={value.id} key={index}>{value.label}</MenuItem>
+        {options.lugares.map((value, index) => (
+            <MenuItem value={value.id_lugar} key={index}>{value.nombre_lugar}</MenuItem>
         ))}
       </Select>
     </FormControl>
+    {showDepartments && (
+      <FormControl fullWidth sx={{ mt: 2 }}>
+      <InputLabel>Departamento de residencia</InputLabel>
+      <Select
+        name="departamentoResidencia"
+        value={values.departamentoResidencia}
+        onChange={handleChange}
+        label="Departamento de Residencia"
+      >
+        {departamentsData.map((value, index) => (
+            <MenuItem value={value.id_lugar} key={index}>{value.nombre_lugar}</MenuItem>
+        ))}
+      </Select>
+    </FormControl>)}
+    {showDepartments && (
+      <FormControl fullWidth sx={{ mt: 2 }}>
+      <InputLabel>Municipio de residencia</InputLabel>
+      <Select
+        name="municipioResidencia"
+        value={values.municipioResidencia}
+        onChange={handleChange}
+        label="Departamento de Residencia"
+      >
+        {municipiosData.map((value, index) => (
+            <MenuItem value={value.id_lugar} key={index}>{value.nombre_lugar}</MenuItem>
+        ))}
+      </Select>
+    </FormControl>)}
     <TextField
           label="Direccion"
           variant="outlined"
@@ -199,44 +272,10 @@ const Step3 = ({handleChange, values, options}) => (
           onChange={handleChange}
           type="number"
     />
-    </Box>
-);
+    </Box>)
+};
 
-//Datos estaticos (de manera temporal del options)
-const options = {
-    nacionalidad: [
-        {
-            id: "1",
-            label: "Honduras"
-        },
-        {
-            id: "2",
-            label: "Nicaragua"
-        }
-    ],
-    genero: [
-        {
-            id: "1",
-            label: "Masculino"
-        },
-        {
-            id: "2",
-            label: "Femenino"
-        }
-    ],
-    estadoCivil: [
-        {
-            id: "1",
-            label: "Soltero"
-        },
-        {
-            id: "2",
-            label: "Casado"
-        }
-    ]
-}
-
-export function getStepContent(step, handleChange, values, errors) {
+export function getStepContent(step, handleChange, values, errors, options) {
 
     switch (step) {
         case 0:
