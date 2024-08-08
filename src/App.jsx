@@ -7,6 +7,7 @@ import { UserProfile } from './components/views/UserProfile'
 import { OffersDetail } from './components/views/OffersDetail'
 import HeaderHome from './components/headers/HeaderHome'
 import { Application } from './components/views/Applications'
+import NotificationDetail from './components/cards/Notification/NotificationDetail'
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/userProfile' element={<UserProfile/>}></Route>
         <Route path='/offersDetail' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
+        <Route path='/test' element={<NotificationDetail/>}></Route>
       </Routes>
     </>
   )

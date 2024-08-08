@@ -4,7 +4,7 @@ import CardHeader from '@mui/material/CardHeader';
 import Avatar from '@mui/material/Avatar';
 import { red } from '@mui/material/colors';
 
-export default function NotificationCard({ onClick }) {
+export default function NotificationCard({onClick, title, date, logo}) {
   return (
     <Card 
       sx={{ maxWidth: 250, backgroundColor: '#F1FAF9', marginBottom: 2, cursor: 'pointer', p:'0px' }}
@@ -13,10 +13,10 @@ export default function NotificationCard({ onClick }) {
       
       <CardHeader sx={{ padding: '8px' }}
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src='/img/bac_credomatic.png'/>
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={logo}/>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={title}
+        subheader={date}
       />
     </Card>
   );
