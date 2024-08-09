@@ -10,19 +10,17 @@ const information = {
     fechaPublicacion: "17 Jun, 2024",
     fechaPublicacion: "31 Jun, 2024",
     lugar: "Tegucigalpa, Francisco Morazan, Honduras",
-    detalle: {
-        tipoEmpleo: "Tecnologias de la informacion",
-        cargos: "Programador, DatabaseManager",
-        vacantes: 1,
-        tipoContratacion: "Tiempo completo",
-        modalidad: "En remoto",
-        nivelAcademico: "Educacion Superior"
-    },
+    tipoEmpleo: "Tecnologias de la informacion",
+    cargos: ["Programador", "DatabaseManager"],
+    vacantes: 1,
+    tipoContratacion: "Tiempo completo",
+    modalidad: "En remoto",
+    nivelAcademico: "Educacion Superior",
     descripcion: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis necessitatibus, assumenda quod dolorum explicabo laboriosam molestias et officiis magnam voluptates, rerum eligendi nemo dolore velit ipsam optio ipsa eum unde?",
     requisitosAcademicos: ["React", "Diseno Grafico", "MySQL"],
     experienciaRequerida: ["Programador Frontend", "Database Manager"],
     educacionRequerida: ["Ingenieria en Sistemas", "Administracion de empresas"],
-    lenguajes: [{nombre: "Ingles", nivel:"Avanzado"},{nombre: "Espanol", nivel:"Nativo"}]
+    idiomas: [{nombre: "Ingles", nivel:"Avanzado"},{nombre: "Espanol", nivel:"Nativo"}]
 }
 
 export function OffersDetail(){
@@ -52,31 +50,31 @@ export function OffersDetail(){
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Tipo de Empleo</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.detalle.tipoEmpleo}</Typography>
+                <Typography sx={{ mb:0.5}}>{information.tipoEmpleo}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Cargos</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.detalle.cargos}</Typography>
+                <Typography sx={{ mb:0.5}}>{information.cargos.join(", ")}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Puestos Vacantes</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.detalle.vacantes}</Typography>
+                <Typography sx={{ mb:0.5}}>{information.vacantes}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Modalidad</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.detalle.modalidad}</Typography>
+                <Typography sx={{ mb:0.5}}>{information.modalidad}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Nivel Academico</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.detalle.nivelAcademico}</Typography>
+                <Typography sx={{ mb:0.5}}>{information.nivelAcademico}</Typography>
                 </Grid>
                 </Grid>
             </DetalleOfertaCard>
@@ -108,9 +106,9 @@ export function OffersDetail(){
                 </Grid>
             </DetalleOfertaCard>
             <DetalleOfertaCard
-            title="LENGUAJES">
+            title="IDIOMAS REQUERIDOS">
                 <Grid container columnSpacing={3}>
-                    {information.lenguajes.map((value, index)=><><Grid item key={index}><ItemsOfertaDual itemName={value.nombre} detail={value.nivel}/></Grid></>)}
+                    {information.idiomas.map((value, index)=><><Grid item key={index}><ItemsOfertaDual itemName={value.nombre} detail={value.nivel}/></Grid></>)}
                 </Grid>
             </DetalleOfertaCard>
         </Container>

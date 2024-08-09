@@ -3,17 +3,27 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
-import { Container, Typography } from "@mui/material";
+import { Container, Dialog, Typography } from "@mui/material";
 import Divider from '@mui/material/Divider';
 import OutlinedCard from "../cards/OfertaCard";
 import SearchInput from '../inputs/SearchInput';
 import NotificationCard from '../cards/Notification/NotificationCard';
 import NotificationDetail from '../cards/Notification/NotificationDetail';
 
-const drawerWidth = 240;
-
 function PermanentDrawerLeft() {
+
   const [selectedPage, setSelectedPage] = React.useState('Ofertas');
+
+  const [openNotification, setOpenNotification] = React.useState(false);
+
+  const [selectedNotification, setSelectedNotification] = React.useState(null);
+
+  const handleOpenNotification = (id)=>{
+    setSelectedNotification(id)
+    setOpenNotification(true)
+  }
+  
+  const handleCloseNotification = ()=>{setOpenNotification(false)}
 
   const renderContent = () => {
     switch (selectedPage) {
@@ -40,6 +50,30 @@ function PermanentDrawerLeft() {
         return null;
     }
   };
+
+  const notificationsCards = [
+    {
+      idNotificacion: 0,
+      titulo: "Oferta de empleo para programador Backend",
+      fecha: "Sep 21, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+    {
+      idNotificacion: 1,
+      titulo: "Oferta de empleo para gestionador de BD",
+      fecha: "Sep 24, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+    {
+      idNotificacion: 2,
+      titulo: "Oferta de empleo para gestor de redes e infraestructura",
+      fecha: "Sep 25, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+  ]
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '635px' }}>
@@ -87,9 +121,15 @@ function PermanentDrawerLeft() {
           scrollbarWidth: 'none',
           '-ms-overflow-style': 'none',
         }}>
-          <NotificationCard></NotificationCard>
-          <NotificationCard></NotificationCard>
-          <NotificationCard></NotificationCard>
+          {notificationsCards.map((value,index)=>
+          <NotificationCard 
+          key={index} 
+          onClick={()=>{handleOpenNotification(value.idNotificacion)}} 
+          title={value.titulo}
+          date={value.fecha}
+          logo={value.logoEmpresa}
+          />
+          )}
         </Box>
 
       </Drawer>
@@ -101,6 +141,11 @@ function PermanentDrawerLeft() {
           {renderContent()}
         </Container>
       </Box>
+      <NotificationDetail
+        open={openNotification}
+        handleClose={handleCloseNotification}
+        idNotification={selectedNotification}
+      />
     </Box>
   );
 }
