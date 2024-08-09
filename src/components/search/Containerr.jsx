@@ -112,7 +112,7 @@ function PermanentDrawerLeft() {
         <Box sx={{
           boxSizing: 'border-box',
           width: '90%',
-          p: '5%',
+          p: '5% 0',
           overflowY: 'auto',
           overflowY: 'scroll',
           '&::-webkit-scrollbar': {
