@@ -15,12 +15,13 @@ import OutlinedCard from './components/cards/OfertaCard'
 import { OfertaEnterpriseCard } from './components/cards/OfertaEnterpriseCard'
 import { HomeEnterprise } from './components/views/HomeEnterprise'
 import HeaderEnterprise from './components/headers/HeaderEnterprise'
+import { EnterpriseProfile } from './components/views/EnterpriseProfile'
 
 function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile"];
 
   return (
     <>
@@ -35,6 +36,7 @@ function App() {
         <Route path='/offersDetail' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
+        <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
       </Routes>
     </>
   )
