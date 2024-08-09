@@ -40,21 +40,21 @@ const DateText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function ApplicationCard() {
+function ApplicationCard({title, nameCompany, Date, DatePostOfert, state, onClick}) {
   return (
     <CustomCard>
       <ImageSection>
         <img src="/img/bac_credomatic.png" alt="Placeholder" style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
       </ImageSection>
       <InfoSection>
-        <Typography variant="h6">Título de la Oferta</Typography>
-        <Typography variant="subtitle1">Nombre de la Empresa</Typography>
-        <Typography variant="body1">Fecha: 01/01/2024</Typography>
-        <DateText variant="body2">Fecha de publicación: 31/12/2023</DateText>
+        <Typography variant="h6">{title}</Typography>
+        <Typography variant="subtitle1">{nameCompany}</Typography>
+        <Typography variant="body1">{Date}</Typography>
+        <DateText variant="body2">Fecha de publicación: {DatePostOfert}</DateText>
       </InfoSection>
       <StatusSection>
-        <Typography variant="body2" style={{ color: '#DBD200' }}>En proceso</Typography>
-        <Button variant="contained" color="primary" size="small">Ver Oferta</Button>
+        <Typography variant="body2" style={{ color: '#DBD200' }}>{state}</Typography>
+        <Button variant="contained" color="primary" size="small" onClick={onClick}>Ver Oferta</Button>
       </StatusSection>
     </CustomCard>
   );

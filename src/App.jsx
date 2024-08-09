@@ -11,7 +11,7 @@ import { Application } from './components/views/Applications'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home", "/userProfile", "/application"];
+  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
 
   return (
     <>
