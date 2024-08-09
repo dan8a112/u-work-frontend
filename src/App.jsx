@@ -18,7 +18,7 @@ import { HomeEnterprise } from './components/views/HomeEnterprise'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home", "/userProfile", "/application"];
+  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
 
   return (
     <>

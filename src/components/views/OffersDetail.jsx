@@ -25,7 +25,7 @@ const information = {
 
 export function OffersDetail(){
     return(
-    <Container sx={{padding: "30px", backgroundColor: "#F1FAF9"}} maxWidth="md" disableGutters>
+    <Container sx={{padding: "30px", backgroundColor: "#F1FAF9", marginTop:10}} maxWidth="md" disableGutters>
         <Grid container gap={5} justifyContent="center" marginBottom="30px">
             <Grid item>
                 <img src={information.urlEmpresa} alt="logo de empresa" style={{width:"200px"}}/>
