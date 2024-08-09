@@ -11,14 +11,15 @@ const CompanyProfileCard = ({ company }) => {
           my: 5,
           position: "relative",
           boxShadow: "none",
-          display: 'flex'
+          display: 'flex',
+          marginBottom: 0
         }}
       >
         {/* Contenedor de la Imagen */}
         <Box 
           sx={{ 
-            width: 360, 
-            height: 360, 
+            width: 300, 
+            height: 300, 
             backgroundColor: '#fff', 
             display: 'flex', 
             alignItems: 'center', 
