@@ -14,15 +14,18 @@ import { ImageTextCard } from './components/cards/ImageTextCard'
 import OutlinedCard from './components/cards/OfertaCard'
 import { OfertaEnterpriseCard } from './components/cards/OfertaEnterpriseCard'
 import { HomeEnterprise } from './components/views/HomeEnterprise'
+import HeaderEnterprise from './components/headers/HeaderEnterprise'
 
 function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise"];
 
   return (
     <>
     {showTabbarRoutes.includes(location.pathname) && <HeaderHome />}
+    {showTabbarEnterpriseRoutes.includes(location.pathname) && <HeaderEnterprise />}
       <Routes>
         <Route path='/register' element={<UserRegister/>}></Route>
         <Route path='/registerBussiness' element={<BussinesRegister/>}></Route>
