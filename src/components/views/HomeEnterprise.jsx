@@ -1,6 +1,7 @@
 import { Box, Container, Divider, Drawer, Typography } from "@mui/material";
 import { StatsCard } from "../cards/StatsCard";
 import { ImageTextCard } from "../cards/ImageTextCard";
+import { OfertaEnterpriseCard } from "../cards/OfertaEnterpriseCard";
 
 export function HomeEnterprise(){
     return(
@@ -35,7 +36,7 @@ export function HomeEnterprise(){
                 justifyContent:"space-between",
                 mb: "20px"
                 }}>
-                <Typography sx={{fontSize: "1.7rem", mr:"32px", fontWeight:"600"}}>Bienvenido, Bac Credomatic</Typography>
+                <Typography sx={{fontSize: "1.7rem", mr:"32px", fontWeight:"600"}}>Bienvenido, BAC CREDOMATIC</Typography>
                 <img src="img/bac_logo.svg" style={{width:"200px"}}/>
             </Box>
             <Box sx={{
@@ -67,12 +68,17 @@ export function HomeEnterprise(){
           '-ms-overflow-style': 'none',
           backgroundColor:"#fff"
         }}>
-        <Box>
-          <Typography sx={{ color: '#3b3b3b77', paddingInline: '20px', paddingBottom: 0 }}>
-            Notificaciones
-          </Typography>
-          <Divider sx={{ width: 250, color: '#3b3b3b77' }} variant="middle" />
-        </Box>
+            <Box mb="25px">
+            <Typography sx={{ color: '#3b3b3b', paddingInline: '20px', fontSize:"1.4rem"}}>
+                Ultimas ofertas activas
+            </Typography>
+            <Divider sx={{ width: 250, color: '#3b3b3b' }} variant="middle" />
+            </Box>
+            <Box sx={{display:"flex", flexDirection:"column", gap:"20px"}}>
+            <OfertaEnterpriseCard/>
+            <OfertaEnterpriseCard/>
+            <OfertaEnterpriseCard/>
+            </Box>
         </Box>
         </Container>
       </Box>
