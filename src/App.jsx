@@ -17,6 +17,7 @@ import { HomeEnterprise } from './components/views/HomeEnterprise'
 import HeaderEnterprise from './components/headers/HeaderEnterprise'
 import { EnterpriseProfile } from './components/views/EnterpriseProfile'
 import { CreateOffer } from './components/views/CreateOffer'
+import { OffersDetailEnterprise } from './components/views/OffersDetailEnterprise'
 
 function App() {
 
@@ -39,6 +40,7 @@ function App() {
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
         <Route path='/createOffer' element={<CreateOffer></CreateOffer>}></Route>
+        <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
       </Routes>
     </>
   )
