@@ -1,9 +1,52 @@
+import * as React from 'react';
 import { Box, Container, Divider, Drawer, Typography } from "@mui/material";
 import { StatsCard } from "../cards/StatsCard";
 import { ImageTextCard } from "../cards/ImageTextCard";
 import { OfertaEnterpriseCard } from "../cards/OfertaEnterpriseCard";
+import NotificationCard from "../cards/Notification/NotificationCard";
+import NotificationDetail from '../cards/Notification/NotificationDetail';
 
 export function HomeEnterprise(){
+  const [openNotification, setOpenNotification] = React.useState(false);
+
+  const [selectedNotification, setSelectedNotification] = React.useState(null);
+
+  const handleOpenNotification = (id)=>{
+    setSelectedNotification(id)
+    setOpenNotification(true)
+  }
+  const handleCloseNotification = ()=>{setOpenNotification(false)}
+
+  const notificationsCards = [
+    {
+      idNotificacion: 0,
+      titulo: "Oferta de empleo para programador Backend",
+      fecha: "Sep 21, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+    {
+      idNotificacion: 1,
+      titulo: "Oferta de empleo para gestionador de BD",
+      fecha: "Sep 24, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+    {
+      idNotificacion: 2,
+      titulo: "Oferta de empleo para gestor de redes e infraestructura",
+      fecha: "Sep 25, 2024",
+      logoEmpresa:"img/bac_logo.png",
+      estadoVisualizacion: false
+    },
+  ]
+
+  const card = {
+    titulo: "Programador frontend en remoto",
+    descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt ab cumque amet asperiores.",
+    fechaPublicacion: "23 Mar, 2024"
+  }
+
     return(
     <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '635px' }}>
       <Drawer
@@ -24,6 +67,35 @@ export function HomeEnterprise(){
         variant="permanent"
         anchor="left"
       >
+        <Box sx={{ marginTop: 7 }}>
+          <Typography sx={{ color: '#3b3b3b77', paddingInline: '20px', paddingBottom: 0 }}>
+            Notificaciones
+          </Typography>
+          <Divider sx={{ width: 250, color: '#3b3b3b77' }} variant="middle" />
+        </Box>
+
+        <Box sx={{
+          boxSizing: 'border-box',
+          width: '90%',
+          p: '5% 0',
+          overflowY: 'auto',
+          overflowY: 'scroll',
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+          scrollbarWidth: 'none',
+          '-ms-overflow-style': 'none',
+        }}>
+          {notificationsCards.map((value,index)=>
+          <NotificationCard 
+          key={index} 
+          onClick={()=>{handleOpenNotification(value.idNotificacion)}} 
+          title={value.titulo}
+          date={value.fecha}
+          logo={value.logoEmpresa}
+          />
+          )}
+        </Box>
       </Drawer>
 
       <Box
@@ -75,13 +147,18 @@ export function HomeEnterprise(){
             <Divider sx={{ width: 250, color: '#3b3b3b' }} variant="middle" />
             </Box>
             <Box sx={{display:"flex", flexDirection:"column", gap:"20px"}}>
-            <OfertaEnterpriseCard/>
-            <OfertaEnterpriseCard/>
-            <OfertaEnterpriseCard/>
+            <OfertaEnterpriseCard index={'1'} card={card}/>
+            <OfertaEnterpriseCard index={'2'} card={card}/>
+            <OfertaEnterpriseCard index={'3'} card={card}/>
             </Box>
         </Box>
         </Container>
       </Box>
+      <NotificationDetail
+        open={openNotification}
+        handleClose={handleCloseNotification}
+        idNotification={selectedNotification}
+      />
 
     </Box>
     )

@@ -32,7 +32,7 @@ const pages = [
 const settings = [
   {
     text: "Profile",
-    src: "/userProfile",
+    src: "/EnterpriseProfile",
   },
   {
     text: "Logout",
