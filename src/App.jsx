@@ -16,12 +16,13 @@ import { OfertaEnterpriseCard } from './components/cards/OfertaEnterpriseCard'
 import { HomeEnterprise } from './components/views/HomeEnterprise'
 import HeaderEnterprise from './components/headers/HeaderEnterprise'
 import { EnterpriseProfile } from './components/views/EnterpriseProfile'
+import { OffersEnterprise } from './components/views/OffersEnterprise'
 
 function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise"];
 
   return (
     <>
@@ -37,6 +38,7 @@ function App() {
         <Route path='/application' element={<Application/>}></Route>
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
+        <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
       </Routes>
     </>
   )
