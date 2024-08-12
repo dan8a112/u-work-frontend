@@ -19,6 +19,7 @@ import { EnterpriseProfile } from './components/views/EnterpriseProfile'
 import { CreateOffer } from './components/views/CreateOffer'
 import { OffersDetailEnterprise } from './components/views/OffersDetailEnterprise'
 import { OffersEnterprise } from './components/views/OffersEnterprise'
+import { OfferApplicants } from './components/views/OfferApplicants'
 
 function App() {
 
@@ -43,6 +44,7 @@ function App() {
         <Route path='/createOffer' element={<CreateOffer></CreateOffer>}></Route>
         <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
         <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
+        <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
       </Routes>
     </>
   )
