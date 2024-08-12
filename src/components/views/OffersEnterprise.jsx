@@ -3,6 +3,7 @@ import { Box, Button, Container, Divider, Drawer, Typography } from "@mui/materi
 import { ImageTextCard } from "../cards/ImageTextCard";
 import { OfertaEnterpriseCard } from "../cards/OfertaEnterpriseCard";
 import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 const OffersType = styled(Box)(() => ({
   display: "flex",
@@ -22,7 +23,13 @@ export function OffersEnterprise() {
   const card = {
     titulo: "Programador frontend en remoto",
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt ab cumque amet asperiores.",
-    fechaPublicacion: "23 Mar, 2024"
+    fechaPublicacion: "23 Mar, 2024",
+    src: "/offersDetailEnterprise"
+  };
+
+  const navigate = useNavigate();
+  const handleOnClick = (url) => {
+      navigate(url)
   };
 
   return (
@@ -110,9 +117,9 @@ export function OffersEnterprise() {
             </Box>
 
             <Box sx={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-              <OfertaEnterpriseCard index={'1'} card={card} />
-              <OfertaEnterpriseCard index={'2'} card={card} />
-              <OfertaEnterpriseCard index={'3'} card={card} />
+              <OfertaEnterpriseCard index={'1'} card={card} seeDetail={() => handleOnClick(card.src)}/>
+              <OfertaEnterpriseCard index={'2'} card={card} seeDetail={() => handleOnClick(card.src)}/>
+              <OfertaEnterpriseCard index={'3'} card={card} seeDetail={() => handleOnClick(card.src)}/>
             </Box>
           </Box>
         </Container>
