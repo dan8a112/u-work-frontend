@@ -17,11 +17,11 @@ import { useNavigate } from 'react-router-dom';
 const pages = [
   {
     text: "Inicio",
-    src: "/home",
+    src: "/homeEnterprise",
   },
   {
     text: "Ofertas",
-    src: "/application",
+    src: "/OffersEnterprise",
   },
   {
     text: "Solicitudes",
@@ -69,7 +69,7 @@ function HeaderEnterprise() {
 
   const handleUserMenuItemClick = (src) => {
     navigate(src);
-    setAnchorElUser(null); // Cerrar el menú de usuario después de la navegación
+    setAnchorElUser(null); 
   };
 
   return (

@@ -18,8 +18,8 @@ const CompanyProfileCard = ({ company }) => {
         {/* Contenedor de la Imagen */}
         <Box 
           sx={{ 
-            width: 300, 
-            height: 300, 
+            width: 250, 
+            height: 250, 
             backgroundColor: '#fff', 
             display: 'flex', 
             alignItems: 'center', 

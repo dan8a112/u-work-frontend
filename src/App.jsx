@@ -18,13 +18,14 @@ import HeaderEnterprise from './components/headers/HeaderEnterprise'
 import { EnterpriseProfile } from './components/views/EnterpriseProfile'
 import { CreateOffer } from './components/views/CreateOffer'
 import { OffersDetailEnterprise } from './components/views/OffersDetailEnterprise'
+import { OffersEnterprise } from './components/views/OffersEnterprise'
 import { OfferApplicants } from './components/views/OfferApplicants'
 
 function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise"];
 
   return (
     <>
@@ -42,6 +43,7 @@ function App() {
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
         <Route path='/createOffer' element={<CreateOffer></CreateOffer>}></Route>
         <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
+        <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
         <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
       </Routes>
     </>
