@@ -20,6 +20,7 @@ import { CreateOffer } from './components/views/CreateOffer'
 import { OffersDetailEnterprise } from './components/views/OffersDetailEnterprise'
 import { OffersEnterprise } from './components/views/OffersEnterprise'
 import { OfferApplicants } from './components/views/OfferApplicants'
+import { Test } from './components/views/Test'
 
 function App() {
 
@@ -47,6 +48,7 @@ function App() {
         <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select"></UserProfile>}></Route>
         <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise"></UserProfile>}></Route>
+        <Route path='/test' element={<Test></Test>}></Route>
       </Routes>
     </>
   )
