@@ -1,8 +1,9 @@
 import { Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
 
-export function OfertaEnterpriseCard({index,card}){
+export function OfertaEnterpriseCard({index, card, seeDetail}){
 
     const {titulo, descripcion, fechaPublicacion} = card;
+
 
     return(
         <Box sx={{
@@ -19,7 +20,7 @@ export function OfertaEnterpriseCard({index,card}){
                     </Box>
                 </CardContent>
                 <CardActions sx={{position: "absolute", top:'5px', right:"5px"}}>
-                    <Button>Ver mas</Button>
+                    <Button onClick={seeDetail}>Ver mas</Button>
                 </CardActions>
             </Card>
         </Box>
