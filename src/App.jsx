@@ -20,6 +20,7 @@ import { CreateOffer } from './components/views/CreateOffer'
 import { OffersDetailEnterprise } from './components/views/OffersDetailEnterprise'
 import { OffersEnterprise } from './components/views/OffersEnterprise'
 import { OfferApplicants } from './components/views/OfferApplicants'
+import { Test } from './components/views/Test'
 
 function App() {
 
@@ -36,7 +37,7 @@ function App() {
         <Route path='/registerBussiness' element={<BussinesRegister/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
-        <Route path='/userProfile' element={<UserProfile/>}></Route>
+        <Route path='/userProfile' element={<UserProfile from="user"/>}></Route>
         <Route path='/offersDetail' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
@@ -45,6 +46,9 @@ function App() {
         <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
         <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
         <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
+        <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select"></UserProfile>}></Route>
+        <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise"></UserProfile>}></Route>
+        <Route path='/test' element={<Test></Test>}></Route>
       </Routes>
     </>
   )
