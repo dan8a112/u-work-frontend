@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { UserRegister } from '../views/Register/UserRegister';
 
 
-export function UserInfoCard({phoneNumber, email, birthdate}) {
+export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
 
   const [openPreferences, setOpenPreferences] = useState(false);
 
@@ -18,6 +18,14 @@ export function UserInfoCard({phoneNumber, email, birthdate}) {
 
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
+
+  const handleSelectUser = ()=>{
+    alert("Accion de seleccionar persona")
+  }
+
+  const handleRecluteUser = ()=>{
+    alert("Accion de reclutar persona")
+  }
 
   useEffect(()=>{
     const fetchData = async () => {
@@ -33,6 +41,22 @@ export function UserInfoCard({phoneNumber, email, birthdate}) {
     };
   }, [openEdit])
 
+
+  const renderActions = () =>{
+    switch (from) {
+      case "user":
+        return(
+          <><Button variant="outlined" sx={{mr: 2}} onClick={handleOpenPreferences}>Preferencias</Button>
+        <Button variant="contained" onClick={handleOpenEdit}>Editar Perfil</Button></>
+        );
+      case "enterprise":
+        return (action === "select" ?
+        <Button variant="contained" onClick={handleSelectUser}>Seleccionar</Button> : 
+        <Button variant="contained" onClick={handleRecluteUser}>Reclutar</Button>)
+      default:
+        break;
+    }
+  }
 
   return (
     <Card sx={{ width: "100%", bgcolor: "#F1FAF9", padding: 3, height: 380, boxShadow: "none"}}>
@@ -57,8 +81,7 @@ export function UserInfoCard({phoneNumber, email, birthdate}) {
             {birthdate}
         </Typography>
         <CardActions sx={{justifyContent: "center"}}>
-        <Button variant="outlined" sx={{mr: 2}} onClick={handleOpenPreferences}>Preferencias</Button>
-        <Button variant="contained" onClick={handleOpenEdit}>Editar Perfil</Button>
+          {renderActions()}
         </CardActions>
       </CardContent>
       <PreferenciasEmpleoModal open={openPreferences} handleClose={handleClosePreferences}/>

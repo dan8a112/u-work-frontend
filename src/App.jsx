@@ -25,7 +25,7 @@ function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/applicants"];
 
   return (
     <>
@@ -36,7 +36,7 @@ function App() {
         <Route path='/registerBussiness' element={<BussinesRegister/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/home' element={<Home/>}></Route>
-        <Route path='/userProfile' element={<UserProfile/>}></Route>
+        <Route path='/userProfile' element={<UserProfile from="user"/>}></Route>
         <Route path='/offersDetail' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
@@ -45,6 +45,8 @@ function App() {
         <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
         <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
         <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
+        <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select"></UserProfile>}></Route>
+        <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise"></UserProfile>}></Route>
       </Routes>
     </>
   )

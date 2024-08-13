@@ -83,7 +83,7 @@ function renderForm(contentType) {
   }
 }
 
-export function UserContentCard({title, contentType, data}) {
+export function UserContentCard({title, contentType, data, from}) {
 
   const[open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -101,7 +101,8 @@ export function UserContentCard({title, contentType, data}) {
         boxShadow: "none"
       }}
     >
-      <IconButton
+     {
+      from === "user" && (<IconButton
         color="primary"
         size="large"
         onClick={handleOpen}
@@ -113,8 +114,10 @@ export function UserContentCard({title, contentType, data}) {
           height: 50,
         }}
       >
-        <AddCircle sx={{ width: 50, height: 50 }} />
-      </IconButton>
+      <AddCircle sx={{ width: 50, height: 50 }} />
+      </IconButton>)
+     }
+      
       <Modal
         open={open}
         onClose={handleClose}
