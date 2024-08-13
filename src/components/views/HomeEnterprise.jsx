@@ -44,7 +44,8 @@ export function HomeEnterprise(){
   const card = {
     titulo: "Programador frontend en remoto",
     descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt ab cumque amet asperiores.",
-    fechaPublicacion: "23 Mar, 2024"
+    fechaPublicacion: "23 Mar, 2024",
+    src: "/offersDetailEnterprise"
   }
 
     return(

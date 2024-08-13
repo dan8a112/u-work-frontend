@@ -150,7 +150,7 @@ export function OfferApplicants(){
     } 
 
     return(
-        <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '100vh'}}>
+        <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '100vh', marginTop: 5}}>
             <Container maxWidth="lg" sx={{py:"70px"}}>
                 <Box sx={{display:"flex", justifyContent:"space-between", p:"20px", bgcolor:"#fff", mb:"20px"}}>
                     <Box display="inline-block">

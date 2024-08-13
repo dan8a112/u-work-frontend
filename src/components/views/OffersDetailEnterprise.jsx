@@ -2,7 +2,7 @@ import { Box, Container, Grid, IconButton, Menu, MenuItem, Typography } from "@m
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 import { ItemsOfertaCard, ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { ImageTrain } from "../cards/ImageTrain";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Delete, Edit, MoreVert } from "@mui/icons-material";
 import { useState } from "react";
 
@@ -26,10 +26,11 @@ const information = {
     educacionRequerida: ["Ingenieria en Sistemas", "Administracion de empresas"],
     idiomas: [{nombre: "Ingles", nivel:"Avanzado"},{nombre: "Espanol", nivel:"Nativo"}],
     aplicantes: ["img/man.png","img/woman.png","img/man.png","img/man.png"],
-    cantidadAplicantes: 12
+    cantidadAplicantes: 12,
+    src: "/Applicants",
 }
 
-export function OffersDetailEnterprise(){
+export function OffersDetailEnterprise( seeAplicants ){
 
     const [openMenu, setOpenMenu] = useState(null);
 
@@ -41,6 +42,10 @@ export function OffersDetailEnterprise(){
         setOpenMenu(null);
       };
 
+      const navigate = useNavigate();
+      const handleOnClickSeeAplicants = (url) => {
+        navigate(url);
+      }
     return(
     <Container sx={{position:"relative", padding: "30px", backgroundColor: "#F1FAF9", marginTop:10}} maxWidth="md" disableGutters>
         <IconButton 
@@ -84,7 +89,7 @@ export function OffersDetailEnterprise(){
             <Typography sx={{fontWeight: "400", color:"#49454F"}} >{information.lugar}</Typography>
         </Box>
         <Typography fontSize="1.1rem" fontWeight="600" marginBottom={1}>Candidatos</Typography>
-        <Box sx={{display:"inline-flex", p:"15px 30px", mb: "20px", bgcolor:"#0D9E8230", alignItems:"center", borderRadius:"8px"}}>
+        <Box onClick={() => handleOnClickSeeAplicants(information.src)} sx={{display:"inline-flex", p:"15px 30px", mb: "20px", bgcolor:"#0D9E8230", alignItems:"center", borderRadius:"8px"}}>
             <ImageTrain images={information.aplicantes}/>
             <Link style={{fontSize:"20px", color:"#0D9E82", fontWeight:"500"}}>
             +{information.cantidadAplicantes-information.aplicantes.length} Aplicantes

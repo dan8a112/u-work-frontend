@@ -1,9 +1,14 @@
 import { Box, Button, Card, CardActions, CardContent, Typography} from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export function OfertaEnterpriseCard({index, card, seeDetail}){
 
-    const {titulo, descripcion, fechaPublicacion} = card;
+    const {titulo, descripcion, fechaPublicacion, src} = card;
 
+    const navigate = useNavigate();
+    const handleOnClick = (url) => {
+        navigate(url)
+    };
 
     return(
         <Box sx={{
@@ -20,7 +25,7 @@ export function OfertaEnterpriseCard({index, card, seeDetail}){
                     </Box>
                 </CardContent>
                 <CardActions sx={{position: "absolute", top:'5px', right:"5px"}}>
-                    <Button onClick={seeDetail}>Ver mas</Button>
+                    <Button onClick={() =>{handleOnClick(src)}}>Ver mas</Button>
                 </CardActions>
             </Card>
         </Box>
