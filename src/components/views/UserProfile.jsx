@@ -2,81 +2,69 @@ import { Container, Grid } from "@mui/material";
 import { UserProfileCard } from "../cards/UserProfileCard";
 import { UserInfoCard } from "../cards/UserInfoCard";
 import { UserContentCard } from "../cards/UserContentCard";
-
-const dataPrueba = {
-    formacion: [
-        {
-            titulo: "Formacion Alura",
-            empresa: "Alura Latam", 
-            fechaExpedicion: "23 Sep, 2024",
-            nivelAcademico: "Cursos"
-        }
-    ],
-    historialMedico: [
-        {
-            titulo: "Asma",
-            descripcion: "He padecido de la condicion de asma desde que era pequeño, sin embargo es algo que tengo controlado."
-        }
-    ],
-    seguros: [
-        {
-            titulo: "Seguro Social", 
-            fechaAfiliacion: "23 Jun, 2022", 
-            fechaExpiracion: "23 Jun, 2026", 
-            numeroAfiliacion: "IHSS-40329"
-        }
-    ],
-    idiomas: [
-        {
-            titulo: "Inglés",
-            nivel: "Avanzado"
-        }
-    ],
-    experiencia: [
-       {
-            puesto: "Programador front-end",
-            empresa: "Meta Platforms, Inc.",
-            fechaInicio: "26 Abr, 2021",
-            fechaFinal: "28 Nov, 2024"
-       }
-    ],
-    familiares: [
-        {
-            nombre: "Juan Hernandez",
-            identificacion: "0801-1994-02345",
-            telefono: "+504 9412-2477",
-            parentesco: "Primo"
-        }
-    ]
-}
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export function UserProfile({from, action}){
+
+    const [datosPersonales, setDatosPersonales] = useState(null);
+    const [formacion, setFormacion] = useState(null);
+    const [historialMedico, setHistorialMedico] = useState(null);
+    const [seguros, setSeguros] = useState(null);
+    const [idiomas, setIdiomas] = useState(null);
+    const [experiencia, setExperiencia] = useState(null);
+    const [familiares, setFamiliares] = useState(null);
+
+     useEffect(() => {
+        const idApplicant = localStorage.getItem('idPersonaSoli');
+        const fetchData = async () => {
+            try {
+              const response = await axios.get(`http://localhost:5001/api/perfil/${idApplicant}`);
+                setDatosPersonales(response.data.datosPersonales);
+                setFormacion(response.data.formacion);
+                setHistorialMedico(response.data.historialMedico);
+                setSeguros(response.data.seguros);
+                setIdiomas(response.data.idiomas);
+                setExperiencia(response.data.experiencia);
+                setFamiliares(response.data.familiares);
+                console.log(response);
+            } catch(error){
+                console.error(error);
+            }
+        } 
+        fetchData();
+    }, []);
+
+    if (!datosPersonales) {
+        return <p>Cargando...</p>;
+    }
+
     return(
         <Container sx={{paddingY: 4, marginTop: 8}} maxWidth="md">
             <Grid container spacing={6}>
                 <Grid item xs={6}>
                 <UserProfileCard 
-                userName="Daniel Ochoa" 
-                description="Estudiante de Ingenieria en Sistemas" 
-                place="Talanga, Francisco Morazan, Honduras"
+                userName = {datosPersonales.nombre}
+                description={datosPersonales.descripcion} 
+                place={datosPersonales.lugarResidencia}
                 gender="Masculino"
                 />
                 </Grid>
                 <Grid item xs={6}>
                 <UserInfoCard 
-                phoneNumber="9483-2396" 
-                email="danyochoa@gmail.com" 
-                birthdate="Marzo 08, 2003"
+                phoneNumber={datosPersonales.telefono} 
+                email={datosPersonales.correo}
+                birthdate={datosPersonales.fechaNacimiento}
                 from={from}
                 action={action}/>
                 </Grid>
             </Grid>
-            <UserContentCard title="Formacion Academica" contentType="academic" data={dataPrueba.formacion} from={from}></UserContentCard>
-            <UserContentCard title="Experiencia Laboral" contentType="experience" data={dataPrueba.experiencia} from={from}></UserContentCard>
-            <UserContentCard title="Idiomas" contentType="languages" data={dataPrueba.idiomas} from={from}></UserContentCard>
-            <UserContentCard title="Seguros" contentType="secure" data={dataPrueba.seguros} from={from}></UserContentCard>
-            <UserContentCard title="Familiares" contentType="familiar" data={dataPrueba.familiares} from={from}></UserContentCard>
-            <UserContentCard title="Historial Medico" contentType="medic" data={dataPrueba.historialMedico} from={from}></UserContentCard>
+            <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from}></UserContentCard>
+            <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from}></UserContentCard>
+            <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from}></UserContentCard>
+            <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from}></UserContentCard>
+            <UserContentCard title="Familiares" contentType="familiar" data={familiares} from={from}></UserContentCard>
+            <UserContentCard title="Historial Medico" contentType="medic" data={historialMedico} from={from}></UserContentCard>
         </Container>
     );
 }

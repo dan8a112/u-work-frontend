@@ -13,7 +13,7 @@ export function UserProfileCard({userName, description, place, gender}) {
         boxShadow: "none",
       }}
     >
-      <img src={gender=="Masculino" ? "img/man.png" : "img/woman.png"} style={{ width: "200px" }} />
+      <img src={gender=="Masculino" ? "/img/man.png" : "img/woman.png"} style={{ width: "200px" }} />
       <CardContent>
         <Typography variant="h5" component="div" sx={{ fontWeight: "600" }}>
           {userName}

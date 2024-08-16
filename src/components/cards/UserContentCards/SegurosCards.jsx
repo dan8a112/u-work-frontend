@@ -1,12 +1,12 @@
 import { HealthAndSafety} from '@mui/icons-material';
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 
-export function SegurosCards({seguro, marginBottom}){
+export function SegurosCards({seguro}){
 
     const {titulo, fechaAfiliacion, fechaExpiracion, numeroAfiliacion} = seguro;
 
     return (
-        <Card sx={marginBottom && {mb: 3}}>
+        <Card sx={{ mb: 3 }}>
           <CardContent>
             <Grid container >
               <Grid item xs={1.5} color="#ffaa7b">

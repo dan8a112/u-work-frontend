@@ -1,12 +1,12 @@
 import {Language} from '@mui/icons-material';
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 
-export function IdiomasCards({idioma, marginBottom}){
+export function IdiomasCards({idioma}){
 
     const {titulo, nivel} = idioma;
 
     return (
-        <Card sx={marginBottom && {mb: 3}}>
+        <Card sx={{ mb: 3 }}>
           <CardContent>
             <Grid container alignItems="center">
               <Grid item xs={1.5}  color='#ffc839'>

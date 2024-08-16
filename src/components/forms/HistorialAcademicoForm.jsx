@@ -60,7 +60,7 @@ export function HistorialAcademicoForm(){
 
     const handleSubmit = ()=>{
       if(validateForm(formValues)){
-        console.log("se envia formulario");
+        
       }
     }
 

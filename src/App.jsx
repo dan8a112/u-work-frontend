@@ -21,7 +21,7 @@ import { HomeUser } from './components/views/Home'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId"];
+  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
   const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
   const showTabbarAdmin = ["/homeAdmin"];
 
@@ -41,6 +41,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/home/:idApplicant' element={<HomeUser />} />
         <Route path='/userProfile' element={<UserProfile from="user" />} />
+        <Route path='/userProfile/:idApplicant' element={<UserProfile from="user" />} />
         <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
         <Route path='/application/:idApplicant' element={<Application />} />
         <Route path='/homeEnterprise' element={<HomeEnterprise />} />

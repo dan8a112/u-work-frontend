@@ -1,12 +1,12 @@
 import {People} from '@mui/icons-material';
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 
-export function FamiliaresCard({familiar, marginBottom}){
+export function FamiliaresCard({familiar}){
 
     const {nombre, identificacion, telefono, parentesco} = familiar;
 
     return (
-        <Card sx={marginBottom && {mb: 3}}>
+        <Card sx={{ mb: 3 }}>
           <CardContent>
             <Grid container >
               <Grid item xs={1.5}>

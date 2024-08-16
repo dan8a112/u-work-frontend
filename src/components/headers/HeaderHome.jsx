@@ -14,21 +14,24 @@ import MenuItem from '@mui/material/MenuItem';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useNavigate } from 'react-router-dom';
 
+const idApplicant = localStorage.getItem('idPersonaSoli'); 
+
 const pages = [
   {
     text: "Inicio",
-    src: "/home",
+    src: `/home/${idApplicant}`,
   },
   {
     text: "Tus Ofertas",
-    src: "/application",
+    src: `/application/${idApplicant}`,
   }
 ];
+
 
 const settings = [
   {
     text: "Profile",
-    src: "/userProfile",
+    src: `/userProfile/${idApplicant}`,
   },
   {
     text: "Logout",

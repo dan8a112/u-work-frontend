@@ -1,12 +1,12 @@
 import { MonitorHeart } from '@mui/icons-material';
 import {Box, Card, CardContent, Grid, Typography} from '@mui/material';
 
-export function CondicionMedicaCards({condicionMedica, marginBottom}){
+export function CondicionMedicaCards({condicionMedica}){
 
     const {titulo, descripcion} = condicionMedica;
 
     return (
-      <Card sx={marginBottom && {mb: 3}}>
+      <Card sx={{ mb: 3 }}>
         <CardContent>
           <Grid container alignItems="center">
             <Grid item xs={1.5} color="#005040">

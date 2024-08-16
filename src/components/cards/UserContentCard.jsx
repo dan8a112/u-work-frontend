@@ -98,7 +98,7 @@ export function UserContentCard({title, contentType, data, from}) {
         padding: 3,
         my: 5,
         position: "relative",
-        boxShadow: "none"
+        boxShadow: "none",
       }}
     >
      {
