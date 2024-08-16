@@ -16,7 +16,7 @@ const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, imageCompa
         alt="green iguana"
         height="140"
         image={imageCompany}
-        sx={{ objectFit: 'contain', height: '40px', width: '180%' }} 
+        sx={{ objectFit: 'contain', height: '0px', width: '180%' }} 
       />
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         {fechaPublicacion}
@@ -37,11 +37,11 @@ const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, imageCompa
   </React.Fragment>
 );
 
-export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descripcion, imageCompany }) {
+export default function OutlinedCard({ idOferta, fechaPublicacion, puesto, empresa, descripcion, imageCompany }) {
   const navigate = useNavigate();
 
-  const handleNavigate = () => {
-    navigate("/offersDetail");
+  const handleNavgate = (offerId) => {
+    navigate(`/offersDetail/${offerId}`);
   }
 
   return (
@@ -52,7 +52,7 @@ export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descri
           puesto={puesto}
           empresa={empresa}
           descripcion={descripcion}
-          onNavigate={handleNavigate} 
+          onNavigate={() => handleNavgate(idOferta)} 
           imageCompany = {imageCompany}
         />
       </Card>

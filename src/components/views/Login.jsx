@@ -1,15 +1,37 @@
-import { useTheme } from "@emotion/react";
-import DenseAppBar from "../headers/DenseAppBar";
-import LoginCard from "../cards/LoginCard";
+import React from 'react';
+import axios from 'axios';
+import DenseAppBar from '../headers/DenseAppBar';
+import LoginCard from '../cards/LoginCard';
+import { useNavigate } from 'react-router-dom';
 
-export function Login(){
-    const theme = useTheme();
+export function Login() {
+    const navigate = useNavigate();
 
-    return(
+    const handleLogin = async (email, password) => {
+        try {
+            const response = await axios.post('http://localhost:5001/api/login/solicitante', {
+                correo: email,
+                contrasena: password
+            });
+
+            const idPersonaSoli = response.data;
+            console.log('ID Persona:', idPersonaSoli);
+
+            if (idPersonaSoli !== 0) {
+                localStorage.setItem('idPersonaSoli', idPersonaSoli);
+                navigate(`/home/${idPersonaSoli}`);
+            } else {
+                console.error('ID de solicitante inválido');
+            }
+        } catch (error) {
+            console.error('Error en el inicio de sesión:', error);
+        }
+    };
+
+    return (
         <div>
-            <DenseAppBar></DenseAppBar>
-            <LoginCard></LoginCard>
+            <DenseAppBar />
+            <LoginCard onLogin={handleLogin} />
         </div>
-        
-    )
+    );
 }

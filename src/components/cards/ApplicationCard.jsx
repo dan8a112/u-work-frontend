@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Card, CardContent, Box, Typography, Button } from '@mui/material';
 import { styled } from '@mui/system';
+import { useNavigate } from 'react-router-dom';
 
 const CustomCard = styled(Card)(({ theme }) => ({
   height: '166px',
@@ -40,7 +41,11 @@ const DateText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function ApplicationCard({title, nameCompany, Date, DatePostOfert, state, imageCompany, onClick}) {
+function ApplicationCard({idOferta, title, nameCompany, Date, DatePostOfert, state, imageCompany}) {
+  const navigate = useNavigate();
+  const handleNavgate = (offerId) => {
+    navigate(`/offersDetail/${offerId}`);
+  }
   return (
     <CustomCard>
       <ImageSection>
@@ -54,7 +59,7 @@ function ApplicationCard({title, nameCompany, Date, DatePostOfert, state, imageC
       </InfoSection>
       <StatusSection>
         <Typography variant="body2" style={{ color: '#DBD200' }}>{state}</Typography>
-        <Button variant="contained" color="primary" size="small" onClick={onClick}>Ver Oferta</Button>
+        <Button variant="contained" color="primary" size="small" onClick={() => handleNavgate(idOferta)}>Ver Oferta</Button>
       </StatusSection>
     </CustomCard>
   );

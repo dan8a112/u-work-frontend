@@ -61,6 +61,7 @@ export function HomeUser() {
         return ofertas.map((oferta) => (
           <OutlinedCard
             key={oferta.idOferta}
+            idOferta={oferta.idOferta}
             fechaPublicacion={oferta.fechaPublicacionOferta}
             puesto={oferta.tituloOferta}
             empresa={oferta.nombreEmpresa}

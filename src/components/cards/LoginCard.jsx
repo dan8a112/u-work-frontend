@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Card, CardContent, Avatar, Button, TextField, Typography, Box, useTheme, Link } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-function LoginCard() {
-  const theme = useTheme(); // Accede al tema global
+function LoginCard({ onLogin }) {
+  const theme = useTheme();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,13 +11,11 @@ function LoginCard() {
   const [passwordError, setPasswordError] = useState('');
 
   const validateEmail = (email) => {
-    // Regex para validar el formato del correo electrónico
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return re.test(email);
   };
 
   const validatePassword = (password) => {
-    // Regex para validar el formato de la contrasena
     const co = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
     return co.test(password);
   };
@@ -30,14 +28,13 @@ function LoginCard() {
     }
     setEmailError('');
 
-    if (!validatePassword(email)) {
+    /**if (!validatePassword(password)) {
       setPasswordError('Por favor ingresa una contraseña que tenga los siguientes atributos: Al menos 8 caracteres de longitud. Al menos una letra mayúscula. Al menos una letra minúscula. Al menos un número. Al menos un carácter especial (como @, #, $, %, etc.).');
       return;
     }
-    setPasswordError('');
-    // Lógica para manejar el login
-    console.log('Email:', email);
-    console.log('Password:', password);
+    setPasswordError('');*/
+
+    onLogin(email, password);
   };
 
   return (
@@ -69,8 +66,8 @@ function LoginCard() {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              helperText={emailError} // Muestra el mensaje de error
-              error={!!emailError} // Muestra el campo como erróneo si hay un mensaje de error
+              helperText={emailError}
+              error={!!emailError}
             />
             <TextField
               margin="normal"
@@ -83,7 +80,7 @@ function LoginCard() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              helperText={passwordError} // Muestra el mensaje de error
+              helperText={passwordError}
               error={!!passwordError}
             />
             <Button

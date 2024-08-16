@@ -14,12 +14,14 @@ export function OffersDetail(){
     const [openModal, setOpenModal] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
     const [applicationMessage, setApplicationMessage] = useState("");
+    
 
     useEffect(()=>{
+        const idApplicant = localStorage.getItem('idPersonaSoli');
         const fetchData = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5001/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=1`
+              `http://localhost:5001/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=${idApplicant}`
             );
             setOffer(response.data);
           } catch (error) {

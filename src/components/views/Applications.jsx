@@ -49,6 +49,7 @@ export function Application() {
       {applications.map((application) => (
         <ApplicationCard 
         key={application.idOferta}
+        idOferta={application.idOferta}
         title={application.tituloOferta} 
         nameCompany={application.nombreEmpresa} 
         Date={application.fechaPublicacionOferta} 
