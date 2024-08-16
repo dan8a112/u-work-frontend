@@ -1,46 +1,67 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 import { ItemsOfertaCard, ItemsOfertaDual } from "../cards/ItemsOfertaCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-
-const information = {
-    nombreOferta: "Trabajo desde casa como ingeniero de software y manager de base de datos",
-    urlEmpresa: "img/bac_logo.svg",
-    nombreEmpresa: "BAC CREDOMATIC",
-    fechaPublicacion: "17 Jun, 2024",
-    fechaPublicacion: "31 Jun, 2024",
-    lugar: "Tegucigalpa, Francisco Morazan, Honduras",
-    tipoEmpleo: "Tecnologias de la informacion",
-    cargos: ["Programador", "DatabaseManager"],
-    vacantes: 1,
-    tipoContratacion: "Tiempo completo",
-    modalidad: "En remoto",
-    nivelAcademico: "Educacion Superior",
-    descripcion: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis necessitatibus, assumenda quod dolorum explicabo laboriosam molestias et officiis magnam voluptates, rerum eligendi nemo dolore velit ipsam optio ipsa eum unde?",
-    requisitosAcademicos: ["React", "Diseno Grafico", "MySQL"],
-    experienciaRequerida: ["Programador Frontend", "Database Manager"],
-    educacionRequerida: ["Ingenieria en Sistemas", "Administracion de empresas"],
-    idiomas: [{nombre: "Ingles", nivel:"Avanzado"},{nombre: "Espanol", nivel:"Nativo"}]
-}
 
 export function OffersDetail(){
-    return(
-    <Container sx={{padding: "30px", backgroundColor: "#F1FAF9", marginTop:10}} maxWidth="md" disableGutters>
+
+    const{offerId} = useParams();
+
+    const [offer, setOffer] = useState(null);
+
+    useEffect(()=>{
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:5001/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=1`
+            );
+            setOffer(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        fetchData();
+    }, []);
+    
+
+    return( offer &&
+    <Container sx={{padding: "30px", backgroundColor: "#F1FAF9", marginTop:10, position:"relative"}} maxWidth="md" disableGutters>
         <Grid container gap={5} justifyContent="center" marginBottom="30px">
             <Grid item>
-                <img src={information.urlEmpresa} alt="logo de empresa" style={{width:"200px"}}/>
+                <img src={offer.urlEmpresa} alt="logo de empresa" style={{width:"200px"}}/>
             </Grid>
             <Grid item alignContent="center" xs={8}>
                 <Typography variant="h5" fontWeight="600">
-                    {information.nombreOferta}
+                    {offer.nombreOferta}
                 </Typography>
             </Grid>
         </Grid>
-        <Typography fontSize="1.1rem" fontWeight="600" marginBottom={1}>{information.nombreEmpresa}</Typography>
-        <Container sx={{pl: "20px", mb:"20px"}}>
-            <Typography sx={{fontWeight: "500", color:"#49454F", mb:0.5}}>Publicado  <span style={{fontWeight:"400"}}>{information.fechaPublicacion}</span></Typography>
-            <Typography sx={{fontWeight: "500", color:"#49454F", mb:0.5}} >Expira <span style={{fontWeight:"400"}}>{information.fechaPublicacion}</span></Typography>
-            <Typography sx={{fontWeight: "400", color:"#49454F"}} >{information.lugar}</Typography>
+        <Typography fontSize="1.1rem" fontWeight="600" marginBottom={1}>{offer.nombreEmpresa}</Typography>
+        <Container sx={{pl: "20px", mb:"20px", position:"relative"}}>
+            <Grid container>
+                <Grid item xs={1.5}>
+                <Typography sx={{fontWeight: "500", color:"#49454F", mb:0.5}}>Publicado</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                <span style={{fontWeight:"400"}}>{offer.fechaPublicacion}</span>
+                </Grid>
+            </Grid>
+            <Grid container>
+                <Grid item xs={1.5}>
+                <Typography sx={{fontWeight: "500", color:"#49454F", mb:0.5}} >Expira</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                <span style={{fontWeight:"400"}}>{offer.fechaPublicacion}</span>
+                </Grid>
+            </Grid>
+            <Typography sx={{fontWeight: "400", color:"#49454F"}} >{offer.lugar}</Typography>
+            <Button variant="contained" sx={{position:"absolute", right:"50px", top:"40px"}} disabled={offer.aplicando}>
+            Aplicar a oferta
+            </Button>
         </Container>
         <Container disableGutters>
             <DetalleOfertaCard
@@ -50,65 +71,54 @@ export function OffersDetail(){
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Tipo de Empleo</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.tipoEmpleo}</Typography>
+                <Typography sx={{ mb:0.5}}>{offer.tipoEmpleo}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Cargos</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.cargos.join(", ")}</Typography>
+                <Typography sx={{ mb:0.5}}>{offer.cargos.join(", ")}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Puestos Vacantes</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.vacantes}</Typography>
+                <Typography sx={{ mb:0.5}}>{offer.vacantes}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Modalidad</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.modalidad}</Typography>
+                <Typography sx={{ mb:0.5}}>{offer.modalidad}</Typography>
                 </Grid>
                 <Grid item xs={3}>
                 <Typography sx={{fontWeight: "500",  mb:0.5}}>Nivel Academico</Typography>
                 </Grid>
                 <Grid item xs={9}>
-                <Typography sx={{ mb:0.5}}>{information.nivelAcademico}</Typography>
+                <Typography sx={{ mb:0.5}}>{offer.nivelAcademico}</Typography>
                 </Grid>
                 </Grid>
             </DetalleOfertaCard>
             <DetalleOfertaCard
             title="DESCRIPCION">
-                <Typography>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                </Typography>
+                <Typography>{offer.descripcion}</Typography>
             </DetalleOfertaCard>
             <DetalleOfertaCard
-            title="HABILIDADES REQUERIDAS">
+            title="HABILIDADES REQUERIDAS | EDUCACION">
                 <Grid container columnSpacing={3}>
-                    {information.requisitosAcademicos.map((value, index)=><><Grid item key={index}><ItemsOfertaCard itemName={value}/></Grid></>)}
+                    {offer.requisitosAcademicos.map((value, index)=><Grid item key={index}><ItemsOfertaCard itemName={value}/></Grid>)}
                 </Grid>
             </DetalleOfertaCard>
             <DetalleOfertaCard
             title="EXPERIENCIA LABORAL REQUERIDA">
                 <Grid container columnSpacing={3}>
-                    {information.experienciaRequerida.map((value, index)=><><Grid item key={index}><ItemsOfertaCard itemName={value}/></Grid></>)}
-                </Grid>
-            </DetalleOfertaCard>
-            <DetalleOfertaCard
-            title="EDUCACION">
-                <Grid container columnSpacing={3}>
-                    {information.educacionRequerida.map((value, index)=><><Grid item key={index}><ItemsOfertaCard itemName={value}/></Grid></>)}
+                    {offer.experienciaRequerida.map((value, index)=><Grid item key={index}><ItemsOfertaCard itemName={value}/></Grid>)}
                 </Grid>
             </DetalleOfertaCard>
             <DetalleOfertaCard
             title="IDIOMAS REQUERIDOS">
                 <Grid container columnSpacing={3}>
-                    {information.idiomas.map((value, index)=><><Grid item key={index}><ItemsOfertaDual itemName={value.nombre} detail={value.nivel}/></Grid></>)}
+                    {offer.idiomas.map((value, index)=><Grid item key={index}><ItemsOfertaDual itemName={value.nombre} detail={value.nivel}/></Grid>)}
                 </Grid>
             </DetalleOfertaCard>
         </Container>

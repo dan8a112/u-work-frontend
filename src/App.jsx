@@ -38,7 +38,7 @@ function App() {
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/home' element={<HomeUser/>}></Route>
         <Route path='/userProfile' element={<UserProfile from="user"/>}></Route>
-        <Route path='/offersDetail' element={<OffersDetail/>}></Route>
+        <Route path='/offersDetail/:offerId' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
         <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
