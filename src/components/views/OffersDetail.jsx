@@ -1,4 +1,4 @@
-import { Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, Snackbar, TextField, Typography } from "@mui/material";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 import { ItemsOfertaCard, ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { useEffect, useState } from "react";
@@ -11,6 +11,9 @@ export function OffersDetail(){
     const{offerId} = useParams();
 
     const [offer, setOffer] = useState(null);
+    const [openModal, setOpenModal] = useState(false);
+    const [openNotification, setOpenNotification] = useState(false);
+    const [applicationMessage, setApplicationMessage] = useState("");
 
     useEffect(()=>{
         const fetchData = async () => {
@@ -26,6 +29,33 @@ export function OffersDetail(){
 
         fetchData();
     }, []);
+
+    const applicateToOffer = async ()=>{
+        try {
+            const applicationBody = {
+                idOferta: offerId,
+                idSolicitante: 1, //Por defecto de momento
+                idEstadoSolicitud: 1,
+                emisorSolicitud: 0,
+                descripcion: applicationMessage
+            }
+
+            const response = await axios.post(
+              `http://localhost:5001/api/solicitudes/crear`,
+              applicationBody
+            );
+
+            console.log("Se ha creado una nueva solicitud ", response.data);
+            setOpenNotification(true);
+            setOffer({
+                ...offer,
+                aplicando: 1,
+              })
+          } catch (error) {
+            console.error(error);
+          }
+
+    }
     
 
     return( offer &&
@@ -59,7 +89,10 @@ export function OffersDetail(){
                 </Grid>
             </Grid>
             <Typography sx={{fontWeight: "400", color:"#49454F"}} >{offer.lugar}</Typography>
-            <Button variant="contained" sx={{position:"absolute", right:"50px", top:"40px"}} disabled={offer.aplicando}>
+            <Button variant="contained" 
+            sx={{position:"absolute", right:"50px", top:"40px"}} 
+            disabled={!!offer.aplicando}
+            onClick={()=>{setOpenModal(true)}}>
             Aplicar a oferta
             </Button>
         </Container>
@@ -122,6 +155,48 @@ export function OffersDetail(){
                 </Grid>
             </DetalleOfertaCard>
         </Container>
+        
+        <Dialog
+        open={openModal}
+        onClose={()=>{setOpenModal(false)}}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+            <DialogTitle id="alert-dialog-title">
+                Aplicar a la oferta
+            </DialogTitle>
+
+            <DialogContent id="alert-dialog-description" sx={{width:"600px"}}>
+                <Typography sx={{mb:2}}>
+                    Estas a punto de aplicar a esta oferta, escribe un mensaje de por qué te gustaría obtener este puesto de trabajo...
+                </Typography>
+                <Box sx={{p:1}}>
+                        <TextField
+                    sx={{ width: "100%" }}
+                    type="text"
+                    label="Mensaje de solicitud"
+                    placeholder="Cuentanos por qué te gustaría aplicar a esta oferta..."
+                    name="applicationMessage"
+                    value={applicationMessage}
+                    multiline
+                    rows={4}
+                    onChange={(e)=>{setApplicationMessage(e.target.value)}}
+                    />
+                </Box>
+            </DialogContent>
+            
+            <DialogActions>
+                <Button size="medium" onClick={()=>{setOpenModal(false)}}>Cerrar</Button>
+                <Button variant="contained" size="medium" onClick={applicateToOffer}>Aplicar</Button>
+            </DialogActions>
+        </Dialog>
+
+        <Snackbar
+        open={openNotification}
+        autoHideDuration={6000}
+        onClose={()=>{setOpenNotification(false)}}
+        message="Felicidades! Has aplicado a la oferta correctamente!"
+        />
     </Container>
     );
 }
