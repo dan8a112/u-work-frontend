@@ -1,18 +1,11 @@
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { UserRegister } from './components/views/Register/UserRegister'
 import { Login } from './components/views/Login'
-import { Home } from './components/views/Home'
 import { BussinesRegister } from './components/views/Register/BusinessRegister'
 import { UserProfile } from './components/views/UserProfile'
 import { OffersDetail } from './components/views/OffersDetail'
 import HeaderHome from './components/headers/HeaderHome'
 import { Application } from './components/views/Applications'
-import NotificationDetail from './components/cards/Notification/NotificationDetail'
-import { StatsCard } from './components/cards/StatsCard'
-import { Typography } from '@mui/material'
-import { ImageTextCard } from './components/cards/ImageTextCard'
-import OutlinedCard from './components/cards/OfertaCard'
-import { OfertaEnterpriseCard } from './components/cards/OfertaEnterpriseCard'
 import { HomeEnterprise } from './components/views/HomeEnterprise'
 import HeaderEnterprise from './components/headers/HeaderEnterprise'
 import { EnterpriseProfile } from './components/views/EnterpriseProfile'
@@ -21,22 +14,29 @@ import { OffersDetailEnterprise } from './components/views/OffersDetailEnterpris
 import { OffersEnterprise } from './components/views/OffersEnterprise'
 import { OfferApplicants } from './components/views/OfferApplicants'
 import { Test } from './components/views/Test'
+import { HomeAdmin } from './components/views/HomeAdmin'
+import HeaderAdmin from './components/headers/HeaderAdmin'
+import { HomeUser } from './components/views/Home'
 
 function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
   const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
+  const showTabbarAdmin = ["/homeAdmin"];
+
 
   return (
     <>
     {showTabbarRoutes.includes(location.pathname) && <HeaderHome />}
     {showTabbarEnterpriseRoutes.includes(location.pathname) && <HeaderEnterprise />}
+    {showTabbarAdmin.includes(location.pathname) && <HeaderAdmin />}
+
       <Routes>
         <Route path='/register' element={<UserRegister/>}></Route>
         <Route path='/registerBussiness' element={<BussinesRegister/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
-        <Route path='/home' element={<Home/>}></Route>
+        <Route path='/home' element={<HomeUser/>}></Route>
         <Route path='/userProfile' element={<UserProfile from="user"/>}></Route>
         <Route path='/offersDetail' element={<OffersDetail/>}></Route>
         <Route path='/application' element={<Application/>}></Route>
@@ -48,7 +48,7 @@ function App() {
         <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select"></UserProfile>}></Route>
         <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise"></UserProfile>}></Route>
-        <Route path='/test' element={<Test></Test>}></Route>
+        <Route path='/homeAdmin' element={<HomeAdmin></HomeAdmin>}></Route>
       </Routes>
     </>
   )

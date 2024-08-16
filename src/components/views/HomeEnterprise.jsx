@@ -116,7 +116,7 @@ export function HomeEnterprise(){
                 display: "flex", 
                 gap: "20px",
                 mb:"20px"
-            }}>
+            }}> 
                 <StatsCard text="Ofertas Activas">
                     <Typography variant="h3" fontWeight="500">13</Typography>
                 </StatsCard>

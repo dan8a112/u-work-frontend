@@ -8,11 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-export function CrudContainer({info, keys, buttonAction}){
+export function CrudContainer({info, keys, buttonAction, name}){
 
     return(
         <Box sx={{position:"relative",p: 3}}>
-            <Typography fontWeight="500" fontSize="20px" sx={{mb:'20px'}}>Generos</Typography>
+            <Typography fontWeight="500" fontSize="20px" sx={{mb:'20px'}}>{name}</Typography>
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>

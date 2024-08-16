@@ -11,78 +11,13 @@ const OffersType = styled(Box)(() => ({
     borderBottom: "1px solid #e8e8e8"
   }));
 
-  const menuItems = [
-    {
-        key: 1,
-        text: "Generos"
-    },
-    {
-        key: 2,
-        text: "Formaciones Profesionales"
-    },
-    {
-        key: 3,
-        text: "Niveles Academicos"
-    },
-    {
-        key: 4,
-        text: "Modalidades"
-    },
-    {
-        key: 5,
-        text: "Contratos"
-    },
-    {
-        key: 6,
-        text: "Industrias"
-    },
-    {
-        key: 7,
-        text: "Idiomas"
-    },
-    {
-        key: 8,
-        text: "Condiciones Medicas"
-    },
-    {
-        key: 9,
-        text: "Tipos de seguros"
-    },
-    {
-        key: 10,
-        text: "Estados Civil"
-    },
-    {
-        key: 11,
-        text: "Parentezcos"
-    },
-    {
-        key: 12,
-        text: "Puestos"
-    },
-    {
-        key: 13,
-        text: "Tipos de Empleo"
-    },
-    {
-        key: 14,
-        text: "Niveles de idioma"
-    },
-    {
-        key: 15,
-        text: "Lugares"
-    },
-    {
-        key: 16,
-        text: "Tipos de lugar"
-    }
-    ]
 
-export function MenuAdmin(){
+export function MenuAdmin({menuItems, saveMenuItemState}){
     const [buttonSelected, setButtonSelected] = React.useState(null);
 
     const handleMenuItemClick = (buttonClick) => {
       setButtonSelected(buttonClick);
+      saveMenuItemState(buttonClick);
     };
     return (
         <>
@@ -113,8 +48,6 @@ export function MenuAdmin(){
                         <Typography>{item.text}</Typography>
                     </OffersType>
                 ))}
-
-                
 
             </Box>
         </>

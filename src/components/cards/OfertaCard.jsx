@@ -6,19 +6,17 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
-
-
-const CustomCard = ({fechaPublicacion, puesto, empresa, descripcion}) => (
+const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, onNavigate }) => (
   <React.Fragment>
-    <CardContent >
-    <CardMedia
+    <CardContent>
+      <CardMedia
         component="img"
         alt="green iguana"
         height="140"
         image="/img/bac_credomatic.png"
         sx={{ objectFit: 'contain', height: '20px', width: '180%' }} 
-
       />
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         {fechaPublicacion}
@@ -34,21 +32,28 @@ const CustomCard = ({fechaPublicacion, puesto, empresa, descripcion}) => (
       </Typography>
     </CardContent>
     <CardActions>
-      <Button size="small">Ver mas</Button>
+      <Button size="small" onClick={onNavigate}>Ver más</Button>
     </CardActions>
   </React.Fragment>
 );
 
-export default function OutlinedCard({fechaPublicacion, puesto, empresa, descripcion}) {
+export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descripcion }) {
+  const navigate = useNavigate();
+
+  const handleNavigate = () => {
+    navigate("/offersDetail");
+  }
+
   return (
-    <Box sx={{ minWidth: 275}}>
-      <Card variant="outlined" sx={{ marginBottom:"15px" }}>
+    <Box sx={{ minWidth: 275 }}>
+      <Card variant="outlined" sx={{ marginBottom: "15px" }}>
         <CustomCard
-        fechaPublicacion={fechaPublicacion}
-        puesto={puesto}
-        empresa={empresa}
-        descripcion={descripcion}>
-        </CustomCard>
+          fechaPublicacion={fechaPublicacion}
+          puesto={puesto}
+          empresa={empresa}
+          descripcion={descripcion}
+          onNavigate={handleNavigate} 
+        />
       </Card>
     </Box>
   );
