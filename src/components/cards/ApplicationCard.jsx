@@ -40,11 +40,11 @@ const DateText = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-function ApplicationCard({title, nameCompany, Date, DatePostOfert, state, onClick}) {
+function ApplicationCard({title, nameCompany, Date, DatePostOfert, state, imageCompany, onClick}) {
   return (
     <CustomCard>
       <ImageSection>
-        <img src="/img/bac_credomatic.png" alt="Placeholder" style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
+        <img src={imageCompany} alt="Placeholder" style={{ width: '100%', height: 'auto', borderRadius: '8px' }} />
       </ImageSection>
       <InfoSection>
         <Typography variant="h6">{title}</Typography>

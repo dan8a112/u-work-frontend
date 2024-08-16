@@ -22,11 +22,12 @@ const TitleContainer = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   marginLeft: theme.spacing(2),
   flex: 1,
-  width: '20%'
+  width: '20%',
+  marginTop: '10px'
 }));
 
-const NotificationTitle = styled(Typography)(({ theme }) => ({
-  fontWeight: '500',
+const NotificationTitle = styled(Typography)(({ theme, fontWeight }) => ({
+  fontWeight: fontWeight || '500',
   fontSize: '12px',
   width: '70%',
 }));
@@ -44,12 +45,15 @@ const NotificationDate = styled(Typography)(({ theme }) => ({
   color: theme.palette.text.disabled,
 }));
 
-export default function NotificationCard({ onClick, title, date }) {
+export default function NotificationCard({ onClick, title, date, state }) {
+
+  const fontWeight = state === 0 ? '700' : '400';
+
   return (
     <CustomCard onClick={onClick}>
       <Avatar aria-label="recipe" src="/img/alert-circle.svg" />
       <TitleContainer>
-        <NotificationTitle>{title}</NotificationTitle>
+        <NotificationTitle fontWeight={fontWeight}>{title}</NotificationTitle>
         <NotificationSubheader>{date}</NotificationSubheader>
       </TitleContainer>
       <NotificationDate>{date}</NotificationDate>

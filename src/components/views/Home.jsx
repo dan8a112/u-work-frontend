@@ -3,77 +3,77 @@ import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
 import CssBaseline from '@mui/material/CssBaseline';
 import List from '@mui/material/List';
-import { Container, Dialog, Typography } from "@mui/material";
-import Divider from '@mui/material/Divider';
+import { Container, Dialog, Typography, Divider } from "@mui/material";
 import OutlinedCard from '../cards/OfertaCard';
 import NotificationCard from '../cards/Notification/NotificationCard';
 import NotificationDetail from '../cards/Notification/NotificationDetail';
 import SearchInput from '../inputs/SearchInput';
+import { useParams } from 'react-router-dom';
+import axios from "axios";
 
 export function HomeUser() {
-
+  const { idApplicant } = useParams();
   const [selectedPage, setSelectedPage] = React.useState('Ofertas');
-
   const [openNotification, setOpenNotification] = React.useState(false);
-
   const [selectedNotification, setSelectedNotification] = React.useState(null);
+  const [ofertas, setOfertas] = React.useState([]);
+  const [notifications, setNotifications] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
 
-  const handleOpenNotification = (id)=>{
-    setSelectedNotification(id)
-    setOpenNotification(true)
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/solicitante/home/${idApplicant}`);
+        setOfertas(response.data.ofertas || []);
+        setNotifications(response.data.notificaciones || []);
+        setCategories(response.data.categorias || []);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, [idApplicant]);
+
+    const categorias = categories.map((category) => ({
+      label: category.categoria
+    }));
+    
+
+  const handleOpenNotification = (id) => {
+    setSelectedNotification(id);
+    setOpenNotification(true);
   }
-  
-  const handleCloseNotification = ()=>{setOpenNotification(false)}
+
+  const handleCloseNotification = () => {
+    setNotifications(notifications.map(notification =>
+      notification.idNotificacion === selectedNotification
+        ? { ...notification, estado: 1 }
+        : notification
+    ));
+    setOpenNotification(false);
+  }
 
   const renderContent = () => {
     switch (selectedPage) {
       case 'Ofertas':
-        return (
-          <>
-            <OutlinedCard
-              fechaPublicacion="12-12-2012"
-              puesto="Ejecutivo de ventas"
-              empresa="UNAH Universidad Autonoma de Honduras"
-              descripcion="Persona encargada de gestionar las ventas de la compania"
-            />
-            <OutlinedCard
-              fechaPublicacion="12-12-2012"
-              puesto="Ejecutivo de ventas"
-              empresa="UNAH Universidad Autonoma de Honduras"
-              descripcion="Persona encargada de gestionar las ventas de la compania"
-            />
-          </>
-        );
+        return ofertas.map((oferta) => (
+          <OutlinedCard
+            key={oferta.idOferta}
+            fechaPublicacion={oferta.fechaPublicacionOferta}
+            puesto={oferta.tituloOferta}
+            empresa={oferta.nombreEmpresa}
+            descripcion={oferta.descripcion}
+            imageCompany={oferta.url_logo}
+          />
+        ));
       case 'Tus Aplicaciones':
         return <Typography>Aplicaciones</Typography>;
       default:
         return null;
     }
   };
-
-  const notificationsCards = [
-    {
-      idNotificacion: 0,
-      titulo: "Oferta de empleo para programador Backend",
-      fecha: "Sep 21, 2024",
-      logoEmpresa:"img/bac_logo.png",
-      estadoVisualizacion: false
-    },
-    {
-      idNotificacion: 1,
-      titulo: "Oferta de empleo para gestionador de BD",
-      fecha: "Sep 24, 2024",
-      logoEmpresa:"img/bac_logo.png",
-      estadoVisualizacion: false
-    },
-    {
-      idNotificacion: 2,
-      titulo: "Oferta de empleo para gestor de redes e infraestructura",
-      fecha: "Sep 25, 2024",
-      logoEmpresa:"img/bac_logo.png",
-      estadoVisualizacion: false
-    },
-  ]
 
   return (
     <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '635px' }}>
@@ -100,7 +100,7 @@ export function HomeUser() {
           Busca tu empleo por categorias
         </Typography>
         <List>
-          <SearchInput></SearchInput>
+          <SearchInput categories={categorias}/>
         </List>
         <Box sx={{ marginTop: 7 }}>
           <Typography sx={{ color: '#3b3b3b77', paddingInline: '20px', paddingBottom: 0 }}>
@@ -114,25 +114,24 @@ export function HomeUser() {
           width: '90%',
           p: '5% 0',
           overflowY: 'auto',
-          overflowY: 'scroll',
           '&::-webkit-scrollbar': {
             display: 'none',
           },
           scrollbarWidth: 'none',
           '-ms-overflow-style': 'none',
         }}>
-          {notificationsCards.map((value,index)=>
-          <NotificationCard 
-          key={index} 
-          onClick={()=>{handleOpenNotification(value.idNotificacion)}} 
-          title={value.titulo}
-          date={value.fecha}
-          logo={value.logoEmpresa}
-          />
-          )}
+          {notifications.length > 0 ? notifications.map((notification) =>
+            <NotificationCard
+              key={notification.idNotificacion}
+              onClick={() => handleOpenNotification(notification.idNotificacion)}
+              title={notification.titulo}
+              date={notification.fecha}
+              state={notification.estado}
+            />
+          ) : <Typography>No hay notificaciones</Typography>}
         </Box>
-
       </Drawer>
+
       <Box
         component="main"
         sx={{ flexGrow: 1, marginTop: 11, padding: 2 }}
@@ -141,6 +140,7 @@ export function HomeUser() {
           {renderContent()}
         </Container>
       </Box>
+
       <NotificationDetail
         open={openNotification}
         handleClose={handleCloseNotification}
@@ -149,4 +149,3 @@ export function HomeUser() {
     </Box>
   );
 }
-

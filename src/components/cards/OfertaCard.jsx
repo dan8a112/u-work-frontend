@@ -8,15 +8,15 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { useNavigate } from 'react-router-dom';
 
-const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, onNavigate }) => (
+const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, imageCompany, onNavigate }) => (
   <React.Fragment>
     <CardContent>
       <CardMedia
         component="img"
         alt="green iguana"
         height="140"
-        image="/img/bac_credomatic.png"
-        sx={{ objectFit: 'contain', height: '20px', width: '180%' }} 
+        image={imageCompany}
+        sx={{ objectFit: 'contain', height: '40px', width: '180%' }} 
       />
       <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
         {fechaPublicacion}
@@ -37,7 +37,7 @@ const CustomCard = ({ fechaPublicacion, puesto, empresa, descripcion, onNavigate
   </React.Fragment>
 );
 
-export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descripcion }) {
+export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descripcion, imageCompany }) {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -53,6 +53,7 @@ export default function OutlinedCard({ fechaPublicacion, puesto, empresa, descri
           empresa={empresa}
           descripcion={descripcion}
           onNavigate={handleNavigate} 
+          imageCompany = {imageCompany}
         />
       </Card>
     </Box>

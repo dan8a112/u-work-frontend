@@ -2,7 +2,8 @@ import * as React from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import ApplicationCard from '../cards/ApplicationCard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 
 const CenteredBox = styled(Box)(({ theme }) => ({
   backgroundColor: '#F1FAF9',
@@ -20,39 +21,25 @@ const CenteredBox = styled(Box)(({ theme }) => ({
   
 }));
 
-const applications = [
-  {
-    key: "1",
-    title: "Título de la Oferta", 
-    nameCompany: "Nombre de la Empresa", 
-    Date: "Fecha: 01/01/2024", 
-    DatePostOfert: "31/12/2023", 
-    state: "En proceso",
-    url: "/offersDetail"
-  },
-  {
-    key: "2",
-    title: "Título de la Oferta", 
-    nameCompany: "Nombre de la Empresa", 
-    Date: "Fecha: 01/01/2024", 
-    DatePostOfert: "31/12/2023", 
-    state: "En proceso",
-    url: "/offersDetail"
-  },
-  {
-    key: "3",
-    title: "Título de la Oferta", 
-    nameCompany: "Nombre de la Empresa", 
-    Date: "Fecha: 01/01/2024", 
-    DatePostOfert: "31/12/2023", 
-    state: "En proceso",
-    url: "/offersDetail"
-  },
-]
-
 export function Application() {
 
   const navigate = useNavigate();
+  const { idApplicant } = useParams();
+  const [applications, setApplications] = React.useState([])
+
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5001/api/solicitante/solicitudes/${idApplicant}`);
+        setApplications(response.data || []);
+        console.log(response);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchData();
+  }, [idApplicant]);
 
   const handleOnClick = (url) => {
     navigate(url);
@@ -61,11 +48,13 @@ export function Application() {
     <CenteredBox>
       {applications.map((application) => (
         <ApplicationCard 
-        title={application.title} 
-        nameCompany={application.nameCompany} 
-        Date={application.Date} 
-        DatePostOfert={application.DatePostOfert} 
-        state={application.state} 
+        key={application.idOferta}
+        title={application.tituloOferta} 
+        nameCompany={application.nombreEmpresa} 
+        Date={application.fechaPublicacionOferta} 
+        DatePostOfert={application.fechaSolicitud} 
+        state={application.estadoSolicitud} 
+        imageCompany={application.url_logo}
         onClick={() => handleOnClick(application.url)}></ApplicationCard>
       ))}
     </CenteredBox>

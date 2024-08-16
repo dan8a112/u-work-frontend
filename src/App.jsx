@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation, matchPath } from 'react-router-dom'
 import { UserRegister } from './components/views/Register/UserRegister'
 import { Login } from './components/views/Login'
 import { BussinesRegister } from './components/views/Register/BusinessRegister'
@@ -21,37 +21,40 @@ import { HomeUser } from './components/views/Home'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail"];
+  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId"];
   const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
   const showTabbarAdmin = ["/homeAdmin"];
 
+  const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
+  const showEnterpriseTabbar = showTabbarEnterpriseRoutes.some(route => matchPath(route, location.pathname));
+  const showAdminTabbar = showTabbarAdmin.some(route => matchPath(route, location.pathname));
 
   return (
     <>
-    {showTabbarRoutes.includes(location.pathname) && <HeaderHome />}
-    {showTabbarEnterpriseRoutes.includes(location.pathname) && <HeaderEnterprise />}
-    {showTabbarAdmin.includes(location.pathname) && <HeaderAdmin />}
+      {showTabbar && <HeaderHome />}
+      {showEnterpriseTabbar && <HeaderEnterprise />}
+      {showAdminTabbar && <HeaderAdmin />}
 
       <Routes>
-        <Route path='/register' element={<UserRegister/>}></Route>
-        <Route path='/registerBussiness' element={<BussinesRegister/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
-        <Route path='/home' element={<HomeUser/>}></Route>
-        <Route path='/userProfile' element={<UserProfile from="user"/>}></Route>
-        <Route path='/offersDetail/:offerId' element={<OffersDetail/>}></Route>
-        <Route path='/application' element={<Application/>}></Route>
-        <Route path='/homeEnterprise' element={<HomeEnterprise></HomeEnterprise>}></Route>
-        <Route path='/EnterpriseProfile' element={<EnterpriseProfile />}></Route>
-        <Route path='/createOffer' element={<CreateOffer></CreateOffer>}></Route>
-        <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise></OffersDetailEnterprise>}></Route>
-        <Route path='/OffersEnterprise' element={<OffersEnterprise />}></Route>
-        <Route path='/Applicants' element={<OfferApplicants></OfferApplicants>}></Route>
-        <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select"></UserProfile>}></Route>
-        <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise"></UserProfile>}></Route>
-        <Route path='/homeAdmin' element={<HomeAdmin></HomeAdmin>}></Route>
+        <Route path='/register' element={<UserRegister />} />
+        <Route path='/registerBussiness' element={<BussinesRegister />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/home/:idApplicant' element={<HomeUser />} />
+        <Route path='/userProfile' element={<UserProfile from="user" />} />
+        <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
+        <Route path='/application/:idApplicant' element={<Application />} />
+        <Route path='/homeEnterprise' element={<HomeEnterprise />} />
+        <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
+        <Route path='/createOffer' element={<CreateOffer />} />
+        <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise />} />
+        <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
+        <Route path='/Applicants' element={<OfferApplicants />} />
+        <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
+        <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise" />} />
+        <Route path='/homeAdmin' element={<HomeAdmin />} />
       </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
