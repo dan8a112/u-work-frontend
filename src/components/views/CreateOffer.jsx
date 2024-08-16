@@ -111,6 +111,10 @@ export function CreateOffer(){
 
 
     const [formValues, setFormValues] = useState({
+        titulo: "",
+        plazasDisponibles: "",
+        fechaExpiracion: "",
+        descripcion: "",
         tipoEmpleo: "",
         tipoContrato: "",
         nivelAcademico: "",
@@ -121,6 +125,23 @@ export function CreateOffer(){
         municipio: "",
         idiomas: []
     })
+
+    const data = {
+      titulo: "Programador backend con habilidades en nextjs",
+      plazasDisponibles: 2,
+      fechaExpiracion: "2024-08-14",
+      descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dicta dignissimos sint expedita maiores nulla fugiat",
+      tipoEmpleo: 1,
+      tipoContrato: 1,
+      nivelAcademico: 2,
+      modalidad: 1,
+      puestos: [1,2,3],
+      lugar: 3,
+      idiomas: [
+        {idIdioma: 1, idNivelIdioma: 2},
+        {idIdioma: 2, idNivelIdioma: 1}
+      ]
+    }
 
     const [idioma, setIdioma] = useState("");
     const [nivelIdioma, setNivelIdioma] = useState("");
@@ -174,6 +195,9 @@ export function CreateOffer(){
               label="Titulo"
               placeholder="Titulo de la oferta"
               size="small"
+              name="titulo"
+              value={formValues.titulo}
+              onChange={handleChange}
             />
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -182,6 +206,9 @@ export function CreateOffer(){
                   label="Plazas disponibles"
                   placeholder="Numero de plazas"
                   type="number"
+                  name="plazasDisponibles"
+                  value={formValues.plazasDisponibles}
+                  onChange={handleChange}
                   fullWidth
                 />
               </Grid>
@@ -191,6 +218,9 @@ export function CreateOffer(){
                   label="Fecha de expiracion"
                   InputLabelProps={{ shrink: true }}
                   type="date"
+                  name="fechaExpiracion"
+                  value={formValues.fechaExpiracion}
+                  onChange={handleChange}
                   fullWidth
                 />
               </Grid>
@@ -199,6 +229,9 @@ export function CreateOffer(){
               label="Descripcion"
               placeholder="Escribe una descripcion de la informacion de la oferta"
               size="small"
+              name="descripcion"
+              value={formValues.descripcion}
+              onChange={handleChange}
               multiline
               rows={5}
             />
@@ -373,9 +406,8 @@ export function CreateOffer(){
             </Grid>
             <Box sx={{display: "flex", gap:"10px", flexWrap:"wrap"}}>
             {formValues.idiomas.length > 0 && formValues.idiomas.map((value, index)=>
-            <Box sx={{display:"flex"}}>
+            <Box  key={index} sx={{display:"flex"}}>
             <ItemsOfertaDual
-            key={index} 
             itemName={options.idiomas.find(i => i.idIdioma === value.idIdioma).idioma} 
             detail={options.niveles.find(i => i.idNivel === value.idNivelIdioma).nivel}/>
             <IconButton onClick={()=>{handleDeleteIdioma(index)}}>
@@ -386,7 +418,7 @@ export function CreateOffer(){
             </Box>
           </SectionFormCard>
           <Box sx={{display:"flex", justifyContent:"end", margin: "50px 45px 40px"}}>
-            <Button size="large" variant="contained">Crear Oferta</Button>
+            <Button size="large" variant="contained" onClick={()=>{console.log(formValues)}}>Crear Oferta</Button>
           </Box>
         </form>
       </Container>
