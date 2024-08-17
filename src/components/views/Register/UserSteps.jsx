@@ -1,4 +1,5 @@
-import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
@@ -139,9 +140,20 @@ const Step1 = ({handleChange, values, options, errors}) => (
   </Box>
 );
 
-const Step2 = ({handleChange, values, errors}) => (
+const Step2 = ({handleChange, values, errors}) => { 
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+  
+  return(
     <Box>
     <TextField
+          sx={{mb:4}}
           label="Correo Electronico"
           variant="outlined"
           fullWidth
@@ -152,20 +164,63 @@ const Step2 = ({handleChange, values, errors}) => (
           error={!!errors.correo}
           helperText={errors.correo}
     />
-    <TextField
-          type="password"
-          label="Contraseña"
+    <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="contraseña"
+            margin="normal"
+            name="contrasena"
+            value={values.contrasena}
+            onChange={handleChange}
+            error={!!errors.contrasena}
+            helperText={errors.contrasena}
+          />
+          <TextField
+          sx={{mt:4}}
+          label="Titular"
+          placeholder="Escribe algo que te defina como profesional"
           variant="outlined"
           fullWidth
           margin="normal"
-          name="contrasena"
-          value={values.contrasena}
+          name="titular"
+          value={values.titular}
           onChange={handleChange}
-          error={!!errors.contrasena}
-          helperText={errors.contrasena}
+          error={!!errors.titular}
+          helperText={errors.titular}
     />
-  </Box>
-);
+              <TextField
+          sx={{mt:4}}
+          label="Descripcion"
+          placeholder="Escribe un poco sobre ti, tus intereses, habilidades, hobbies..."
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          name="descripcion"
+          multiline
+          rows={4}
+          value={values.descripcion}
+          onChange={handleChange}
+          error={!!errors.descripcion}
+          helperText={errors.descripcion}
+    />
+      </FormControl>
+  </Box>)
+};
+
 
 const Step3 = ({handleChange, values, options}) => {
 
@@ -253,15 +308,6 @@ const Step3 = ({handleChange, values, options}) => {
         ))}
       </Select>
     </FormControl>)}
-    <TextField
-          label="Direccion"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="direccion"
-          value={values.direccion}
-          onChange={handleChange}
-    />
     <TextField
           label="Numero de telefono"
           variant="outlined"

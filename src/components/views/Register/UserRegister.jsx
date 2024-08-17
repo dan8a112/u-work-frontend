@@ -11,9 +11,30 @@ export function UserRegister({userData, edit}){
 
   const navigate = useNavigate();
 
-  const sendForm = edit ? 
-  'http://localhost:5001/api/usuario/editar' : 
-  'http://localhost:5001/api/usuario/ingresar';
+  useEffect(()=>{
+    
+    if (userData!=null) {
+      setFormValues({
+        primerNombre: userData.primerNombre,
+        segundoNombre: userData.segundoNombre,
+        primerApellido: userData.primerApellido,
+        segundoApellido: userData.segundoApellido,
+        identificacion: userData.identificacion,
+        fechaNacimiento: userData.fechaNacimiento.substring(0,10),
+        nacionalidad: userData.idLugarNacimiento,
+        genero: userData.idGenero,
+        estadoCivil: userData.idEstadoCivil,
+        correo: userData.correo,
+        contrasena: userData.contrasena,
+        paisResidencia: userData.idLugarResidencia,
+        departamentoResidencia: "",
+        municipioResidencia: "",
+        titular: userData.titular,
+        descripcion: userData.descripcion, 
+        numeroTelefono: userData.telefono,
+      })
+    }
+  },[])
 
   /**
    * MANEJO DE LOS VALIDACIONES. VALORES REQUERIDOS Y PATRONES
@@ -50,9 +71,12 @@ export function UserRegister({userData, edit}){
     numeroTelefono: {
       required: true,
     },
-    direccion: {
+    titular: {
       required: true,
     },
+    descripcion: {
+      required: true,
+    }
   };
 
   const { errors, validateForm, resetForm } = useFormValidation(validations);
@@ -75,7 +99,8 @@ export function UserRegister({userData, edit}){
     paisResidencia: "",
     departamentoResidencia: "",
     municipioResidencia: "",
-    direccion: "",
+    titular:"",
+    descripcion:"",
     numeroTelefono: "",
   });
 
@@ -103,7 +128,8 @@ export function UserRegister({userData, edit}){
     paisResidencia,
     departamentoResidencia,
     municipioResidencia,
-    direccion,
+    titular,
+    descripcion,
     numeroTelefono,
   } = formValues;
 
@@ -127,10 +153,10 @@ export function UserRegister({userData, edit}){
       };
       return validateForm(stepValues);
     } else if (step === 1) {
-      const stepValues = { correo, contrasena };
+      const stepValues = { correo, contrasena, titular, descripcion };
       return validateForm(stepValues);
     } else if (step === 2) {
-      const stepValues = { paisResidencia, direccion, numeroTelefono };
+      const stepValues = { paisResidencia, numeroTelefono };
       return validateForm(stepValues);
     }
   };
@@ -194,7 +220,8 @@ export function UserRegister({userData, edit}){
       idLugarNacimiento: nacionalidad,
       idEstadoCivil: estadoCivil,
       idGenero: genero,
-      direccion,
+      titular,
+      descripcion
     };
     //Si se ha elegido departamento o municipio se cambia en el lugar de residencia
     if (departamentoResidencia.length != 0) {
@@ -205,13 +232,24 @@ export function UserRegister({userData, edit}){
     }
 
     try {
-      const res = axios.post(
-        "http://localhost:5001/api/usuario/ingresar",
-        formSubmit
-      );
-      console.log(res.data);
-      setSuccessRegister(true);
-      setOpenDialog(true);
+      if (!edit) {
+        const res = axios.post(
+          "http://localhost:5001/api/usuario/ingresar",
+          formSubmit
+        );
+        console.log(res.data);
+        setSuccessRegister(true);
+        setOpenDialog(true);
+      }else{
+        console.log(formSubmit);
+
+        const res = axios.put(
+          "http://localhost:5001/api/actualizarUsuario/7",
+          formSubmit
+        );
+        console.log(res.data);
+        setSuccessRegister(true);
+      }
     } catch (error) {
       console.log(error);
     }
