@@ -26,9 +26,9 @@ export function UserRegister({userData, edit}){
         estadoCivil: userData.idEstadoCivil,
         correo: userData.correo,
         contrasena: userData.contrasena,
-        paisResidencia: userData.idLugarResidencia,
-        departamentoResidencia: "",
-        municipioResidencia: "",
+        paisResidencia: userData.idPaisResidencia,
+        departamentoResidencia: userData.idDepartamentoResidencia,
+        municipioResidencia: userData.idMunicipioResidencia,
         titular: userData.titular,
         descripcion: userData.descripcion, 
         numeroTelefono: userData.telefono,
@@ -216,7 +216,7 @@ export function UserRegister({userData, edit}){
       contrasena,
       telefono: numeroTelefono,
       fechaNacimiento,
-      idLugarResidencia: paisResidencia,
+      idPaisResidencia: paisResidencia,
       idLugarNacimiento: nacionalidad,
       idEstadoCivil: estadoCivil,
       idGenero: genero,
@@ -225,9 +225,9 @@ export function UserRegister({userData, edit}){
     };
     //Si se ha elegido departamento o municipio se cambia en el lugar de residencia
     if (departamentoResidencia.length != 0) {
-      formSubmit.idLugarResidencia = departamentoResidencia;
+      formSubmit.idPaisResidencia = departamentoResidencia;
       if (municipioResidencia.length != 0) {
-        formSubmit.idLugarResidencia = municipioResidencia;
+        formSubmit.idPaisResidencia = municipioResidencia;
       }
     }
 
