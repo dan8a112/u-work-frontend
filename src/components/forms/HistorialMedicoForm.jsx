@@ -1,19 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormValidation } from "../../hooks/useFormValidation";
-
-const medicalOptions = {
-    tipoCondicionMedica: [
-        {
-            id: "1",
-            label: "Crónica"
-        },
-        {
-            id: "2",
-            label: "Aguda"  
-        }
-    ]
-};
+import axios from "axios";
 
 const style = {
     position: 'absolute',
@@ -28,14 +16,31 @@ const style = {
     p: 4
   };
 
-export function HistorialMedicoForm(){
+export function HistorialMedicoForm({changeData, handleClose}){
+
+    const [condicionMed, setCondicionMed] = useState(null); 
+
+    useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const condicionRes = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/condicion-medica/mostrar`
+          );
+
+          setCondicionMed(condicionRes.data)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      fetchData();
+    },[])
     
     const validations = {
       descripcion: { required: true },
       tipoCondicionMedica: { required: true },
     };
   
-    const { errors, validateForm, resetForm } = useFormValidation(validations);
+    const { errors, validateForm} = useFormValidation(validations);
   
     const handleChange = (e)=>{
       const {name, value} = e.target;
@@ -45,18 +50,39 @@ export function HistorialMedicoForm(){
       });
     }
 
-    const handleSubmit = ()=>{
-      if(validateForm(formValues)){
-        console.log("se envia formulario");
+    const handleSubmit = async ()=>{
+      const idApplicant = localStorage.getItem('idPersonaSoli');
+      try {
+        if(validateForm(formValues)){
+          const response = await axios.post(
+            `http://localhost:5001/api/usuario/agg-historial-medico-solicitante/${idApplicant}`,
+            formValues
+          )
+          if (response.status ===200) {
+
+            changeData(prevState => {
+              const newItem = {
+                titulo: condicionMed.find(condicion => condicion.idCondicioneMedica == formValues.tipoCondicionMedica).condicionMedicas, 
+                descripcion: formValues.descripcion
+              }
+  
+              return [...prevState, newItem];
+            });
+            handleClose();
+            alert('Se ha agregado un nuevo elemento a tu perfil, revisalo!');
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 
     const [formValues, setFormValues] = useState({
         descripcion: "",
-        tipoCondicionMedica: "",
+        tipoCondicionMedica: ""
       });
 
-    return (
+    return (condicionMed &&
       <Box sx={style}>
         <Typography variant="h6" marginBottom={3}>
           Agrega una condicion medica
@@ -69,9 +95,9 @@ export function HistorialMedicoForm(){
             onChange={handleChange}
             label="Tipo de condición médica"
           >
-            {medicalOptions.tipoCondicionMedica.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {condicionMed.map((value, index) => (
+              <MenuItem value={value.idCondicioneMedica} key={index}>
+                {value.condicionMedicas}
               </MenuItem>
             ))}
           </Select>

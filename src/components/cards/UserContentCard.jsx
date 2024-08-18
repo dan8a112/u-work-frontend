@@ -69,15 +69,15 @@ function renderForm(contentType, changeData, handleClose) {
       case "academic":
           return(<HistorialAcademicoForm changeData={changeData} handleClose={handleClose}/>);
       case "medic":
-          return(<HistorialMedicoForm/>);
+          return(<HistorialMedicoForm changeData={changeData} handleClose={handleClose}/>);
       case "secure":
-        return(<SegurosForm/>);
+        return(<SegurosForm changeData={changeData} handleClose={handleClose}/>);
       case "experience":
-        return(<ExperienciaLaboralForm/>);
+        return(<ExperienciaLaboralForm changeData={changeData} handleClose={handleClose}/>);
       case "languages":
-        return(<IdiomasForm/>);
+        return(<IdiomasForm changeData={changeData} handleClose={handleClose}/>);
       case "familiar":
-          return(<FamiliaresForm/>)
+          return(<FamiliaresForm changeData={changeData} handleClose={handleClose}/>)
       default:
           return "unknown type"
   }

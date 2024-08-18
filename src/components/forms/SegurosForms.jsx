@@ -1,23 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormValidation } from "../../hooks/useFormValidation";
-
-const options = {
-    tipoSeguros: [
-        {
-            id: "1",
-            label: "Salud"
-        },
-        {
-            id: "2",
-            label: "Vida"  
-        },
-        {
-            id: "3",
-            label: "Auto"
-        }
-    ]
-};
+import axios from "axios";
 
 const style = {
     position: 'absolute',
@@ -32,10 +16,28 @@ const style = {
     p: 4
   };
 
-export function SegurosForm(){
+export function SegurosForm({changeData, handleClose}){
+
+    const [tipoSeguros, setTipoSeguros] = useState(null); 
+
+    useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const tipoSeg = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/tipo-seguro/mostrar`
+          );
+
+          setTipoSeguros(tipoSeg.data)
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      fetchData();
+    },[])
+
     
     const validations = {
-      tipoSeguros: { required: true },
+      tipoSeguro: { required: true },
       fechaAfiliacion: { required: true },
       fechaExpiracion: { required: true },
       numeroAfiliacion: { required: true },
@@ -51,39 +53,62 @@ export function SegurosForm(){
       });
     }
 
-    const handleSubmit = ()=>{
-      if(validateForm(formValues)){
-        console.log("se envia formulario");
+    const handleSubmit = async ()=>{
+      const idApplicant = localStorage.getItem('idPersonaSoli');
+      try {
+        if(validateForm(formValues)){
+          const response = await axios.post(
+            `http://localhost:5001/api/usuario/agg-seguro-solicitante/${idApplicant}`,
+            formValues
+          )
+          if (response.status ===200) {
+
+            changeData(prevState => {
+              const newItem = {
+                titulo: tipoSeguros.find(tipo => tipo.idTipoSeguro == formValues.tipoSeguro).tipoSeguro,
+                fechaAfiliacion: formValues.fechaAfiliacion, 
+                fechaExpiracion: formValues.fechaExpiracion, 
+                numeroAfiliacion: formValues.numeroAfiliacion
+              }
+  
+              return [...prevState, newItem];
+            });
+            handleClose();
+            alert('Se ha agregado un nuevo elemento a tu perfil, revisalo!');
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 
     const [formValues, setFormValues] = useState({
-        tipoSeguros: "",
+        tipoSeguro: "",
         fechaAfiliacion: "",
         fechaExpiracion: "",
         numeroAfiliacion: "",
       });
 
-    return (
+    return (tipoSeguros &&
       <Box sx={style}>
         <Typography variant="h6" marginBottom={3}>
           Agrega un seguro
         </Typography>
-        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.tipoSeguros}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.tipoSeguro}>
           <InputLabel>Tipo de Seguros</InputLabel>
           <Select
-            name="tipoSeguros"
-            value={formValues.tipoSeguros}
+            name="tipoSeguro"
+            value={formValues.tipoSeguro}
             onChange={handleChange}
             label="Tipo de Seguros"
           >
-            {options.tipoSeguros.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {tipoSeguros.map((value, index) => (
+              <MenuItem value={value.idTipoSeguro} key={index}>
+                {value.tipoSeguro}
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{errors.tipoSeguros}</FormHelperText>
+          <FormHelperText>{errors.tipoSeguro}</FormHelperText>
         </FormControl>
         <TextField
           sx={{ mt: 2, width: "100%" }}

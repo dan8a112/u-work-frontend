@@ -64,11 +64,11 @@ export function UserProfile({from, action}){
                 <Typography>{datosPersonales.descripcion}</Typography>
             </DetalleOfertaCard>
             <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from} changeData={setFormacion}></UserContentCard>
-            <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from}></UserContentCard>
-            <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from}></UserContentCard>
-            <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from}></UserContentCard>
-            <UserContentCard title="Familiares" contentType="familiar" data={familiares} from={from}></UserContentCard>
-            <UserContentCard title="Historial Medico" contentType="medic" data={historialMedico} from={from}></UserContentCard>
+            <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from} changeData={setExperiencia}></UserContentCard>
+            <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from} changeData={setIdiomas}></UserContentCard>
+            <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from} changeData={setSeguros}></UserContentCard>
+            <UserContentCard title="Familiares" contentType="familiar" data={familiares} from={from} changeData={setFamiliares}></UserContentCard>
+            <UserContentCard title="Historial Medico" contentType="medic" data={historialMedico} from={from} changeData={setHistorialMedico}></UserContentCard>
         </Container>
     );
 }

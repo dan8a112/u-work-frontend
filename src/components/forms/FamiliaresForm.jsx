@@ -1,48 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography, Grid} from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormValidation } from "../../hooks/useFormValidation";
-
-const genderOptions = {
-    genero: [
-        {
-            id: "1",
-            label: "Masculino"
-        },
-        {
-            id: "2",
-            label: "Femenino"
-        },
-        {
-            id: "3",
-            label: "Otro"
-        }
-    ]
-};
-
-const relationshipOptions = {
-    parentesco: [
-        {
-            id: "1",
-            label: "Padre"
-        },
-        {
-            id: "2",
-            label: "Madre"
-        },
-        {
-            id: "3",
-            label: "Hermano"
-        },
-        {
-            id: "4",
-            label: "Hermana"
-        },
-        {
-            id: "5",
-            label: "Cónyuge"
-        }
-    ]
-};
+import axios from "axios";
 
 const style = {
     position: 'absolute',
@@ -57,7 +16,32 @@ const style = {
     p: 4
   };
 
-export function FamiliaresForm(){
+export function FamiliaresForm({changeData, handleClose}){
+
+    const [generos, setGeneros] = useState(null); 
+    const [parentescos, setParentescos] = useState(null);
+    const [success, setSuccess] = useState(false);
+
+    useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const generosRes = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/genero/mostrar`
+          );
+
+          const parentescosRes = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/parentesco/mostrar`
+          );
+
+          setGeneros(generosRes.data)
+          setParentescos(parentescosRes.data)
+          setSuccess(true);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      fetchData();
+    },[])
     
     const validations = {
       primerNombre: { required: true },
@@ -66,8 +50,8 @@ export function FamiliaresForm(){
       segundoApellido: { required: false },
       telefono: { required: true },
       identificacion: { required: true },
-      genero: { required: true },
-      parentesco: { required: true },
+      idGenero: { required: true },
+      idParentesco: { required: true },
     };
   
     const { errors, validateForm, resetForm } = useFormValidation(validations);
@@ -80,9 +64,32 @@ export function FamiliaresForm(){
       });
     }
 
-    const handleSubmit = ()=>{
-      if(validateForm(formValues)){
-        console.log("se envia formulario");
+    const handleSubmit = async ()=>{
+      const idApplicant = localStorage.getItem('idPersonaSoli');
+      try {
+        if(validateForm(formValues)){
+          const response = await axios.post(
+            `http://localhost:5001/api/usuario/agg-familiar-solicitante/${idApplicant}`,
+            formValues
+          )
+          if (response.status ===200) {
+
+            changeData(prevState => {
+              const newItem = {
+                nombre: `${formValues.primerNombre} ${formValues.primerApellido}`, 
+                identificacion: formValues.identificacion, 
+                telefono: formValues.telefono, 
+                parentesco: parentescos.find(parentesco=>parentesco.id_parentescos == formValues.idParentesco).parentesco
+              }
+  
+              return [...prevState, newItem];
+            });
+            handleClose();
+            alert('Se ha agregado un nuevo elemento a tu perfil, revisalo!');
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
     }
 
@@ -93,11 +100,11 @@ export function FamiliaresForm(){
         segundoApellido: "",
         telefono: "",
         identificacion: "",
-        genero: "",
-        parentesco: "",
+        idGenero: "",
+        idParentesco: "",
       });
 
-    return (
+    return (success &&
       <Box sx={style}>
         <Typography variant="h6" marginBottom={3}>
           Agrega un nuevo familiar
@@ -180,37 +187,37 @@ export function FamiliaresForm(){
           error={!!errors.identificacion}
           helperText={errors.identificacion}
         />
-        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.genero}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.idGenero}>
           <InputLabel>Género</InputLabel>
           <Select
-            name="genero"
-            value={formValues.genero}
+            name="idGenero"
+            value={formValues.idGenero}
             onChange={handleChange}
             label="Género"
           >
-            {genderOptions.genero.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {generos.map((value, index) => (
+              <MenuItem value={value.id_genero} key={index}>
+                {value.genero}
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{errors.genero}</FormHelperText>
+          <FormHelperText>{errors.idGenero}</FormHelperText>
         </FormControl>
-        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.parentesco}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.idParentesco}>
           <InputLabel>Parentesco</InputLabel>
           <Select
-            name="parentesco"
-            value={formValues.parentesco}
+            name="idParentesco"
+            value={formValues.idParentesco}
             onChange={handleChange}
             label="Parentesco"
           >
-            {relationshipOptions.parentesco.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+            {parentescos.map((value, index) => (
+              <MenuItem value={value.id_parentescos} key={index}>
+                {value.parentesco}
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{errors.parentesco}</FormHelperText>
+          <FormHelperText>{errors.idParentesco}</FormHelperText>
         </FormControl>
         <Button
           variant="contained"
