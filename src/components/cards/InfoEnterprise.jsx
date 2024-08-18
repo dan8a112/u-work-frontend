@@ -28,8 +28,8 @@ const CompanyProfileCard = ({ company }) => {
           }}
         >
           <img 
-            src={company.imageUrl} 
-            alt={company.name} 
+            src={company.urlFotoEmpresa} 
+            alt={company.nombreEmpresa} 
             style={{ 
               maxWidth: '100%', 
               maxHeight: '100%', 
@@ -42,17 +42,17 @@ const CompanyProfileCard = ({ company }) => {
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {/* Nombre de la Empresa */}
           <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold' }}>
-            {company.name}
+            {company.nombreEmpresa}
           </Typography>
           
           {/* Industria y Ofertas Publicadas */}
           <Typography variant="body1" sx={{ color: 'text.secondary', marginTop: 1 }}>
-            {company.industry} • {company.offersCount} ofertas publicadas
+            {company.nombreIndustria} • {company.ofertasPublicadas} ofertas publicadas
           </Typography>
           
           {/* País */}
           <Typography variant="h6" sx={{ color: 'text.primary', marginTop: 2 }}>
-            {company.country}
+            {company.pais}
           </Typography>
         </Box>
       </Card>

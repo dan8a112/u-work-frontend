@@ -149,6 +149,7 @@ export function HomeEnterprise() {
                   key={index}
                   index={index + 1}
                   card={{
+                    idOfertas: oferta[0],
                     nombreOferta: oferta[1],
                     descripcion: oferta[2],
                     fechaPublicacion: oferta[3],
