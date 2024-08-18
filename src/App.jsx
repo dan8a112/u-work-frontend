@@ -24,7 +24,7 @@ function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise/:idCompany", "/offersDetailEnterprise", "/Applicants"];
   const showTabbarAdmin = ["/homeAdmin"];
 
   const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
@@ -49,8 +49,8 @@ function App() {
         <Route path='/homeEnterprise/:idCompany' element={<HomeEnterprise />} />
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
         <Route path='/createOffer' element={<CreateOffer />} />
-        <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise />} />
-        <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
+        <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
+        <Route path='/OffersEnterprise/:idCompany' element={<OffersEnterprise />} />
         <Route path='/Applicants' element={<OfferApplicants />} />
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise" />} />
