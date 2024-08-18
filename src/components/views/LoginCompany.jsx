@@ -9,7 +9,7 @@ export function LoginCompany() {
 
     const handleLogin = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/login/solicitante', {
+            const response = await axios.post('http://localhost:5001/api/login/empresa', {
                 correo: email,
                 contrasena: password
             });

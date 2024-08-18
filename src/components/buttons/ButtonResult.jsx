@@ -2,7 +2,7 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
-export default function ButtonDictum({ text, backgroundColor, icon}) {
+export default function ButtonDictum({ text, backgroundColor, icon, onClick}) {
   return (
     <Button
       size='small'
@@ -18,6 +18,7 @@ export default function ButtonDictum({ text, backgroundColor, icon}) {
       variant="contained"
       tabIndex={-1}
       startIcon={icon}
+      onClick={onClick}
     >
       {text}
     </Button>

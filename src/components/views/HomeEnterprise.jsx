@@ -160,6 +160,7 @@ export function HomeEnterprise() {
       </Box>
 
       <NotificationDetail
+        serviceType={1}
         open={openNotification}
         handleClose={handleCloseNotification}
         idNotification={selectedNotification}
