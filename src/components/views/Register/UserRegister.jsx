@@ -217,7 +217,6 @@ export function UserRegister({userData, edit}){
       correo,
       contrasena,
       telefono: numeroTelefono,
-      fechaNacimiento,
       idPaisResidencia: paisResidencia,
       idLugarNacimiento: nacionalidad,
       idEstadoCivil: estadoCivil,

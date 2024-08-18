@@ -32,7 +32,6 @@ export function MenuAdmin({menuItems, saveMenuItemState}){
                 boxSizing: 'border-box',
                 width: '90%',
                 p: '5% 0',
-                overflowY: 'auto',
                 overflowY: 'scroll',
                 '&::-webkit-scrollbar': {
                     display: 'none',
