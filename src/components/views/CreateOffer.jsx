@@ -1,113 +1,27 @@
 import { Box, Button, Container, FormControl, Grid, Icon, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { SectionFormCard } from "../cards/SectionFormCard";
-import { ItemsOfertaCard, ItemsOfertaDual } from "../cards/ItemsOfertaCard";
+import { ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { Add, Delete } from "@mui/icons-material";
 import { useEffect, useState } from "react";
-
-const options = {
-    tiposEmpleos: [
-        {
-            idTipoEmpleo: 1,
-            tipoEmpleo: "Tecnologias de la informacion"
-        },
-        {
-            idTipoEmpleo: 2,
-            tipoEmpleo: "Banca y finanzas"
-        }
-    ],
-    tiposContratos:[
-        {
-            idTipoContrato: 1,
-            tipoContrato: "Temporal"
-        },
-        {
-            idTipoContrato: 2,
-            tipoContrato: "Permanente"
-        }
-    ],
-    paises:[
-        {
-           idPais: 1,
-           pais: 'Honduras' 
-        },
-        {
-          idPais: 2,
-          pais: "Nicaragua"
-        }
-    ],
-    habilidadesRequeridas:[
-        {
-            idFormacionProfesional: 1,
-            Formacion: "React"
-        },
-        {
-            idFormacionProfesional: 2,
-            Formacion: "Ingenieria en sistemas"
-        }
-    ],
-    nivelesAcademicos: [
-        {
-          idNivelAcademico:1,
-          nivelAcademico: "Educacion Basica"
-        },
-        {
-          idNivelAcademico: 2,
-          nivelAcademico: "Educacion Secundaria"
-        },
-        {
-          idNivelAcademico: 3,
-          nivelAcademico: "Educacion superior (pregrado)"
-        }
-    ],
-    modalidades: [
-      {
-        idModalidad: 1,
-        modalidad: "Remoto"
-      },
-      {
-        idModalidad: 2,
-        modalidad: "Presencial"
-      }
-    ],
-    puestos: [
-        {
-            idPuesto: 1,
-            puesto: "Consultor de sistemas"
-        },
-        {
-            idPuesto: 2,
-            puesto: "Programador frontEnd"
-        }
-    ],
-    idiomas: [
-        {
-            idIdioma: 1,
-            idioma: "Ingles"
-        },
-        {
-            idIdioma: 2,
-            idioma: "Español"
-        }
-    ],
-    niveles: [
-        {
-            idNivel: 1,
-            nivel: "Basico"
-        },
-        {
-            idNivel: 2,
-            nivel: "Intermedio"
-        },
-        {
-            idNivel: 3,
-            nivel: "Avanzado"
-        }
-    ]
-}
+import axios from "axios";
+import { useFormValidation } from "../../hooks/useFormValidation";
 
 export function CreateOffer(){
 
-    const [showDepartments, setShowDepartments] = useState(false);
+  const [options, setOptions] = useState(null);
+
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const optionsRes = await axios.get('http://localhost:5001/api/crearOferta/info');
+          setOptions(optionsRes.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      fetchData();
+    }, []);
 
 
     const [formValues, setFormValues] = useState({
@@ -123,25 +37,10 @@ export function CreateOffer(){
         pais: "",
         departamento: "",
         municipio: "",
+        requisitosAcademicos: [],
+        experienciaLaboral: [],
         idiomas: []
     })
-
-    const data = {
-      titulo: "Programador backend con habilidades en nextjs",
-      plazasDisponibles: 2,
-      fechaExpiracion: "2024-08-14",
-      descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Necessitatibus dicta dignissimos sint expedita maiores nulla fugiat",
-      tipoEmpleo: 1,
-      tipoContrato: 1,
-      nivelAcademico: 2,
-      modalidad: 1,
-      puestos: [1,2,3],
-      lugar: 3,
-      idiomas: [
-        {idIdioma: 1, idNivelIdioma: 2},
-        {idIdioma: 2, idNivelIdioma: 1}
-      ]
-    }
 
     const [idioma, setIdioma] = useState("");
     const [nivelIdioma, setNivelIdioma] = useState("");
@@ -167,8 +66,6 @@ export function CreateOffer(){
 
       setIdioma("")
       setNivelIdioma("")
-
-      console.log(formValues.idiomas)
     }
 
     const handleDeleteIdioma = (indexSelected)=>{
@@ -178,18 +75,73 @@ export function CreateOffer(){
       })
     }
 
+    const [showDepartments, setShowDepartments] = useState(false);
+    const [departamentsData, setDepartamentsData] = useState([]);
+    const [municipiosData, setMunicipiosData] = useState([]);
+
     useEffect(()=>{
+
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            "http://localhost:5001/api/lugares/dep"
+          );
+          setDepartamentsData(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
       if (formValues.pais == 1) {
+        fetchData();
         setShowDepartments(true);
       }else{
         setShowDepartments(false);
       }
     },[formValues.pais])
 
-    return (
+    useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5001/api/lugares/mun/${formValues.departamento}`
+          );
+          setMunicipiosData(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+  
+      if (formValues.departamento) {
+        fetchData();
+      }
+    }, [formValues.departamento])
+
+
+    //Funcion que envia el formulario
+    const handleSubmit = (e)=>{
+
+      e.preventDefault();
+
+      const formSubmit = {... formValues};
+
+      //Logica para enviar departamento o municipio en caso que se haya elegido
+      if (formSubmit.departamento != "") {
+          formSubmit.lugar = formSubmit.departamento;
+          delete formSubmit.pais;
+          delete formSubmit.departamento;
+      if (formSubmit.municipio != "") {
+          formSubmit.lugar = formSubmit.municipio;
+          delete formSubmit.municipio;
+      }
+      }
+
+    }
+
+    return (options &&
       <Container maxWidth="md" sx={{ mt: 3 }}>
         <Typography variant="h4">Crea una oferta</Typography>
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <SectionFormCard title="Informacion General">
             <TextField
               label="Titulo"
@@ -198,6 +150,7 @@ export function CreateOffer(){
               name="titulo"
               value={formValues.titulo}
               onChange={handleChange}
+              required
             />
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -210,6 +163,7 @@ export function CreateOffer(){
                   value={formValues.plazasDisponibles}
                   onChange={handleChange}
                   fullWidth
+                  required
                 />
               </Grid>
               <Grid item xs={6}>
@@ -222,6 +176,7 @@ export function CreateOffer(){
                   value={formValues.fechaExpiracion}
                   onChange={handleChange}
                   fullWidth
+                  required
                 />
               </Grid>
             </Grid>
@@ -234,6 +189,7 @@ export function CreateOffer(){
               onChange={handleChange}
               multiline
               rows={5}
+              required
             />
           </SectionFormCard>
           <SectionFormCard title="Detalles de la oferta">
@@ -245,7 +201,8 @@ export function CreateOffer(){
               label="Tipo de empleo"
               name="tipoEmpleo"
               value={formValues.tipoEmpleo}
-              onChange={handleChange}>
+              onChange={handleChange}
+              required>
                 {options.tiposEmpleos.map((value)=><MenuItem key={value.idTipoEmpleo} value={value.idTipoEmpleo}>{value.tipoEmpleo}</MenuItem>)}
               </Select>
             </FormControl>
@@ -258,8 +215,9 @@ export function CreateOffer(){
               name="tipoContrato"
               value={formValues.tipoContrato}
               onChange={handleChange}
+              required
               >
-                {options.tiposContratos.map((value)=><MenuItem key={value.idTipoContrato} value={value.idTipoContrato}>{value.tipoContrato}</MenuItem>)}
+                {options.tiposContratos.map((value)=><MenuItem key={value.idContrato} value={value.idContrato}>{value.contrato}</MenuItem>)}
                 </Select>
             </FormControl>
 
@@ -271,6 +229,7 @@ export function CreateOffer(){
               name="nivelAcademico"
               value={formValues.nivelAcademico}
               onChange={handleChange}
+              required
               >
                 {options.nivelesAcademicos.map((value)=><MenuItem key={value.idNivelAcademico} value={value.idNivelAcademico}>{value.nivelAcademico}</MenuItem>)}
                 </Select>
@@ -284,6 +243,7 @@ export function CreateOffer(){
               name="modalidad"
               value={formValues.modalidad}
               onChange={handleChange}
+              required
               >
                 {options.modalidades.map((value)=><MenuItem key={value.idModalidad} value={value.idModalidad}>{value.modalidad}</MenuItem>)}                
                 </Select>
@@ -298,8 +258,9 @@ export function CreateOffer(){
               value={formValues.puestos}
               onChange={handleChange}
               multiple
+              required
               >
-              {options.puestos.map((value)=><MenuItem key={value.idPuesto} value={value.idPuesto}>{value.puesto}</MenuItem>)}                
+              {options.puestos.map((value)=><MenuItem key={value.id_puesto} value={value.id_puesto}>{value.puesto}</MenuItem>)}                
               </Select>
             </FormControl>
 
@@ -311,8 +272,9 @@ export function CreateOffer(){
               name="pais"
               value={formValues.pais}
               onChange={handleChange}
+              required
               >
-              {options.paises.map((value)=><MenuItem key={value.idPais} value={value.idPais}>{value.pais}</MenuItem>)}                
+              {options.paises.map((value)=><MenuItem key={value.id_lugar} value={value.id_lugar}>{value.nombre_lugar}</MenuItem>)}                
               </Select>
             </FormControl>
 
@@ -325,22 +287,24 @@ export function CreateOffer(){
               name="departamento"
               value={formValues.departamento}
               onChange={handleChange}
+              required
               >
-              {options.paises.map((value)=><MenuItem key={value.idPais} value={value.idPais}>{value.pais}</MenuItem>)}                
+              {departamentsData.map((value)=><MenuItem key={value.id_lugar} value={value.id_lugar}>{value.nombre_lugar}</MenuItem>)}                
               </Select>
             </FormControl>)}
 
             {showDepartments && (
                 <FormControl fullWidth size="small">
-              <InputLabel id="departamento">Departamento</InputLabel>
+              <InputLabel id="municipio">Municipio</InputLabel>
               <Select 
-              labelId="departamento" 
+              labelId="municipio" 
               label="Departamento"
-              name="departamento"
-              value={formValues.departamento}
+              name="municipio"
+              value={formValues.municipio}
               onChange={handleChange}
+              required
               >
-              {options.paises.map((value)=><MenuItem key={value.idPais} value={value.idPais}>{value.pais}</MenuItem>)}                
+              {municipiosData.map((value)=><MenuItem key={value.id_lugar} value={value.id_lugar}>{value.nombre_lugar}</MenuItem>)}                
               </Select>
             </FormControl>)}
 
@@ -349,14 +313,19 @@ export function CreateOffer(){
           <SectionFormCard title="Requisitos de la oferta">
 
             <FormControl fullWidth size="small">
-              <InputLabel id="habilidadRequerida">
+              <InputLabel id="requisitosAcademicos">
                 Habilidades Requeridas
               </InputLabel>
               <Select
-                labelId="habilidadRequerida"
-                label="Habilidades Requeridas"
+              labelId="requisitosAcademicos" 
+              label="Requisitos Academicos"
+              name="requisitosAcademicos"
+              value={formValues.requisitosAcademicos}
+              onChange={handleChange}
+              multiple
+              required
               >
-                <MenuItem value={10}>Ten</MenuItem>
+              {options.formacionesAcademicas.map((value)=><MenuItem key={value.idFormacionProfesional} value={value.idFormacionProfesional}>{value.formacionProfesional}</MenuItem>)}                
               </Select>
             </FormControl>
 
@@ -364,8 +333,16 @@ export function CreateOffer(){
               <InputLabel id="experienciaLaboral">
                 Experiencia laboral
               </InputLabel>
-              <Select labelId="experienciaLaboral" label="Experiencia laboral">
-                <MenuItem value={10}>Ten</MenuItem>
+              <Select
+              labelId="experienciaLaboral" 
+              label="Experiencia Laboral"
+              name="experienciaLaboral"
+              value={formValues.experienciaLaboral}
+              onChange={handleChange}
+              multiple
+              required
+              >
+              {options.puestos.map((value, index)=><MenuItem key={index} value={value.id_puesto}>{value.puesto}</MenuItem>)}
               </Select>
             </FormControl>
             
@@ -394,7 +371,7 @@ export function CreateOffer(){
                   value={nivelIdioma}
                   onChange={(e)=>{setNivelIdioma(e.target.value)}}
                   >
-              {options.niveles.map((value)=><MenuItem key={value.idNivel} value={value.idNivel}>{value.nivel}</MenuItem>)}                
+              {options.nivelIdioma.map((value)=><MenuItem key={value.idNivelIdioma} value={value.idNivelIdioma}>{value.nivelIdioma}</MenuItem>)}                
               </Select>
                 </FormControl>
               </Grid>
@@ -409,7 +386,7 @@ export function CreateOffer(){
             <Box  key={index} sx={{display:"flex"}}>
             <ItemsOfertaDual
             itemName={options.idiomas.find(i => i.idIdioma === value.idIdioma).idioma} 
-            detail={options.niveles.find(i => i.idNivel === value.idNivelIdioma).nivel}/>
+            detail={options.nivelIdioma.find(i => i.idNivelIdioma === value.idNivelIdioma).nivelIdioma}/>
             <IconButton onClick={()=>{handleDeleteIdioma(index)}}>
               <Delete color="error"></Delete>
             </IconButton>
@@ -418,7 +395,7 @@ export function CreateOffer(){
             </Box>
           </SectionFormCard>
           <Box sx={{display:"flex", justifyContent:"end", margin: "50px 45px 40px"}}>
-            <Button size="large" variant="contained" onClick={()=>{console.log(formValues)}}>Crear Oferta</Button>
+            <Button size="large" variant="contained" type="submit">Crear Oferta</Button>
           </Box>
         </form>
       </Container>
