@@ -23,7 +23,7 @@ export default function NotificationDetail({ open, handleClose, idNotification, 
         updateUrl = `http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`;
       } else if (serviceType === 1) {
         detailUrl = `http://localhost:5001/api/empresa/notificacion/${idNotification}`;
-        updateUrl = `http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`;
+        updateUrl = `http://localhost:5001/api/empresa/act-estado-notificaicon/${idNotification}`;
         // Añade más casos si es necesario
       }
 

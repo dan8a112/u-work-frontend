@@ -147,7 +147,7 @@ export function HomeEnterprise() {
                   key={index}
                   index={index + 1}
                   card={{
-                    titulo: oferta[1],
+                    nombreOferta: oferta[1],
                     descripcion: oferta[2],
                     fechaPublicacion: oferta[3],
                     src: "/offersDetailEnterprise"

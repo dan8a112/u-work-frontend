@@ -14,14 +14,17 @@ import MenuItem from '@mui/material/MenuItem';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useNavigate } from 'react-router-dom';
 
+
+const idCompany = localStorage.getItem('idEmpresa'); 
+
 const pages = [
   {
     text: "Inicio",
-    src: "/homeEnterprise",
+    src: `/homeEnterprise/${idCompany}`,
   },
   {
     text: "Ofertas",
-    src: "/OffersEnterprise",
+    src: `/OffersEnterprise/${idCompany}`,
   },
   {
     text: "Solicitudes",
@@ -32,7 +35,7 @@ const pages = [
 const settings = [
   {
     text: "Profile",
-    src: "/EnterpriseProfile",
+    src: `/EnterpriseProfile/${idCompany}`,
   },
   {
     text: "Logout",
