@@ -16,6 +16,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function ExperienciaLaboralForm({changeData, handleClose}){
 
   //Opciones de puestos disponibles
@@ -25,7 +27,7 @@ export function ExperienciaLaboralForm({changeData, handleClose}){
     const fetchData = async () => {
       try {
         const puestos = await axios.get(
-          `http://localhost:5001/api/tablas/mantenimiento/admin/puesto/mostrar`
+          `${apiUrl}/api/tablas/mantenimiento/admin/puesto/mostrar`
         );
 
         setOptions(puestos.data)
@@ -59,7 +61,7 @@ export function ExperienciaLaboralForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-experiencia-lab/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-experiencia-lab/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

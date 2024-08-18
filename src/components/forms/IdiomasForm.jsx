@@ -33,6 +33,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function IdiomasForm({changeData, handleClose}){
     
     const [levels, setLevels] = useState(null); 
@@ -42,11 +44,11 @@ export function IdiomasForm({changeData, handleClose}){
       const fetchData = async () => {
         try {
           const niveles = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/nivel-idioma/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/nivel-idioma/mostrar`
           );
 
           const idiomas = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/idioma/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/idioma/mostrar`
           );
 
           setLevels(niveles.data)
@@ -78,7 +80,7 @@ export function IdiomasForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-solicitante-idioma/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-solicitante-idioma/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

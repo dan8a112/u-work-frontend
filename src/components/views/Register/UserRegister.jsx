@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const steps = ['Datos Personales', 'Cuenta', 'Contacto'];
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function UserRegister({userData, edit}){
 
   const navigate = useNavigate();
@@ -184,7 +186,7 @@ export function UserRegister({userData, edit}){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/SIR/info");
+        const response = await axios.get(`${apiUrl}/api/SIR/info`);
         setOptions(response.data);
       } catch (error) {
         console.error(error);
@@ -215,7 +217,6 @@ export function UserRegister({userData, edit}){
       correo,
       contrasena,
       telefono: numeroTelefono,
-      fechaNacimiento,
       idPaisResidencia: paisResidencia,
       idLugarNacimiento: nacionalidad,
       idEstadoCivil: estadoCivil,
@@ -234,7 +235,7 @@ export function UserRegister({userData, edit}){
     try {
       if (!edit) {
         const res = axios.post(
-          "http://localhost:5001/api/usuario/ingresar",
+          `${apiUrl}/api/usuario/ingresar`,
           formSubmit
         );
         console.log(res.data);
@@ -244,7 +245,7 @@ export function UserRegister({userData, edit}){
         console.log(formSubmit);
 
         const res = axios.put(
-          "http://localhost:5001/api/actualizarUsuario/7",
+          `${apiUrl}/api/actualizarUsuario/7`,
           formSubmit
         );
         console.log(res.data);

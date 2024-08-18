@@ -3,6 +3,8 @@ import { Dialog, FormControlLabel, FormGroup, Switch, DialogTitle, DialogContent
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function PreferenciasEmpleoModal({open, handleClose}){
 
     const [preferences, setPreferences] = useState({
@@ -21,13 +23,13 @@ export function PreferenciasEmpleoModal({open, handleClose}){
       const fetchData = async () => {
         try {
           const contratos = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/contrato/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/contrato/mostrar`
           );
           const puestos = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/puesto/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/puesto/mostrar`
           );
           const modalidades = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/modalidad/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/modalidad/mostrar`
           );
 
           const transformedPuestos = puestos.data.map(puesto => ({
@@ -48,7 +50,7 @@ export function PreferenciasEmpleoModal({open, handleClose}){
       const fetchUserPreferences = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5001/api/solicitante/preferencias/${idApplicant}`
+            `${apiUrl}/api/solicitante/preferencias/${idApplicant}`
           );
           setDataOnState(response.data);
         } catch (error) {
@@ -132,7 +134,7 @@ export function PreferenciasEmpleoModal({open, handleClose}){
     const handleSubmitPreferences = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:5001/api/solicitante/preferencias/act/${idApplicant}`,
+          `${apiUrl}/api/solicitante/preferencias/act/${idApplicant}`,
           preferences
         );
         if (response.status === 200) {

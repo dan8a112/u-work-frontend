@@ -4,12 +4,14 @@ import DenseAppBar from '../headers/DenseAppBar';
 import LoginCard from '../cards/LoginCard';
 import { useNavigate } from 'react-router-dom';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function Login() {
     const navigate = useNavigate();
 
     const handleLogin = async (email, password) => {
         try {
-            const response = await axios.post('http://localhost:5001/api/login/solicitante', {
+            const response = await axios.post(`${apiUrl}/api/login/solicitante`, {
                 correo: email,
                 contrasena: password
             });

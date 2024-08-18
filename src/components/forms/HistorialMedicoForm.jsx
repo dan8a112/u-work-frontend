@@ -16,6 +16,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function HistorialMedicoForm({changeData, handleClose}){
 
     const [condicionMed, setCondicionMed] = useState(null); 
@@ -24,7 +26,7 @@ export function HistorialMedicoForm({changeData, handleClose}){
       const fetchData = async () => {
         try {
           const condicionRes = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/condicion-medica/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/condicion-medica/mostrar`
           );
 
           setCondicionMed(condicionRes.data)
@@ -55,7 +57,7 @@ export function HistorialMedicoForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-historial-medico-solicitante/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-historial-medico-solicitante/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

@@ -16,6 +16,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function HistorialAcademicoForm({changeData, handleClose}){
 
   const [options, setOptions] = useState(null); 
@@ -24,10 +26,10 @@ export function HistorialAcademicoForm({changeData, handleClose}){
     const fetchData = async () => {
       try {
         const nivelesAcad = await axios.get(
-          `http://localhost:5001/api/tablas/mantenimiento/admin/nivel-academico/mostrar`
+          `${apiUrl}/api/tablas/mantenimiento/admin/nivel-academico/mostrar`
         );
         const formacionesProf = await axios.get(
-          `http://localhost:5001/api/tablas/mantenimiento/admin/formacion-prof/mostrar`
+          `${apiUrl}/api/tablas/mantenimiento/admin/formacion-prof/mostrar`
         )
 
         setOptions({
@@ -64,7 +66,7 @@ export function HistorialAcademicoForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-historial-academico/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-historial-academico/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

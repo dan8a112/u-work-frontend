@@ -16,6 +16,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function SegurosForm({changeData, handleClose}){
 
     const [tipoSeguros, setTipoSeguros] = useState(null); 
@@ -24,7 +26,7 @@ export function SegurosForm({changeData, handleClose}){
       const fetchData = async () => {
         try {
           const tipoSeg = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/tipo-seguro/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/tipo-seguro/mostrar`
           );
 
           setTipoSeguros(tipoSeg.data)
@@ -58,7 +60,7 @@ export function SegurosForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-seguro-solicitante/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-seguro-solicitante/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

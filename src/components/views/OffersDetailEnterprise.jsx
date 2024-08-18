@@ -7,28 +7,7 @@ import { Delete, Edit, MoreVert } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-
-const information = {
-    nombreOferta: "Trabajo desde casa como ingeniero de software y manager de base de datos",
-    urlEmpresa: "img/bac_logo.svg",
-    nombreEmpresa: "BAC CREDOMATIC",
-    fechaPublicacion: "17 Jun, 2024",
-    fechaPublicacion: "31 Jun, 2024",
-    lugar: "Tegucigalpa, Francisco Morazan, Honduras",
-    tipoEmpleo: "Tecnologias de la informacion",
-    cargos: ["Programador", "DatabaseManager"],
-    vacantes: 1,
-    tipoContratacion: "Tiempo completo",
-    modalidad: "En remoto",
-    nivelAcademico: "Educacion Superior",
-    descripcion: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis necessitatibus, assumenda quod dolorum explicabo laboriosam molestias et officiis magnam voluptates, rerum eligendi nemo dolore velit ipsam optio ipsa eum unde?",
-    requisitosAcademicos: ["React", "Diseno Grafico", "MySQL", "Ingenieria en Sistemas"],
-    experienciaRequerida: ["Programador Frontend", "Database Manager"],
-    idiomas: [{nombre: "Ingles", nivel:"Avanzado"},{nombre: "Espanol", nivel:"Nativo"}],
-    aplicantes: ["img/man.png","img/woman.png","img/man.png","img/man.png"],
-    cantidadAplicantes: 12,
-    src: "/Applicants",
-}
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export function OffersDetailEnterprise(){
 
@@ -42,7 +21,7 @@ export function OffersDetailEnterprise(){
         const fetchData = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5001/api/ofertas/detalleEmpresa/${idOffer}`
+              `${apiUrl}/api/ofertas/detalleEmpresa/${idOffer}`
             );
             setOffer(response.data);
           } catch (error) {

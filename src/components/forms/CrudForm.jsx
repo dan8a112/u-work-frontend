@@ -2,6 +2,8 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { useState } from "react";
 import { useFormValidation } from "../../hooks/useFormValidation";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function CrudForm({open, handleClose, path, name, label}){
     
     const validations = {
@@ -26,7 +28,7 @@ export function CrudForm({open, handleClose, path, name, label}){
         try {
             if(validateForm(formValues)){
                 const res = axios.post(
-                    `http://localhost:5001/api/${path}`,
+                    `${apiUrl}/api/${path}`,
                     formValues
                   );
                   console.log(res.data);

@@ -16,6 +16,8 @@ const style = {
     p: 4
   };
 
+  const apiUrl = import.meta.env.VITE_API_URL;
+
 export function FamiliaresForm({changeData, handleClose}){
 
     const [generos, setGeneros] = useState(null); 
@@ -26,11 +28,11 @@ export function FamiliaresForm({changeData, handleClose}){
       const fetchData = async () => {
         try {
           const generosRes = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/genero/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/genero/mostrar`
           );
 
           const parentescosRes = await axios.get(
-            `http://localhost:5001/api/tablas/mantenimiento/admin/parentesco/mostrar`
+            `${apiUrl}/api/tablas/mantenimiento/admin/parentesco/mostrar`
           );
 
           setGeneros(generosRes.data)
@@ -69,7 +71,7 @@ export function FamiliaresForm({changeData, handleClose}){
       try {
         if(validateForm(formValues)){
           const response = await axios.post(
-            `http://localhost:5001/api/usuario/agg-familiar-solicitante/${idApplicant}`,
+            `${apiUrl}/api/usuario/agg-familiar-solicitante/${idApplicant}`,
             formValues
           )
           if (response.status ===200) {

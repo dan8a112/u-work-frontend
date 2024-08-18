@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function UserProfile({from, action}){
 
     const [datosPersonales, setDatosPersonales] = useState(null);
@@ -20,7 +22,7 @@ export function UserProfile({from, action}){
         const idApplicant = localStorage.getItem('idPersonaSoli');
         const fetchData = async () => {
             try {
-              const response = await axios.get(`http://localhost:5001/api/perfil/${idApplicant}`);
+              const response = await axios.get(`${apiUrl}/api/perfil/${idApplicant}`);
                 setDatosPersonales(response.data.datosPersonales);
                 setFormacion(response.data.formacion);
                 setHistorialMedico(response.data.historialMedico);

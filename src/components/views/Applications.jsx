@@ -5,6 +5,8 @@ import ApplicationCard from '../cards/ApplicationCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const CenteredBox = styled(Box)(({ theme }) => ({
   backgroundColor: '#F1FAF9',
   width: '70%',
@@ -30,7 +32,7 @@ export function Application() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/solicitante/solicitudes/${idApplicant}`);
+        const response = await axios.get(`${apiUrl}/api/solicitante/solicitudes/${idApplicant}`);
         setApplications(response.data || []);
         console.log(response);
       } catch (error) {

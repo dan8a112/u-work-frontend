@@ -4,7 +4,8 @@ import { ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { Add, Delete } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useFormValidation } from "../../hooks/useFormValidation";
+
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export function CreateOffer(){
 
@@ -13,7 +14,7 @@ export function CreateOffer(){
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const optionsRes = await axios.get('http://localhost:5001/api/crearOferta/info');
+          const optionsRes = await axios.get(`${apiUrl}/api/crearOferta/info`);
           setOptions(optionsRes.data);
         } catch (error) {
           console.error(error);
@@ -84,7 +85,7 @@ export function CreateOffer(){
       const fetchData = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:5001/api/lugares/dep"
+            `${apiUrl}/api/lugares/dep`
           );
           setDepartamentsData(response.data);
         } catch (error) {
@@ -104,7 +105,7 @@ export function CreateOffer(){
       const fetchData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5001/api/lugares/mun/${formValues.departamento}`
+            `${apiUrl}/api/lugares/mun/${formValues.departamento}`
           );
           setMunicipiosData(response.data);
         } catch (error) {

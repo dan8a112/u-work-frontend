@@ -7,6 +7,8 @@ import NotificationCard from "../cards/Notification/NotificationCard";
 import NotificationDetail from '../cards/Notification/NotificationDetail';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+
+const apiUrl = import.meta.env.VITE_API_URL;
  
 export function HomeEnterprise() {
   const { idCompany } = useParams();
@@ -33,7 +35,7 @@ export function HomeEnterprise() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/empresa/home/${idCompany}`);
+        const response = await axios.get(`${apiUrl}/api/empresa/home/${idCompany}`);
         setEstadisticas(response.data);
         setOfertasActivas(response.data.ofertasActivas || []);
         setNotifications(response.data.notificaciones || []);
