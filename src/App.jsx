@@ -22,7 +22,7 @@ function App() {
 
   const location = useLocation();
   const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise", "/Applicants"];
   const showTabbarAdmin = ["/homeAdmin"];
 
   const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
@@ -44,7 +44,7 @@ function App() {
         <Route path='/userProfile/:idApplicant' element={<UserProfile from="user" />} />
         <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
         <Route path='/application/:idApplicant' element={<Application />} />
-        <Route path='/homeEnterprise' element={<HomeEnterprise />} />
+        <Route path='/homeEnterprise/:idCompany' element={<HomeEnterprise />} />
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
         <Route path='/createOffer' element={<CreateOffer />} />
         <Route path='/offersDetailEnterprise' element={<OffersDetailEnterprise />} />

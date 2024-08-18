@@ -44,7 +44,7 @@ const NotificationDate = styled(Typography)(({ theme }) => ({
   fontSize: '9px',
   color: theme.palette.text.disabled,
 }));
-
+ 
 export default function NotificationCard({ onClick, title, date, state }) {
 
   const fontWeight = state === 0 ? '700' : '400';

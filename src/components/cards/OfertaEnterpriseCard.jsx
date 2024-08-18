@@ -13,10 +13,10 @@ export function OfertaEnterpriseCard({index, card, seeDetail}){
     return(
         <Box sx={{
             display:"flex",
-            alignItems: "center"
+            alignItems: "center",
         }}>
             <Typography variant="h4"  color="primary" sx={{mr: "20px", fontWeight:"550"}}>1</Typography>
-            <Card variant="outlined" sx={{position:"relative"}}>
+            <Card variant="outlined" sx={{position:"relative", width: "100%"}}>
                 <CardContent>
                     <Typography sx={{fontSize: "24px", fontWeight:"500", mb: "10px"}}>{titulo}</Typography>
                     <Typography>{descripcion}</Typography>

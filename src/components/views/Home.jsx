@@ -54,7 +54,7 @@ export function HomeUser() {
     ));
     setOpenNotification(false);
   }
-
+ 
   const renderContent = () => {
     switch (selectedPage) {
       case 'Ofertas':

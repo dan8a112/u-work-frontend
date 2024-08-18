@@ -56,6 +56,21 @@ export function OffersDetailEnterprise( seeAplicants ){
 
     const [openMenu, setOpenMenu] = useState(null);
 
+    useEffect(()=>{
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(
+              `http://localhost:5001/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=1`
+            );
+            setOffer(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+
+        fetchData();
+    }, []);
+
     const handleClick = (event) => {
         setOpenMenu(event.currentTarget);
       };

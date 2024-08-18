@@ -14,7 +14,7 @@ export function OffersDetail(){
     const [openModal, setOpenModal] = useState(false);
     const [openNotification, setOpenNotification] = useState(false);
     const [applicationMessage, setApplicationMessage] = useState("");
-    
+     
 
     useEffect(()=>{
         const idApplicant = localStorage.getItem('idPersonaSoli');
