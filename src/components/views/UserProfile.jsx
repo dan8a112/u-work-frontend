@@ -63,7 +63,7 @@ export function UserProfile({from, action}){
             title="DESCRIPCION">
                 <Typography>{datosPersonales.descripcion}</Typography>
             </DetalleOfertaCard>
-            <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from}></UserContentCard>
+            <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from} changeData={setFormacion}></UserContentCard>
             <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from}></UserContentCard>
             <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from}></UserContentCard>
             <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from}></UserContentCard>

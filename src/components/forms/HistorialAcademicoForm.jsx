@@ -1,29 +1,7 @@
 import { Box, Button, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormValidation } from "../../hooks/useFormValidation";
-
-const options = {
-    nivelAcademico: [
-        {
-            id: "1",
-            label: "Secundaria"
-        },
-        {
-            id: "2",
-            label: "Universidad"  
-        }
-    ],
-    formacionProfesional: [
-        {
-            id: "1",
-            label: "React"
-        },
-        {
-            id: "2",
-            label: "Javascript "  
-        }
-    ]
-};
+import axios from "axios";
 
 const style = {
     position: 'absolute',
@@ -38,15 +16,38 @@ const style = {
     p: 4
   };
 
-export function HistorialAcademicoForm(){
-    
-    const validations = {
+export function HistorialAcademicoForm({changeData, handleClose}){
+
+  const [options, setOptions] = useState(null); 
+
+  useEffect(()=>{
+    const fetchData = async () => {
+      try {
+        const nivelesAcad = await axios.get(
+          `http://localhost:5001/api/tablas/mantenimiento/admin/nivel-academico/mostrar`
+        );
+        const formacionesProf = await axios.get(
+          `http://localhost:5001/api/tablas/mantenimiento/admin/formacion-prof/mostrar`
+        )
+
+        setOptions({
+          nivelAcademico: nivelesAcad.data,
+          formacionProfesional: formacionesProf.data
+        })
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchData();
+  },[])
+      
+  const validations = {
       titulo: { required: true },
       fechaEgreso: { required: true },
       institucion: { required: true },
-      nivelAcademico: { required: true },
-      formacionProfesional: { required: true },
-    };
+      idNivelAcademico: { required: true },
+      idFormacionProf: { required: true },
+  };
   
   const {errors, validateForm, resetForm} = useFormValidation(validations)
   
@@ -58,21 +59,45 @@ export function HistorialAcademicoForm(){
       });
     }
 
-    const handleSubmit = ()=>{
-      if(validateForm(formValues)){
-        
+    const handleSubmit = async ()=>{
+    const idApplicant = localStorage.getItem('idPersonaSoli');
+      try {
+        if(validateForm(formValues)){
+          const response = await axios.post(
+            `http://localhost:5001/api/usuario/agg-historial-academico/${idApplicant}`,
+            formValues
+          )
+          if (response.status ===200) {
+
+            changeData(prevState => {
+              const newItem = {
+                titulo: formValues.titulo,
+                empresa: formValues.institucion, 
+                fechaExpedicion: formValues.fechaEgreso, 
+                nivelAcademico: options.nivelAcademico.find(nivel=>nivel.idNivelAcademico == formValues.idNivelAcademico).nivelAcademico
+              }
+  
+              return [...prevState, newItem];
+            });
+            handleClose();
+            alert('Se ha agregado una nueva formaciona tu historial academico');
+          }
+        }
+      } catch (error) {
+        console.error(error);
       }
+      
     }
 
     const [formValues, setFormValues] = useState({
         titulo: "",
         fechaEgreso: "",
         institucion: "",
-        nivelAcademico: "",
-        formacionProfesional: "",
+        idNivelAcademico: "",
+        idFormacionProf: "",
       });
 
-    return (
+    return (options &&
       <Box sx={style}>
         <Typography variant="h6" marginBottom={3}>
           Agrega una nueva formacion
@@ -88,41 +113,41 @@ export function HistorialAcademicoForm(){
           error={!!errors.titulo}
           helperText={errors.titulo}
         />
-        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.nivelAcademico}>
+        <FormControl fullWidth sx={{ mt: 2 }} error={!!errors.idNivelAcademico}>
           <InputLabel>Nivel Academico</InputLabel>
           <Select
-            name="nivelAcademico"
-            value={formValues.nivelAcademico}
+            name="idNivelAcademico"
+            value={formValues.idNivelAcademico}
             onChange={handleChange}
             label="Nivel Academico"
           >
             {options.nivelAcademico.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+              <MenuItem value={value.idNivelAcademico} key={index}>
+                {value.nivelAcademico}
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{errors.nivelAcademico}</FormHelperText>
+          <FormHelperText>{errors.idNivelAcademico}</FormHelperText>
         </FormControl>
         <FormControl
           fullWidth
           sx={{ mt: 2 }}
-          error={!!errors.formacionProfesional}
+          error={!!errors.idFormacionProf}
         >
           <InputLabel>Formacion Profesional</InputLabel>
           <Select
-            name="formacionProfesional"
-            value={formValues.formacionProfesional}
+            name="idFormacionProf"
+            value={formValues.idFormacionProf}
             onChange={handleChange}
             label="Formacion Profesional"
           >
             {options.formacionProfesional.map((value, index) => (
-              <MenuItem value={value.id} key={index}>
-                {value.label}
+              <MenuItem value={value.idFormacionProfesional} key={index}>
+                {value.formacionProfesional}
               </MenuItem>
             ))}
           </Select>
-          <FormHelperText>{errors.formacionProfesional}</FormHelperText>
+          <FormHelperText>{errors.idFormacionProf}</FormHelperText>
         </FormControl>
         <TextField
           sx={{ mt: 2, width: "100%" }}
