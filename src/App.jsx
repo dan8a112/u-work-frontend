@@ -17,6 +17,8 @@ import { Test } from './components/views/Test'
 import { HomeAdmin } from './components/views/HomeAdmin'
 import HeaderAdmin from './components/headers/HeaderAdmin'
 import { HomeUser } from './components/views/Home'
+import {LandingPage} from './components/views/LandingPage'
+import { LoginCompany } from './components/views/LoginCompany'
 
 function App() {
 
@@ -53,6 +55,8 @@ function App() {
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise" />} />
         <Route path='/homeAdmin' element={<HomeAdmin />} />
+        <Route path='/landing' element={<LandingPage />} />
+        <Route path='/loginCompany' element={<LoginCompany />} />
       </Routes>
     </>
   );
