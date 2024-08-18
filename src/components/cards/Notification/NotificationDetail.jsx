@@ -10,27 +10,41 @@ import { Cancel, CheckCircle } from '@mui/icons-material';
 import { Dialog } from '@mui/material';
 import axios from 'axios';
 
-export default function NotificationDetail({ open, handleClose, idNotification }) {
+export default function NotificationDetail({ open, handleClose, idNotification, serviceType }) {
   const [notification, setNotification] = React.useState(null);
 
   React.useEffect(() => {
     if (idNotification !== null) {
-      axios.get(`http://localhost:5001/api/solicitante/detalle-notificacion/${idNotification}`)
+      let detailUrl;
+      let updateUrl;
+
+      if (serviceType === 0) {
+        detailUrl = `http://localhost:5001/api/solicitante/detalle-notificacion/${idNotification}`;
+        updateUrl = `http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`;
+      } else if (serviceType === 1) {
+        detailUrl = `http://localhost:5001/api/empresa/notificacion/${idNotification}`;
+        updateUrl = `http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`;
+        // Añade más casos si es necesario
+      }
+
+      axios.get(detailUrl)
         .then((response) => {
           setNotification(response.data);
+          console.log(response.data)
         })
         .catch((error) => {
           console.error("Error al obtener la notificación:", error);
         });
-      axios.put(`http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => {
-        console.error("Error al obtener la notificación:", error);
-      });
+
+      axios.put(updateUrl)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.error("Error al actualizar la notificación:", error);
+        });
     }
-  }, [idNotification]);
+  }, [idNotification, serviceType]);
 
   return (
     <Dialog open={open} onClose={handleClose}>
@@ -50,8 +64,15 @@ export default function NotificationDetail({ open, handleClose, idNotification }
             </Typography>
           </CardContent>
           <CardActions disableSpacing sx={{ width: '100%', justifyContent: 'flex-end' }}>
-            <ButtonDictum text={"Aceptar Solicitud"} icon={<CheckCircle />} />
-            <ButtonDictum text={"Rechazar Solicitud"} backgroundColor={'#d32828'} icon={<Cancel />} />
+          {serviceType === 0 ? (
+              <>
+                <ButtonDictum text={"Aceptar Solicitud"} icon={<CheckCircle />} />
+                <ButtonDictum text={"Rechazar Solicitud"} backgroundColor={'#d32828'} icon={<Cancel />} />
+              </>
+            ) : (
+              <ButtonDictum text={"Ok"} icon={<CheckCircle />} onClick={handleClose} />
+            )}
+            
           </CardActions>
         </Card>
       )}
