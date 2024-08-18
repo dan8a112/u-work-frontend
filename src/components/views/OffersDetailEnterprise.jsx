@@ -1,9 +1,9 @@
-import { Box, Container, Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Grid, IconButton, Menu, MenuItem, Typography } from "@mui/material";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 import { ItemsOfertaCard, ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { ImageTrain } from "../cards/ImageTrain";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Delete, Edit, MoreVert } from "@mui/icons-material";
+import { Delete, Edit, MoreVert, Try } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -11,9 +11,13 @@ const apiUrl = import.meta.env.VITE_API_URL;
 
 export function OffersDetailEnterprise(){
 
+    const navigate = useNavigate();
     const {idOffer} = useParams();
 
     const [openMenu, setOpenMenu] = useState(null);
+
+    //Estado de abrir y cerrar la modal
+    const [openDelete, setOpenDelete] = useState(false);
 
     const [offer, setOffer] = useState(null);
      
@@ -35,14 +39,26 @@ export function OffersDetailEnterprise(){
         setOpenMenu(event.currentTarget);
       };
     
-      const handleClose = () => {
+    const handleClose = () => {
         setOpenMenu(null);
-      };
+    };
 
-      const navigate = useNavigate();
-      const handleOnClickSeeAplicants = (url) => {
-        navigate(url);
-      }
+    const handleDeleteOffer = async ()=>{
+        const idEmpresa = localStorage.getItem('idEmpresa');
+        try {
+          const response = await axios.put(
+            `${apiUrl}/api/empresa/oferta/eliminar/${idOffer}`
+          );
+          if (response.status == 200) {
+            setOpenDelete(false)
+            alert("Se ha eliminado esta oferta")
+            navigate(`/OffersEnterprise/${idEmpresa}`)
+          }
+        } catch (error) {
+            console.error("Ocurrio un error: ", error)
+        }
+    }
+
     return( offer &&
     <Container sx={{position:"relative", padding: "30px", backgroundColor: "#F1FAF9", marginTop:10}} maxWidth="md" disableGutters>
         <IconButton 
@@ -60,11 +76,11 @@ export function OffersDetailEnterprise(){
         open={Boolean(openMenu)}
         onClose={handleClose}
         >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={()=>{setOpenDelete(true)}}>
             <Delete sx={{mr:"10px"}}></Delete>
             Eliminar
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={()=>{navigate(`/editOffer/${idOffer}`)}}>
             <Edit sx={{mr:"10px"}}></Edit>
             Editar
             </MenuItem>
@@ -86,14 +102,11 @@ export function OffersDetailEnterprise(){
             <Typography sx={{fontWeight: "400", color:"#49454F"}} >{offer.lugar}</Typography>
         </Box>
         <Typography fontSize="1.1rem" fontWeight="600" marginBottom={1}>Candidatos</Typography>
-        <Box onClick={() => handleOnClickSeeAplicants(`/Applicants/${idOffer}`)} sx={{display:"inline-flex", p:"15px 30px", mb: "20px", bgcolor:"#0D9E8230", alignItems:"center", borderRadius:"8px", cursor:"pointer"}}>
+        <Box onClick={() => navigate(`/Applicants/${idOffer}`)} sx={{display:"inline-flex", p:"15px 30px", mb: "20px", bgcolor:"#0D9E8230", alignItems:"center", borderRadius:"8px", cursor:"pointer"}}>
             <ImageTrain images={offer.aplicantesImg}/>
-            {offer.cantidadAplicantes-offer.aplicantesImg.length > 0 ? (
                 <Typography style={{fontSize:"20px", color:"#0D9E82", fontWeight:"500"}}>
-                +{offer.cantidadAplicantes-offer.aplicantesImg.length} Candidatos
+                {offer.cantidadAplicantes-offer.aplicantesImg.length} Candidatos
                 </Typography>
-            ):<></>}
-            
         </Box>
 
         <Container disableGutters>
@@ -160,6 +173,19 @@ export function OffersDetailEnterprise(){
                 </Grid>
             </DetalleOfertaCard>
         </Container>
+        <Dialog
+        open={openDelete}
+        onClose={()=>{setOpenDelete(false)}}
+        >
+        <DialogTitle>Eliminar Oferta</DialogTitle>
+        <DialogContent>
+          <Typography>Estas a punto de eliminar esta oferta, esta accion es irreversible. Estas seguro que quieres continuar?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={()=>{setOpenDelete(false)}}>Cerrar</Button>
+          <Button onClick={handleDeleteOffer} color="error">Eliminar</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
     );
 }

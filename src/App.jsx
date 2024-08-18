@@ -48,6 +48,7 @@ function App() {
         <Route path='/homeEnterprise/:idCompany' element={<HomeEnterprise />} />
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
         <Route path='/createOffer' element={<CreateOffer />} />
+        <Route path='/editOffer/:idOffer' element={<CreateOffer edit={true} />} />
         <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
         <Route path='/OffersEnterprise/:idCompany' element={<OffersEnterprise />} />
         <Route path='/Applicants' element={<OfferApplicants />} />
