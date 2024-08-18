@@ -2,6 +2,7 @@ import {Card, CardContent, Typography, Button, CardActions, Dialog, DialogTitle,
 import { PreferenciasEmpleoModal } from '../modals/PreferenciasEmpleoModal';
 import { useEffect, useState } from 'react';
 import { UserRegister } from '../views/Register/UserRegister';
+import axios from 'axios';
 
 
 export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
@@ -30,16 +31,19 @@ export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
   useEffect(()=>{
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/usuario/obtener");
+        const response = await axios.get("http://localhost:5001/api/usuario/obtener/7");
         setUserData(response.data);
       } catch (error) {
         console.error(error);
       } finally {
         setLoading(false);
       }
-      //Si se abre la modal se hace la peticion
     };
+
+    fetchData();
+
   }, [openEdit])
+
 
 
   const renderActions = () =>{
@@ -91,7 +95,7 @@ export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
       >
         <DialogTitle>Editar Usuario</DialogTitle>
         <DialogContent>
-          <UserRegister edit={true}/>
+          <UserRegister edit={true} userData={userData}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseEdit}>Cerrar</Button>

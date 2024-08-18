@@ -1,4 +1,6 @@
-import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText} from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHelperText, OutlinedInput, InputAdornment, IconButton} from "@mui/material";
+import { useState } from "react";
 
 
 const Step1 = ({ handleChange, values, options, errors }) => (
@@ -78,9 +80,20 @@ const Step1 = ({ handleChange, values, options, errors }) => (
   </Box>
 );
 
-const Step2 = ({handleChange, values, errors}) => (
+const Step2 = ({handleChange, values, errors}) => { 
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
+
+  return(
     <Box>
     <TextField
+          sx={{mb:3}}
           label="Correo Electronico"
           variant="outlined"
           fullWidth
@@ -91,20 +104,33 @@ const Step2 = ({handleChange, values, errors}) => (
           error={!!errors.correo}
           helperText={errors.correo}
     />
-    <TextField
-          type="password"
-          label="Contraseña"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          name="contrasena"
-          value={values.contrasena}
-          onChange={handleChange}
-          error={!!errors.contrasena}
-          helperText={errors.contrasena}
-    />
-  </Box>
-);
+    <FormControl variant="outlined" fullWidth>
+          <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+          <OutlinedInput
+            id="outlined-adornment-password"
+            type={showPassword ? 'text' : 'password'}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                  edge="end"
+                >
+                  {showPassword ? <VisibilityOff /> : <Visibility/>}
+                </IconButton>
+              </InputAdornment>
+            }
+            label="contraseña"
+            name="contrasena"
+            value={values.contrasena}
+            onChange={handleChange}
+            error={!!errors.contrasena}
+            helperText={errors.contrasena}
+          />
+    </FormControl>
+  </Box>)
+  }
 
 const Step3 = ({ handleChange, values, options, errors }) => (
   <Box>

@@ -64,26 +64,26 @@ function renderComponents(contentType, data, index) {
     }
 }
 
-function renderForm(contentType) {
+function renderForm(contentType, changeData, handleClose) {
   switch (contentType) {
       case "academic":
-          return(<HistorialAcademicoForm/>);
+          return(<HistorialAcademicoForm changeData={changeData} handleClose={handleClose}/>);
       case "medic":
-          return(<HistorialMedicoForm/>);
+          return(<HistorialMedicoForm changeData={changeData} handleClose={handleClose}/>);
       case "secure":
-        return(<SegurosForm/>);
+        return(<SegurosForm changeData={changeData} handleClose={handleClose}/>);
       case "experience":
-        return(<ExperienciaLaboralForm/>);
+        return(<ExperienciaLaboralForm changeData={changeData} handleClose={handleClose}/>);
       case "languages":
-        return(<IdiomasForm/>);
+        return(<IdiomasForm changeData={changeData} handleClose={handleClose}/>);
       case "familiar":
-          return(<FamiliaresForm/>)
+          return(<FamiliaresForm changeData={changeData} handleClose={handleClose}/>)
       default:
           return "unknown type"
   }
 }
 
-export function UserContentCard({title, contentType, data, from}) {
+export function UserContentCard({title, contentType, data, from, changeData}) {
 
   const[open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -125,7 +125,7 @@ export function UserContentCard({title, contentType, data, from}) {
         aria-describedby="modal-modal-description"
       >
         <>
-        {renderForm(contentType)}
+        {renderForm(contentType, changeData, handleClose)}
         </>
       </Modal>
       <CardContent>

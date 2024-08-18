@@ -1,9 +1,19 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Avatar, Button, TextField, Typography, Box, useTheme, Link } from '@mui/material';
+import { Card, CardContent, Avatar, Button, TextField, Typography, Box, useTheme, Link, FormControl, InputLabel, OutlinedInput, InputAdornment, IconButton } from '@mui/material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 function LoginCard({ onLogin }) {
   const theme = useTheme();
+
+  
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -69,20 +79,30 @@ function LoginCard({ onLogin }) {
               helperText={emailError}
               error={!!emailError}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              helperText={passwordError}
-              error={!!passwordError}
-            />
+            <FormControl variant="outlined" fullWidth sx={{mt:2}}>
+              <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+              <OutlinedInput
+                id="outlined-adornment-password"
+                type={showPassword ? 'text' : 'password'}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility/>}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="contraseña"
+                name="contrasena"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={!!passwordError}
+              />
+          </FormControl>
             <Button
               type="submit"
               fullWidth

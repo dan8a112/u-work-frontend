@@ -1,9 +1,10 @@
-import { Container, Grid } from "@mui/material";
+import { Container, Grid, Typography } from "@mui/material";
 import { UserProfileCard } from "../cards/UserProfileCard";
 import { UserInfoCard } from "../cards/UserInfoCard";
 import { UserContentCard } from "../cards/UserContentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 
 export function UserProfile({from, action}){
 
@@ -27,7 +28,6 @@ export function UserProfile({from, action}){
                 setIdiomas(response.data.idiomas);
                 setExperiencia(response.data.experiencia);
                 setFamiliares(response.data.familiares);
-                console.log(response);
             } catch(error){
                 console.error(error);
             }
@@ -45,7 +45,7 @@ export function UserProfile({from, action}){
                 <Grid item xs={6}>
                 <UserProfileCard 
                 userName = {datosPersonales.nombre}
-                description={datosPersonales.descripcion} 
+                description={datosPersonales.titular} 
                 place={datosPersonales.lugarResidencia}
                 gender="Masculino"
                 />
@@ -59,12 +59,16 @@ export function UserProfile({from, action}){
                 action={action}/>
                 </Grid>
             </Grid>
-            <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from}></UserContentCard>
-            <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from}></UserContentCard>
-            <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from}></UserContentCard>
-            <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from}></UserContentCard>
-            <UserContentCard title="Familiares" contentType="familiar" data={familiares} from={from}></UserContentCard>
-            <UserContentCard title="Historial Medico" contentType="medic" data={historialMedico} from={from}></UserContentCard>
+            <DetalleOfertaCard
+            title="DESCRIPCION">
+                <Typography>{datosPersonales.descripcion}</Typography>
+            </DetalleOfertaCard>
+            <UserContentCard title="Formacion Academica" contentType="academic" data={formacion} from={from} changeData={setFormacion}></UserContentCard>
+            <UserContentCard title="Experiencia Laboral" contentType="experience" data={experiencia} from={from} changeData={setExperiencia}></UserContentCard>
+            <UserContentCard title="Idiomas" contentType="languages" data={idiomas} from={from} changeData={setIdiomas}></UserContentCard>
+            <UserContentCard title="Seguros" contentType="secure" data={seguros} from={from} changeData={setSeguros}></UserContentCard>
+            <UserContentCard title="Familiares" contentType="familiar" data={familiares} from={from} changeData={setFamiliares}></UserContentCard>
+            <UserContentCard title="Historial Medico" contentType="medic" data={historialMedico} from={from} changeData={setHistorialMedico}></UserContentCard>
         </Container>
     );
 }

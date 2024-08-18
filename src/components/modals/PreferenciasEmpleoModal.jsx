@@ -1,69 +1,93 @@
 import { Delete, Work } from "@mui/icons-material";
 import { Dialog, FormControlLabel, FormGroup, Switch, DialogTitle, DialogContent, DialogActions, Button, Box, Typography, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, ListItemIcon, Autocomplete, TextField} from "@mui/material";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export function PreferenciasEmpleoModal({open, handleClose}){
 
     const [preferences, setPreferences] = useState({
-        puestos: [1],
-        modalidades: [1],
-        contratos: [1]
+        puestos: [],
+        modalidades: [],
+        contratos: []
     });
 
     const [openSearch, setOpenSearch] = useState(false);
 
-    const preferencesResponse = {
-        puestos: [
-            {
-                id: 1,
-                label: "Desarrollador web"
-            },
-            {
-                id: 2,
-                label: "Database manager"
-            }
-        ],
-        modalidades: [
-            {
-                id: 1,
-                nombre: "En remoto"
-            },
-            {
-                id: 2,
-                nombre: "Presencial"
-            }
-        ],
-        contratos: [
-            {
-                id: 1,
-                nombre: "Medio tiempo"
-            }
-        ]
+    const idApplicant = localStorage.getItem('idPersonaSoli');
+
+    const [preferencesAvailable, setPreferencesAvailable] = useState(null)
+
+    useEffect(()=>{
+      const fetchData = async () => {
+        try {
+          const contratos = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/contrato/mostrar`
+          );
+          const puestos = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/puesto/mostrar`
+          );
+          const modalidades = await axios.get(
+            `http://localhost:5001/api/tablas/mantenimiento/admin/modalidad/mostrar`
+          );
+
+          const transformedPuestos = puestos.data.map(puesto => ({
+            id: puesto.id_puesto,
+            label: puesto.puesto
+           }));
+
+          setPreferencesAvailable({
+            contratos: contratos.data,
+            puestos: transformedPuestos,
+            modalidades: modalidades.data
+          })
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      const fetchUserPreferences = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:5001/api/solicitante/preferencias/${idApplicant}`
+          );
+          setDataOnState(response.data);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+
+      fetchData();
+      fetchUserPreferences();
+    },[])
+
+
+    const setDataOnState = (data) => {
+
+      const {puestos, modalidades, contratos} = data;
+
+      const puestosIds = puestos.map(puesto=>puesto.id)
+      const modalidadesIds = modalidades.map(modalidad=>modalidad.id)
+      const contratosIds = contratos.map(contrato=>contrato.id)
+
+      setPreferences({
+        puestos: puestosIds,
+        modalidades: modalidadesIds,
+        contratos: contratosIds
+      })
+
     }
 
 
     /**
      * Valida si la preferencia (idPreferencia) existe en las preferencias del usuario
-     * @param {*} id 
-     * @param {*} preference 
-     * @returns 
      */
     const isOptionExist = (id, preference)=>{
-        switch (preference) {
-            case "puestos":
-                return preferences.puestos.includes(id);
-            case "modalidades":
-                return preferences.modalidades.includes(id);
-            case "contratos":
-                return preferences.contratos.includes(id);
-            default:
-                break;
-        }
+      return preferences[preference].includes(id);
     }
 
-    const handleChange = (e, preference) => {
+    const handleChange = (e, preference, idName, itemName) => {
         const { checked, name } = e.target;
-        const id = preferencesResponse[preference].find(item => item.nombre === name).id;
+        const id = preferencesAvailable[preference].find(item => item[itemName] === name)[idName];
 
         setPreferences(prevState => {
             const newPreferenceArray = checked
@@ -105,7 +129,23 @@ export function PreferenciasEmpleoModal({open, handleClose}){
       });
     };
 
+    const handleSubmitPreferences = async () => {
+      try {
+        const response = await axios.post(
+          `http://localhost:5001/api/solicitante/preferencias/act/${idApplicant}`,
+          preferences
+        );
+        if (response.status === 200) {
+          handleClose();
+          alert("se han actualizado tus preferencias");
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     return (
+      preferencesAvailable &&
       <Dialog 
       open={open} 
       onClose={handleClose }         
@@ -118,7 +158,7 @@ export function PreferenciasEmpleoModal({open, handleClose}){
             {openSearch ?<Autocomplete
               disablePortal
               id="combo-box-demo"
-              options={preferencesResponse.puestos}
+              options={preferencesAvailable.puestos}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               onChange={(event,newValue)=>{newValue && handlePuestosChange(newValue.id)}}
               sx={{ width: 300, mt:2}}
@@ -127,7 +167,7 @@ export function PreferenciasEmpleoModal({open, handleClose}){
             /> : <Button onClick={()=>{setOpenSearch(true)}}>Agregar Puestos</Button>}
             
             <List dense={false}>
-              {preferencesResponse.puestos.map((value, index) => isOptionExist(value.id, "puestos") &&
+              {preferencesAvailable.puestos.map((value, index) => isOptionExist(value.id, "puestos") &&
               <ListItem
               key={index}
               secondaryAction={
@@ -147,17 +187,17 @@ export function PreferenciasEmpleoModal({open, handleClose}){
               Modalidades de empleo
             </Typography>
             <FormGroup>
-              {preferencesResponse.modalidades.map((value, index) => (
+              {preferencesAvailable.modalidades.map((modalidad, index) => (
                 <FormControlLabel
                   key={index}
                   control={
                     <Switch
-                      checked={isOptionExist(value.id, "modalidades")}
-                      onChange={(e) => handleChange(e, "modalidades")}
-                      name={value.nombre}
+                      checked={isOptionExist(modalidad.idModalidad, "modalidades")}
+                      onChange={(e) => handleChange(e, "modalidades", "idModalidad", "modalidad")}
+                      name={modalidad.modalidad}
                     />
                   }
-                  label={value.nombre}
+                  label={modalidad.modalidad}
                 />
               ))}
             </FormGroup>
@@ -165,17 +205,17 @@ export function PreferenciasEmpleoModal({open, handleClose}){
               Tipo de contratos
             </Typography>
             <FormGroup>
-              {preferencesResponse.contratos.map((value, index) => (
+              {preferencesAvailable.contratos.map((contrato, index) => (
                 <FormControlLabel
                   key={index}
                   control={
                     <Switch
-                      checked={isOptionExist(value.id, "contratos")}
-                      onChange={(e) => handleChange(e, "contratos")}
-                      name={value.nombre}
+                      checked={isOptionExist(contrato.idContrato, "contratos")}
+                      onChange={(e) => handleChange(e, "contratos", "idContrato", "contrato")}
+                      name={contrato.contrato}
                     />
                   }
-                  label={value.nombre}
+                  label={contrato.contrato}
                 />
               ))}
             </FormGroup>
@@ -183,7 +223,7 @@ export function PreferenciasEmpleoModal({open, handleClose}){
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cerrar</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleSubmitPreferences} autoFocus>
             Guardar
           </Button>
         </DialogActions>
