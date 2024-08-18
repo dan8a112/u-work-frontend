@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 
 const steps = ['Cuenta', 'Empresa', 'Director'];
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function BussinesRegister(){
 
   //Para hacer navegaciones de react router
@@ -152,7 +154,7 @@ export function BussinesRegister(){
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/SIR/info");
+        const response = await axios.get(`${apiUrl}/api/SIR/info`);
         setOptions(response.data);
       } catch (error) {
         console.error(error);
@@ -190,7 +192,7 @@ export function BussinesRegister(){
     };
     try {
       const res = axios.post(
-        "http://localhost:5001/api/empresa/ingresar",
+        `${apiUrl}/api/empresa/ingresar`,
         formSubmit
       );
       console.log(res.data);

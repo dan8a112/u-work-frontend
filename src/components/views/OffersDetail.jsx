@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export function OffersDetail(){
 
@@ -21,7 +22,7 @@ export function OffersDetail(){
         const fetchData = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5001/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=${idApplicant}`
+              `${apiUrl}/api/ofertas/detalle?idOferta=${offerId}&idSolicitante=${idApplicant}`
             );
             setOffer(response.data);
           } catch (error) {
@@ -43,7 +44,7 @@ export function OffersDetail(){
             }
 
             const response = await axios.post(
-              `http://localhost:5001/api/solicitudes/crear`,
+              `${apiUrl}/api/solicitudes/crear`,
               applicationBody
             );
 

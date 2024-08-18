@@ -15,6 +15,8 @@ const OffersType = styled(Box)(() => ({
   padding: "10px"
 }));
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function OffersEnterprise() {
 
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ export function OffersEnterprise() {
     const fetchData = async () => {
       try {
         const offers = await axios.get(
-          `http://localhost:5001/api/ofertas/mostrar/${idCompany}`
+          `${apiUrl}/api/ofertas/mostrar/${idCompany}`
         );
 
         setOfertasDisp(offers.data.filter(offer => offer.estadoOferta == 1));

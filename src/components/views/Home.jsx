@@ -11,6 +11,8 @@ import SearchInput from '../inputs/SearchInput';
 import { useParams } from 'react-router-dom';
 import axios from "axios";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function HomeUser() {
   const { idApplicant } = useParams();
   const [selectedPage, setSelectedPage] = React.useState('Ofertas');
@@ -23,7 +25,7 @@ export function HomeUser() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:5001/api/solicitante/home/${idApplicant}`);
+        const response = await axios.get(`${apiUrl}/api/solicitante/home/${idApplicant}`);
         setOfertas(response.data.ofertas || []);
         setNotifications(response.data.notificaciones || []);
         setCategories(response.data.categorias || []);

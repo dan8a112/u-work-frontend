@@ -10,6 +10,8 @@ import { Cancel, CheckCircle } from '@mui/icons-material';
 import { Dialog } from '@mui/material';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export default function NotificationDetail({ open, handleClose, idNotification, serviceType }) {
   const [notification, setNotification] = React.useState(null);
 
@@ -19,11 +21,11 @@ export default function NotificationDetail({ open, handleClose, idNotification, 
       let updateUrl;
 
       if (serviceType === 0) {
-        detailUrl = `http://localhost:5001/api/solicitante/detalle-notificacion/${idNotification}`;
-        updateUrl = `http://localhost:5001/api/solicitante/act-estado-notificaicon/${idNotification}`;
+        detailUrl = `${apiUrl}/api/solicitante/detalle-notificacion/${idNotification}`;
+        updateUrl = `${apiUrl}/api/solicitante/act-estado-notificaicon/${idNotification}`;
       } else if (serviceType === 1) {
-        detailUrl = `http://localhost:5001/api/empresa/notificacion/${idNotification}`;
-        updateUrl = `http://localhost:5001/api/empresa/act-estado-notificaicon/${idNotification}`;
+        detailUrl = `${apiUrl}/api/empresa/notificacion/${idNotification}`;
+        updateUrl = `${apiUrl}/api/empresa/act-estado-notificaicon/${idNotification}`;
         // Añade más casos si es necesario
       }
 

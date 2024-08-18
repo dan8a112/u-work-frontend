@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { UserRegister } from '../views/Register/UserRegister';
 import axios from 'axios';
 
+const apiUrl = import.meta.env.VITE_API_URL;
 
 export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
 
@@ -29,9 +30,10 @@ export function UserInfoCard({phoneNumber, email, birthdate, from, action}) {
   }
 
   useEffect(()=>{
+    const idApplicant = localStorage.getItem('idPersonaSoli');
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:5001/api/usuario/obtener/7");
+        const response = await axios.get(`${apiUrl}/api/usuario/obtener/${idApplicant}`);
         setUserData(response.data);
       } catch (error) {
         console.error(error);

@@ -30,6 +30,8 @@ const information = {
     src: "/Applicants",
 }
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 export function OffersDetailEnterprise(){
 
     const {idOffer} = useParams();
@@ -42,7 +44,7 @@ export function OffersDetailEnterprise(){
         const fetchData = async () => {
           try {
             const response = await axios.get(
-              `http://localhost:5001/api/ofertas/detalleEmpresa/${idOffer}`
+              `${apiUrl}/api/ofertas/detalleEmpresa/${idOffer}`
             );
             setOffer(response.data);
           } catch (error) {

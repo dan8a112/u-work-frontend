@@ -3,6 +3,8 @@ import { Box, TextField, Grid, Select, MenuItem, InputLabel, FormControl, FormHe
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Step1 = ({handleChange, values, options, errors}) => (
     <Box>
     <Grid container spacing={2}>
@@ -232,7 +234,7 @@ const Step3 = ({handleChange, values, options}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5001/api/lugares/dep"
+          `${apiUrl}/api/lugares/dep`
         );
         setDepartamentsData(response.data);
       } catch (error) {
@@ -252,7 +254,7 @@ const Step3 = ({handleChange, values, options}) => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/lugares/mun/${values.departamentoResidencia}`
+          `${apiUrl}/api/lugares/mun/${values.departamentoResidencia}`
         );
         setMunicipiosData(response.data);
       } catch (error) {
