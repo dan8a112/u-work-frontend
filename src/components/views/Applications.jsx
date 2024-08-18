@@ -23,10 +23,11 @@ const CenteredBox = styled(Box)(({ theme }) => ({
   
 }));
 
+const idApplicant = localStorage.getItem('idPersonaSoli');
+
 export function Application() {
 
   const navigate = useNavigate();
-  const { idApplicant } = useParams();
   const [applications, setApplications] = React.useState([])
 
   React.useEffect(() => {

@@ -22,8 +22,8 @@ import { LoginCompany } from './components/views/LoginCompany'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise/:idCompany", "/offersDetailEnterprise/:idOffer", "/Applicants"];
+  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail/:offerId"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise/:idOffer", "/Applicants"];
   const showTabbarAdmin = ["/homeAdmin"];
 
   const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
@@ -40,17 +40,16 @@ function App() {
         <Route path='/register' element={<UserRegister />} />
         <Route path='/registerBussiness' element={<BussinesRegister />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/home/:idApplicant' element={<HomeUser />} />
+        <Route path='/home' element={<HomeUser />} />
         <Route path='/userProfile' element={<UserProfile from="user" />} />
-        <Route path='/userProfile/:idApplicant' element={<UserProfile from="user" />} />
         <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
-        <Route path='/application/:idApplicant' element={<Application />} />
-        <Route path='/homeEnterprise/:idCompany' element={<HomeEnterprise />} />
+        <Route path='/application' element={<Application />} />
+        <Route path='/homeEnterprise' element={<HomeEnterprise />} />
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
         <Route path='/createOffer' element={<CreateOffer />} />
         <Route path='/editOffer/:idOffer' element={<CreateOffer edit={true} />} />
         <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
-        <Route path='/OffersEnterprise/:idCompany' element={<OffersEnterprise />} />
+        <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
         <Route path='/Applicants' element={<OfferApplicants />} />
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise" />} />

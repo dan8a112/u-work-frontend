@@ -20,8 +20,7 @@ export function Login() {
             console.log('ID Persona:', idPersonaSoli);
 
             if (idPersonaSoli !== 0) {
-                localStorage.setItem('idPersonaSoli', idPersonaSoli);
-                navigate(`/home/${idPersonaSoli}`);
+                navigate(`/home`);
             } else {
                 console.error('ID de solicitante inválido');
             }

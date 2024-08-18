@@ -50,7 +50,7 @@ export default function NotificationCard({ onClick, title, date, state }) {
   const fontWeight = state === 0 ? '700' : '400';
 
   return (
-    <CustomCard onClick={onClick}>
+    <CustomCard onClick={onClick} sx={{display:"flex", alignItems:"center"}}>
       <Avatar aria-label="recipe" src="/img/alert-circle.svg" />
       <TitleContainer>
         <NotificationTitle fontWeight={fontWeight}>{title}</NotificationTitle>

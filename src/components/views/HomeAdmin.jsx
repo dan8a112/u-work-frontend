@@ -68,7 +68,7 @@ export function HomeAdmin() {
     };
 
     return (
-        <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '635px' }}>
+        <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '100vh' }}>
             <Drawer
                 sx={{
                     width: 300,
