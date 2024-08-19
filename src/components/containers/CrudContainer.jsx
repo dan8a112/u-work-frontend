@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-export function CrudContainer({info, keys, buttonAction, name}){
+export function CrudContainer({info, keys, buttonAction, name, deleteAction}){
 
     return(
         <Box sx={{position:"relative",p: 3}}>
@@ -35,7 +35,7 @@ export function CrudContainer({info, keys, buttonAction, name}){
                         <TableCell sx={{fontSize:"1rem"}}>{row[keys[1]]}</TableCell>
                         {keys.length>2 && <TableCell sx={{fontSize:"1rem"}}>{row[keys[2]]}</TableCell>}
                         <TableCell sx={{fontSize:"1rem"}} align="right">
-                        <IconButton sx={{mr:1, bgcolor:"#B3261E15"}}>
+                        <IconButton sx={{mr:1, bgcolor:"#B3261E15"}} onClick={()=>{deleteAction(row[keys[0]])}}>
                             <Delete color="error"></Delete>
                         </IconButton>
                         </TableCell>
