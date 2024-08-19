@@ -39,7 +39,7 @@ const settings = [
   },
   {
     text: "Logout",
-    src: "/register",
+    src: "/",
   }
 ];
 
@@ -71,6 +71,9 @@ function HeaderEnterprise() {
   };
 
   const handleUserMenuItemClick = (src) => {
+    if (src=="/") {
+      logout();
+    }
     navigate(src);
     setAnchorElUser(null); 
   };

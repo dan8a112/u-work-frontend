@@ -21,18 +21,11 @@ import { LoginCompany } from './components/views/LoginCompany'
 import { LoginAdmin } from './components/views/LoginAdmin'
 import { useAuth } from './hooks/useAuth'
 
-
-const loginRoutes = {
-  applicant: "/login",
-  enterprise: "/loginCompany",
-  admin: "/loginAdmin"
-}
-
 //El from puede ser applicant, enterprise o admin
 const ProtectedRoute = ({from, children})=>{
   const {isAuthenticated} = useAuth();
   if (!isAuthenticated[from]) {
-    return <Navigate to={loginRoutes[from]}/>
+    return <Navigate to="/"/>
   }
 
   return children;
@@ -55,27 +48,29 @@ function App() {
       {showTabbar && <HeaderHome />}
       {showEnterpriseTabbar && <HeaderEnterprise />}
       {showAdminTabbar && <HeaderAdmin />}
-
       <Routes>
-        <Route path='/register' element={<UserRegister />} />
-        <Route path='/registerBussiness' element={<BussinesRegister />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/home' element={<HomeUser />} />
-        <Route path='/userProfile' element={<UserProfile from="user" />} />
-        <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
-        <Route path='/application' element={<Application />} />
-        <Route path='/homeEnterprise' element={<HomeEnterprise />} />
-        <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
-        <Route path='/createOffer' element={<CreateOffer />} />
-        <Route path='/editOffer/:idOffer' element={<CreateOffer edit={true} />} />
-        <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
-        <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
-        <Route path='/Applicants/:idOffer' element={<OfferApplicants />} />
-        <Route path='/selectUserEnterprise/:idApplicant/:idOferta' element={<UserProfile from="enterprise" action="select" />} />
-        <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<UserProfile from="enterprise" />} />
-        <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />
+
+        <Route path='/register' element={<UserRegister />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/home' element={<ProtectedRoute from="applicant"><HomeUser /></ProtectedRoute>} />
+        <Route path='/userProfile' element={<ProtectedRoute from="applicant"><UserProfile from="user" /></ProtectedRoute>} />
+        <Route path='/offersDetail/:offerId' element={<ProtectedRoute from="applicant"><OffersDetail /></ProtectedRoute>} />
+        <Route path='/application' element={<ProtectedRoute from="applicant"><Application /></ProtectedRoute>} />
+
+        <Route path='/registerBussiness' element={<BussinesRegister />} />
         <Route path='/loginCompany' element={<LoginCompany />} />
+        <Route path='/homeEnterprise' element={<ProtectedRoute from="enterprise"><HomeEnterprise /></ProtectedRoute>} />
+        <Route path='/EnterpriseProfile' element={<ProtectedRoute from="enterprise"><EnterpriseProfile /></ProtectedRoute>} />
+        <Route path='/createOffer' element={<ProtectedRoute from="enterprise"><CreateOffer /></ProtectedRoute>} />
+        <Route path='/editOffer/:idOffer' element={<ProtectedRoute from="enterprise"><CreateOffer edit={true} /></ProtectedRoute>}/>
+        <Route path='/offersDetailEnterprise/:idOffer' element={<ProtectedRoute from="enterprise"><OffersDetailEnterprise /></ProtectedRoute>} />
+        <Route path='/OffersEnterprise' element={<ProtectedRoute from="enterprise"><OffersEnterprise /></ProtectedRoute>} />
+        <Route path='/Applicants/:idOffer' element={<ProtectedRoute from="enterprise"><OfferApplicants /></ProtectedRoute>} />
+        <Route path='/selectUserEnterprise/:idApplicant/:idOfert' element={<ProtectedRoute from="enterprise"><UserProfile from="enterprise" action="select" /></ProtectedRoute>} />
+        <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<ProtectedRoute from="enterprise"><UserProfile from="enterprise" /></ProtectedRoute>} />
+
+        <Route path='/homeAdmin' element={<ProtectedRoute from="admin"><HomeAdmin /></ProtectedRoute>} />
         <Route path='/loginAdmin' element={<LoginAdmin />} />
       </Routes>
     </>

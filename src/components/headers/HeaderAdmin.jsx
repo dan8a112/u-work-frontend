@@ -24,7 +24,7 @@ const pages = [
 const settings = [
   {
     text: "Logout",
-    src: "/register",
+    src: "/",
   }
 ];
 
@@ -51,11 +51,14 @@ function HeaderAdmin() {
   };
 
   const handleUserMenuItemClick = (src) => {
+    if (src=="/") {
+      logout();
+    }
     navigate(src);
     setAnchorElUser(null); 
   };
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
+  const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
