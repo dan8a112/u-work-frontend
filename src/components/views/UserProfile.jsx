@@ -5,6 +5,7 @@ import { UserContentCard } from "../cards/UserContentCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
+import { useParams } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -17,9 +18,10 @@ export function UserProfile({from, action}){
     const [idiomas, setIdiomas] = useState(null);
     const [experiencia, setExperiencia] = useState(null);
     const [familiares, setFamiliares] = useState(null);
+    const {idApplicant} = useParams();
+    const {idSolicitud} = useParams();
 
      useEffect(() => {
-        const idApplicant = localStorage.getItem('idPersonaSoli');
         const fetchData = async () => {
             try {
               const response = await axios.get(`${apiUrl}/api/perfil/${idApplicant}`);
@@ -58,7 +60,8 @@ export function UserProfile({from, action}){
                 email={datosPersonales.correo}
                 birthdate={datosPersonales.fechaNacimiento}
                 from={from}
-                action={action}/>
+                action={action}
+                idSolicitud={idSolicitud}/>
                 </Grid>
             </Grid>
             <DetalleOfertaCard
