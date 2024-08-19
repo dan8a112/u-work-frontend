@@ -5,13 +5,12 @@ import { ImageTextCard } from "../cards/ImageTextCard";
 import { OfertaEnterpriseCard } from "../cards/OfertaEnterpriseCard";
 import NotificationCard from "../cards/Notification/NotificationCard";
 import NotificationDetail from '../cards/Notification/NotificationDetail';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const idEmpresa = localStorage.getItem('idEmpresa');
  
 export function HomeEnterprise() {
-  const { idCompany } = useParams();
   const [openNotification, setOpenNotification] = React.useState(false);
   const [selectedNotification, setSelectedNotification] = React.useState(null);
   const [estadisticas, setEstadisticas] = React.useState({});
@@ -41,7 +40,7 @@ export function HomeEnterprise() {
   React.useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/empresa/home/${idCompany}`);
+        const response = await axios.get(`${apiUrl}/api/empresa/home/${idEmpresa}`);
         setEstadisticas(response.data);
         setOfertasActivas(response.data.ofertasActivas || []);
         setNotifications(response.data.notificaciones || []);
@@ -52,10 +51,10 @@ export function HomeEnterprise() {
     }
 
     fetchData();
-  }, [idCompany]);
+  }, [idEmpresa]);
 
   return (
-    <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '635px' }}>
+    <Box sx={{ display: 'flex', backgroundColor: "#F1FAF9", minHeight: '100vh' }}>
       <Drawer
         sx={{
           width: 300,
@@ -156,6 +155,7 @@ export function HomeEnterprise() {
                   key={index}
                   index={index + 1}
                   card={{
+                    idOfertas: oferta[0],
                     nombreOferta: oferta[1],
                     descripcion: oferta[2],
                     fechaPublicacion: oferta[3],

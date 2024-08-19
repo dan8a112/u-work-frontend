@@ -6,23 +6,24 @@ import { useNavigate } from 'react-router-dom';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export function Login() {
+export function LoginAdmin() {
     const navigate = useNavigate();
 
     const handleLogin = async (email, password) => {
         try {
-            const response = await axios.post(`${apiUrl}/api/login/solicitante`, {
+            const response = await axios.post(`${apiUrl}/api/login/admin`, {
                 correo: email,
                 contrasena: password
             });
 
-            const idPersonaSoli = response.data;
-            console.log('ID Persona:', idPersonaSoli);
+            const idAdmin = response.data;
+            console.log('ID Admin:', idAdmin);
 
-            if (idPersonaSoli !== 0) {
-                navigate(`/home`);
+            if (idAdmin !== 0) {
+                localStorage.setItem('idAdmin', idAdmin);
+                navigate(`/homeAdmin`);
             } else {
-                console.error('ID de solicitante inválido');
+                console.error('ID de administrador inválido');
             }
         } catch (error) {
             console.error('Error en el inicio de sesión:', error);

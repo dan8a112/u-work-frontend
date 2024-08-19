@@ -4,10 +4,15 @@ import { ItemsOfertaDual } from "../cards/ItemsOfertaCard";
 import { Add, Delete } from "@mui/icons-material";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-export function CreateOffer(){
+export function CreateOffer({edit}){
+
+  const {idOffer} = useParams();
+
+  const navigate = useNavigate()
 
   const [options, setOptions] = useState(null);
 
@@ -20,8 +25,23 @@ export function CreateOffer(){
           console.error(error);
         }
       };
+
+      const fetchToEdit = async () => {
+        try {
+          const offerData = await axios.get(`${apiUrl}/api/ofertas/obtener/${idOffer}`);
+          setFormValues(offerData.data);
+          console.log(offerData.data)
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      if (edit) {
+        fetchToEdit();
+      }
   
       fetchData();
+
     }, []);
 
 
@@ -81,7 +101,6 @@ export function CreateOffer(){
     const [municipiosData, setMunicipiosData] = useState([]);
 
     useEffect(()=>{
-
       const fetchData = async () => {
         try {
           const response = await axios.get(
@@ -120,21 +139,37 @@ export function CreateOffer(){
 
 
     //Funcion que envia el formulario
-    const handleSubmit = (e)=>{
+    const handleSubmit = async (e)=>{
+      try {
+        e.preventDefault();
+        const formSubmit = {... formValues};
 
-      e.preventDefault();
-
-      const formSubmit = {... formValues};
-
-      //Logica para enviar departamento o municipio en caso que se haya elegido
-      if (formSubmit.departamento != "") {
+        const idEmpresa = localStorage.getItem('idEmpresa');
+  
+        //Logica para enviar departamento o municipio en caso que se haya elegido
+        if (formSubmit.departamento != "") {
           formSubmit.lugar = formSubmit.departamento;
           delete formSubmit.pais;
           delete formSubmit.departamento;
-      if (formSubmit.municipio != "") {
-          formSubmit.lugar = formSubmit.municipio;
-          delete formSubmit.municipio;
+          if (formSubmit.municipio != "") {
+              formSubmit.lugar = formSubmit.municipio;
+              delete formSubmit.municipio;
+          }
+        }
+
+      const url = edit
+        ? `${apiUrl}/api/ofertas/editar/${idEmpresa}`
+        : `${apiUrl}/api/ofertas/ingresar/${idEmpresa}`;
+      
+      const response = await axios[edit ? 'put' : 'post'](url, formSubmit);
+      
+      if (response.status === 200) {
+        alert(edit ? 'Se ha editado tu oferta correctamente, revisalo!' : 'Se ha agregado una nueva oferta, revisalo!');
+        navigate(`/OffersEnterprise`);
       }
+      
+      } catch (error) {
+        console.error(error);
       }
 
     }
@@ -396,7 +431,7 @@ export function CreateOffer(){
             </Box>
           </SectionFormCard>
           <Box sx={{display:"flex", justifyContent:"end", margin: "50px 45px 40px"}}>
-            <Button size="large" variant="contained" type="submit">Crear Oferta</Button>
+            <Button size="large" variant="contained" type="submit">{edit ? "Editar Oferta" :"Crear Oferta"}</Button>
           </Box>
         </form>
       </Container>

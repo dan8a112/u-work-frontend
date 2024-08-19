@@ -1,39 +1,40 @@
-import { Box, Container, Divider, Grid, Typography } from "@mui/material";
-import { UserProfileCard } from "../cards/UserProfileCard";
-import { UserInfoCard } from "../cards/UserInfoCard";
-import { UserContentCard } from "../cards/UserContentCard";
-import { HistorialAcademicoForm } from "../forms/HistorialAcademicoForm";
+import { Box, Container, Typography } from "@mui/material";
 import CompanyProfileCard from "../cards/InfoEnterprise";
 import { DetalleOfertaCard } from "../cards/DetalleOfertaCard";
 import DirectorCard from "../cards/DirectorCard";
 import { OfertaEnterpriseCard } from "../cards/OfertaEnterpriseCard";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
-const company = {
-    name: 'Bac Credomatic Honduras.',
-    industry: 'Tecnología',
-    offersCount: 25,
-    country: 'Honduras',
-    imageUrl: 'img/bac_logo.svg'
-  };
-  const card = {
-    titulo: "Programador frontend en remoto",
-    descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium incidunt ab cumque amet asperiores.",
-    fechaPublicacion: "23 Mar, 2024"
-  }
+  const idEmpresa = localStorage.getItem('idEmpresa');
+  const apiUrl = import.meta.env.VITE_API_URL;
+
   
-
 export function EnterpriseProfile(){
-    return(
+
+    const [company, setCompany] = useState(null);
+
+    useEffect(()=>{
+        const fetchData = async () => {
+          try {
+            const response = await axios.get(
+              `${apiUrl}/api/empresa/perfil/${idEmpresa}`
+            );
+            setCompany(response.data);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+        fetchData();
+    }, []);
+    return(company &&
         <Container sx={{paddingY: 4, marginTop: 2, bgcolor: "#F1FAF9"}} maxWidth="md">
             <CompanyProfileCard company={company} />
             <DetalleOfertaCard
             backgroundColor={'#F1FAF9'}
             title="DESCRIPCION">
                 <Typography>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Vero voluptate sapiente a fugit ullam odit, nemo eveniet architecto magnam repellat necessitatibus corporis molestias porro quae iste deserunt blanditiis dignissimos aperiam.
+                    {company.descripcion}
                 </Typography>
             </DetalleOfertaCard>
             <DetalleOfertaCard
@@ -46,24 +47,24 @@ export function EnterpriseProfile(){
                         
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'space-between', flexDirection: 'column' }}>
-                        <Typography>2223-4565</Typography>
-                        <Typography>afcastillof@unah.hn</Typography>
-                        <Typography>https://www.baccredomatic.com/</Typography>
+                        <Typography>{company.telefono}</Typography>
+                        <Typography>{company.correo}</Typography>
+                        <Typography>{company.sitioWeb}</Typography>
                     </Box>
                 </Box>
                 
             </DetalleOfertaCard>
             <DetalleOfertaCard
             title="Director General">
-                <DirectorCard></DirectorCard>
-                
+                <DirectorCard
+                    nombre={company.director[0].nombre}
+                    telefono={company.director[0].telefono}
+                />
             </DetalleOfertaCard>
             <DetalleOfertaCard
                 title="Ofertas Activas">
                 <Box sx={{display:"flex", flexDirection:"column", gap:"20px"}}>
-                <OfertaEnterpriseCard index={'1'} card={card}/>
-                <OfertaEnterpriseCard index={'2'} card={card}/>
-                <OfertaEnterpriseCard index={'3'} card={card}/>
+                {company.ofertas.map((oferta, index)=><OfertaEnterpriseCard key={index} index={index+1} card={oferta}/>)}
             </Box>
                 
             </DetalleOfertaCard>

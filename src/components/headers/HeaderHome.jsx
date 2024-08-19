@@ -19,11 +19,11 @@ const idApplicant = localStorage.getItem('idPersonaSoli');
 const pages = [
   {
     text: "Inicio",
-    src: `/home/${idApplicant}`,
+    src: `/home`,
   },
   {
     text: "Tus Ofertas",
-    src: `/application/${idApplicant}`,
+    src: `/application`,
   }
 ];
 
@@ -31,7 +31,7 @@ const pages = [
 const settings = [
   {
     text: "Profile",
-    src: `/userProfile/${idApplicant}`,
+    src: `/userProfile`,
   },
   {
     text: "Logout",

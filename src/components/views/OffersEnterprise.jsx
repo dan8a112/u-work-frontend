@@ -16,12 +16,11 @@ const OffersType = styled(Box)(() => ({
 }));
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const idEmpresa = localStorage.getItem('idEmpresa');
 
 export function OffersEnterprise() {
 
   const navigate = useNavigate();
-
-  const {idCompany} = useParams();
 
   const [ofertasDisp, setOfertasDisp] = React.useState(null);
   const [ofertasFin, setOfertasFin] = React.useState(null);
@@ -31,7 +30,7 @@ export function OffersEnterprise() {
     const fetchData = async () => {
       try {
         const offers = await axios.get(
-          `${apiUrl}/api/ofertas/mostrar/${idCompany}`
+          `${apiUrl}/api/ofertas/mostrar/${idEmpresa}`
         );
 
         setOfertasDisp(offers.data.filter(offer => offer.estadoOferta == 1));

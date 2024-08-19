@@ -18,6 +18,7 @@ import HeaderAdmin from './components/headers/HeaderAdmin'
 import { HomeUser } from './components/views/Home'
 import {LandingPage} from './components/views/LandingPage'
 import { LoginCompany } from './components/views/LoginCompany'
+import { LoginAdmin } from './components/views/LoginAdmin'
 
 function App() {
 
@@ -40,22 +41,23 @@ function App() {
         <Route path='/register' element={<UserRegister />} />
         <Route path='/registerBussiness' element={<BussinesRegister />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/home/:idApplicant' element={<HomeUser />} />
+        <Route path='/home' element={<HomeUser />} />
         <Route path='/userProfile' element={<UserProfile from="user" />} />
-        <Route path='/userProfile/:idApplicant' element={<UserProfile from="user" />} />
         <Route path='/offersDetail/:offerId' element={<OffersDetail />} />
-        <Route path='/application/:idApplicant' element={<Application />} />
-        <Route path='/homeEnterprise/:idCompany' element={<HomeEnterprise />} />
+        <Route path='/application' element={<Application />} />
+        <Route path='/homeEnterprise' element={<HomeEnterprise />} />
         <Route path='/EnterpriseProfile' element={<EnterpriseProfile />} />
         <Route path='/createOffer' element={<CreateOffer />} />
+        <Route path='/editOffer/:idOffer' element={<CreateOffer edit={true} />} />
         <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
-        <Route path='/OffersEnterprise/:idCompany' element={<OffersEnterprise />} />
+        <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
         <Route path='/Applicants' element={<OfferApplicants />} />
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<UserProfile from="enterprise" />} />
         <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />
         <Route path='/loginCompany' element={<LoginCompany />} />
+        <Route path='/loginAdmin' element={<LoginAdmin />} />
       </Routes>
     </>
   );

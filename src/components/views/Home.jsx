@@ -12,9 +12,10 @@ import { useParams } from 'react-router-dom';
 import axios from "axios";
 
 const apiUrl = import.meta.env.VITE_API_URL;
+const idApplicant = localStorage.getItem('idPersonaSoli');
 
 export function HomeUser() {
-  const { idApplicant } = useParams();
+  
   const [selectedPage, setSelectedPage] = React.useState('Ofertas');
   const [openNotification, setOpenNotification] = React.useState(false);
   const [selectedNotification, setSelectedNotification] = React.useState(null);

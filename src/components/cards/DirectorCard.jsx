@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Typography, Avatar } from '@mui/material';
 
-const DirectorCard = () => {
+const DirectorCard = ({nombre, telefono}) => {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
       {/* Foto de Perfil Genérica */}
@@ -14,10 +14,10 @@ const DirectorCard = () => {
       {/* Información del Usuario */}
       <Box>
         <Typography sx={{ fontSize: 24, fontWeight: 'bold' }}>
-          Angel Castillo
+          {nombre}
         </Typography>
         <Typography sx={{ fontSize: 20, color: 'text.secondary' }}>
-          afcastillof@unah.hn
+          {telefono}
         </Typography>
       </Box>
     </Box>
