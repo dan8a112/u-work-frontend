@@ -18,6 +18,7 @@ import HeaderAdmin from './components/headers/HeaderAdmin'
 import { HomeUser } from './components/views/Home'
 import {LandingPage} from './components/views/LandingPage'
 import { LoginCompany } from './components/views/LoginCompany'
+import { LoginAdmin } from './components/views/LoginAdmin'
 
 function App() {
 
@@ -56,6 +57,7 @@ function App() {
         <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />
         <Route path='/loginCompany' element={<LoginCompany />} />
+        <Route path='/loginAdmin' element={<LoginAdmin />} />
       </Routes>
     </>
   );
