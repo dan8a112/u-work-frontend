@@ -7,6 +7,9 @@ import { useNavigate } from 'react-router-dom';
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export function LoginCompany() {
+
+    const {loginEnterprise} = useAuth();
+
     const navigate = useNavigate();
 
     const handleLogin = async (email, password) => {
@@ -19,8 +22,10 @@ export function LoginCompany() {
             const idEmpresa = response.data;
             console.log('ID Persona:', idEmpresa);
 
+
             if (idEmpresa !== 0) {
                 localStorage.setItem('idEmpresa', idEmpresa);
+                loginEnterprise();
                 navigate(`/homeEnterprise/${idEmpresa}`);
             } else {
                 console.error('ID de empresa inválido');

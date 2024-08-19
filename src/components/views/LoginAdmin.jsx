@@ -9,6 +9,8 @@ const apiUrl = import.meta.env.VITE_API_URL;
 export function LoginAdmin() {
     const navigate = useNavigate();
 
+    const {loginAdmin} = useAuth();
+
     const handleLogin = async (email, password) => {
         try {
             const response = await axios.post(`${apiUrl}/api/login/admin`, {
@@ -21,6 +23,7 @@ export function LoginAdmin() {
 
             if (idAdmin !== 0) {
                 localStorage.setItem('idAdmin', idAdmin);
+                loginAdmin();
                 navigate(`/homeAdmin`);
             } else {
                 console.error('ID de administrador inválido');

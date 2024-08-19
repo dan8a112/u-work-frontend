@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation, matchPath } from 'react-router-dom'
+import { Route, Routes, useLocation, matchPath, Navigate } from 'react-router-dom'
 import { UserRegister } from './components/views/Register/UserRegister'
 import { Login } from './components/views/Login'
 import { BussinesRegister } from './components/views/Register/BusinessRegister'
@@ -19,6 +19,25 @@ import { HomeUser } from './components/views/Home'
 import {LandingPage} from './components/views/LandingPage'
 import { LoginCompany } from './components/views/LoginCompany'
 import { LoginAdmin } from './components/views/LoginAdmin'
+import { useAuth } from './hooks/useAuth'
+
+
+const loginRoutes = {
+  applicant: "/login",
+  enterprise: "/loginCompany",
+  admin: "/loginAdmin"
+}
+
+//El from puede ser applicant, enterprise o admin
+const ProtectedRoute = ({from, children})=>{
+  const {isAuthenticated} = useAuth();
+  if (!isAuthenticated[from]) {
+    return <Navigate to={loginRoutes[from]}/>
+  }
+
+  return children;
+}
+
 
 function App() {
 

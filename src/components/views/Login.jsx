@@ -3,11 +3,13 @@ import axios from 'axios';
 import DenseAppBar from '../headers/DenseAppBar';
 import LoginCard from '../cards/LoginCard';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
 export function Login() {
     const navigate = useNavigate();
+    const {loginApplicant} = useAuth();
 
     const handleLogin = async (email, password) => {
         try {
@@ -20,6 +22,7 @@ export function Login() {
             console.log('ID Persona:', idPersonaSoli);
 
             if (idPersonaSoli !== 0) {
+                loginApplicant();
                 navigate(`/home`);
             } else {
                 console.error('ID de solicitante inválido');
