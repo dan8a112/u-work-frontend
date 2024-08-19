@@ -23,8 +23,8 @@ import { LoginAdmin } from './components/views/LoginAdmin'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise/:idCompany", "/offersDetailEnterprise/:idOffer", "/Applicants", "/watchUserEnterprise/:idApplicant/:idSolicitud"];
+  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail/:offerId", "/userProfile"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise/:idOffer", "/Applicants/:idOffer", "/watchUserEnterprise/:idApplicant/:idSolicitud", "/selectUserEnterprise/:idApplicant/:idOfert"];
   const showTabbarAdmin = ["/homeAdmin"];
 
   const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
@@ -51,8 +51,8 @@ function App() {
         <Route path='/editOffer/:idOffer' element={<CreateOffer edit={true} />} />
         <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
         <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
-        <Route path='/Applicants' element={<OfferApplicants />} />
-        <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
+        <Route path='/Applicants/:idOffer' element={<OfferApplicants />} />
+        <Route path='/selectUserEnterprise/:idApplicant/:idOfert' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<UserProfile from="enterprise" />} />
         <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />

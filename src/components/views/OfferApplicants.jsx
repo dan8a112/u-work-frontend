@@ -39,6 +39,7 @@ function BasicTable({ estadoAplicacion, aplicantes, navigate }) {
 
 export function OfferApplicants(){
   const { idCompany } = useParams();
+  const {idOffer} = useParams();
   const [info, setInfo] = useState({ aplicantes: [], candidatos: [] });
   const [tab, setTab] = useState(0);
   
@@ -46,11 +47,14 @@ export function OfferApplicants(){
   const handleNavigate = (idApplicant, idSolicitud) => {
     navigate(`/watchUserEnterprise/${idApplicant}/${idSolicitud}`)
   }
+  const handleNavigate2 = (idApplicant, idOffert) => {
+    navigate(`/selectUserEnterprise/${idApplicant}/${idOffert}`)
+  }
 
   useEffect(() => {
     const fetchData = async () => {
       try{
-        const response = await axios.get(`http://localhost:5001/api/ofertas/aplicantes/1`);
+        const response = await axios.get(`http://localhost:5001/api/ofertas/aplicantes/${idOffer}`);
         setInfo(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -83,7 +87,7 @@ export function OfferApplicants(){
               <Typography fontSize="20px" fontWeight="500">Posibles Candidatos</Typography>
               <Typography>Elegimos a estas personas porque sus habilidades coinciden con tu oferta</Typography>
             </Box>
-            {info.candidatos.map((candidato, index) => <CandidateCard key={index} candidato={candidato} />)}
+            {info.candidatos.map((candidato, index) => <CandidateCard key={index} candidato={candidato} idOffer={info.idOferta} navigate={handleNavigate2} />)}
           </>
         );
       default:

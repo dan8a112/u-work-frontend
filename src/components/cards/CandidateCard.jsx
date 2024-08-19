@@ -1,6 +1,6 @@
 import { Box, Button, Card, CardActions, CardContent, Typography } from "@mui/material";
 
-export function CandidateCard({candidato}){
+export function CandidateCard({candidato, navigate, idOffer}){
 
     const {id, urlPerfil, nombre, titular, lugarOrigen,formaciones} = candidato;
 
@@ -23,7 +23,7 @@ export function CandidateCard({candidato}){
                 </Box>
             </CardContent>
             <CardActions sx={{position:"absolute", top:"15px", right:"15px"}}>
-                <Button variant="contained" sx={{bgcolor:"#0D669E"}}>Ver perfil</Button>
+                <Button variant="contained" sx={{bgcolor:"#0D669E"}} onClick={() => navigate(id, idOffer)}>Ver perfil</Button>
             </CardActions>
         </Card>
     )

@@ -20,11 +20,11 @@ const idCompany = localStorage.getItem('idEmpresa');
 const pages = [
   {
     text: "Inicio",
-    src: `/homeEnterprise/${idCompany}`,
+    src: `/homeEnterprise`,
   },
   {
     text: "Ofertas",
-    src: `/OffersEnterprise/${idCompany}`,
+    src: `/OffersEnterprise`,
   },
   {
     text: "Solicitudes",
@@ -35,7 +35,7 @@ const pages = [
 const settings = [
   {
     text: "Profile",
-    src: `/EnterpriseProfile/${idCompany}`,
+    src: `/EnterpriseProfile`,
   },
   {
     text: "Logout",
