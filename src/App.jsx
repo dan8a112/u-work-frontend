@@ -23,8 +23,8 @@ import { LoginAdmin } from './components/views/LoginAdmin'
 function App() {
 
   const location = useLocation();
-  const showTabbarRoutes = ["/home", "/userProfile", "/application", "/offersDetail/:offerId"];
-  const showTabbarEnterpriseRoutes = ["/homeEnterprise", "/EnterpriseProfile", "/OffersEnterprise", "/offersDetailEnterprise/:idOffer", "/Applicants"];
+  const showTabbarRoutes = ["/home/:idApplicant", "/userProfile", "/application/:idApplicant", "/offersDetail/:offerId", "/userProfile/:idApplicant"];
+  const showTabbarEnterpriseRoutes = ["/homeEnterprise/:idCompany", "/EnterpriseProfile", "/OffersEnterprise/:idCompany", "/offersDetailEnterprise/:idOffer", "/Applicants", "/watchUserEnterprise/:idApplicant/:idSolicitud"];
   const showTabbarAdmin = ["/homeAdmin"];
 
   const showTabbar = showTabbarRoutes.some(route => matchPath(route, location.pathname));
@@ -53,7 +53,7 @@ function App() {
         <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
         <Route path='/Applicants' element={<OfferApplicants />} />
         <Route path='/selectUserEnterprise' element={<UserProfile from="enterprise" action="select" />} />
-        <Route path='/watchUserEnterprise' element={<UserProfile from="enterprise" />} />
+        <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<UserProfile from="enterprise" />} />
         <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />
         <Route path='/loginCompany' element={<LoginCompany />} />

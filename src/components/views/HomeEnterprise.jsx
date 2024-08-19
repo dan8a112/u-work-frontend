@@ -23,13 +23,19 @@ export function HomeEnterprise() {
   }
 
   const handleCloseNotification = () => {
-    setNotifications(notificaciones.map(notification =>
-      notification.idNotificacion === selectedNotification
-        ? { ...notification, estado: 1 }
-        : notification
-    ));
+    setNotifications(notificaciones.map(notification => {
+      if (notification[0] === selectedNotification) {
+        const updatedNotification = [...notification];  
+        updatedNotification[3] = 1;
+  
+        return updatedNotification;
+      }
+      return notification;
+    }));
     setOpenNotification(false);
   }
+  
+  
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +44,7 @@ export function HomeEnterprise() {
         setEstadisticas(response.data);
         setOfertasActivas(response.data.ofertasActivas || []);
         setNotifications(response.data.notificaciones || []);
+        console.log(response.data)
       } catch (error) {
         console.error(error);
       }
