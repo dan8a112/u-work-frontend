@@ -16,10 +16,10 @@ export function UserInfoCard({ phoneNumber, email, birthdate, from, action, idSo
   const handleOpenEdit = () => { setOpenEdit(true) };
   const handleCloseEdit = () => { setOpenEdit(false) };
 
-  const [openModal, setOpenModal] = useState(false); // Estado para controlar la apertura de la modal
-  const [modalAction, setModalAction] = useState(''); // Estado para controlar la acción (seleccionar o reclutar)
-  const [applicationMessage, setApplicationMessage] = useState(''); // Estado para mensaje de solicitud
-  const [description, setDescription] = useState(''); // Estado para la descripción
+  const [openModal, setOpenModal] = useState(false); 
+  const [modalAction, setModalAction] = useState(''); 
+  const [applicationMessage, setApplicationMessage] = useState(''); 
+  const [description, setDescription] = useState(''); 
 
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -55,16 +55,17 @@ export function UserInfoCard({ phoneNumber, email, birthdate, from, action, idSo
       }
     } else if (modalAction === 'select') {
       // Enviar la descripción al backend
-      const idEmpresa = localStorage.get('idEmpresa');
+      const idEmpresa = localStorage.getItem('idEmpresa')
       const data = {
-        idOferta,
+        idOferta: idOferta,
         idSolicitante: idEmpresa,
         idEstadoSolicitud: 1,
         emisorSolicitud: 1,
         descripcion: description
       };
       try {
-        await axios.post(`${apiUrl}/api/solicitudes/crear`, data);
+        const response = await axios.post(`${apiUrl}/api/solicitudes/crear`, data);
+        console.log(data);
         alert("Usuario seleccionado con éxito");
       } catch (error) {
         console.error("Error al seleccionar usuario:", error);

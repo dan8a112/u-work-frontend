@@ -71,7 +71,7 @@ function App() {
         <Route path='/offersDetailEnterprise/:idOffer' element={<OffersDetailEnterprise />} />
         <Route path='/OffersEnterprise' element={<OffersEnterprise />} />
         <Route path='/Applicants/:idOffer' element={<OfferApplicants />} />
-        <Route path='/selectUserEnterprise/:idApplicant/:idOfert' element={<UserProfile from="enterprise" action="select" />} />
+        <Route path='/selectUserEnterprise/:idApplicant/:idOferta' element={<UserProfile from="enterprise" action="select" />} />
         <Route path='/watchUserEnterprise/:idApplicant/:idSolicitud' element={<UserProfile from="enterprise" />} />
         <Route path='/homeAdmin' element={<HomeAdmin />} />
         <Route path='/' element={<LandingPage />} />
