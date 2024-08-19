@@ -165,7 +165,7 @@ export function CreateOffer({edit}){
       
       if (response.status === 200) {
         alert(edit ? 'Se ha editado tu oferta correctamente, revisalo!' : 'Se ha agregado una nueva oferta, revisalo!');
-        navigate(`/OffersEnterprise/${idEmpresa}`);
+        navigate(`/OffersEnterprise`);
       }
       
       } catch (error) {
@@ -431,7 +431,7 @@ export function CreateOffer({edit}){
             </Box>
           </SectionFormCard>
           <Box sx={{display:"flex", justifyContent:"end", margin: "50px 45px 40px"}}>
-            <Button size="large" variant="contained" type="submit">Crear Oferta</Button>
+            <Button size="large" variant="contained" type="submit">{edit ? "Editar Oferta" :"Crear Oferta"}</Button>
           </Box>
         </form>
       </Container>

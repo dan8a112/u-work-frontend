@@ -44,7 +44,6 @@ export function OffersDetailEnterprise(){
     };
 
     const handleDeleteOffer = async ()=>{
-        const idEmpresa = localStorage.getItem('idEmpresa');
         try {
           const response = await axios.put(
             `${apiUrl}/api/empresa/oferta/eliminar/${idOffer}`
@@ -52,7 +51,7 @@ export function OffersDetailEnterprise(){
           if (response.status == 200) {
             setOpenDelete(false)
             alert("Se ha eliminado esta oferta")
-            navigate(`/OffersEnterprise/${idEmpresa}`)
+            navigate(`/OffersEnterprise`)
           }
         } catch (error) {
             console.error("Ocurrio un error: ", error)
