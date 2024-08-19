@@ -39,8 +39,9 @@ export function MenuAdmin({menuItems, saveMenuItemState}){
                 scrollbarWidth: 'none',
                 '-ms-overflow-style': 'none',
             }}>
-                {menuItems.map((item) => (
+                {menuItems.map((item, index) => (
                     <OffersType
+                        key={index}
                         onClick={() => handleMenuItemClick(item.key)}
                         sx={{ backgroundColor: buttonSelected === item.key ? "#F1FAF9" : "#fff" }}
                     >
