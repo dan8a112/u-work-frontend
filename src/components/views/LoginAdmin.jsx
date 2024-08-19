@@ -3,6 +3,7 @@ import axios from 'axios';
 import DenseAppBar from '../headers/DenseAppBar';
 import LoginCard from '../cards/LoginCard';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 

@@ -22,6 +22,7 @@ export function Login() {
             console.log('ID Persona:', idPersonaSoli);
 
             if (idPersonaSoli !== 0) {
+                localStorage.setItem('idPersonaSoli', idPersonaSoli);
                 loginApplicant();
                 navigate(`/home`);
             } else {

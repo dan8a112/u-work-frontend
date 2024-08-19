@@ -13,6 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const idApplicant = localStorage.getItem('idPersonaSoli'); 
 
@@ -35,11 +36,14 @@ const settings = [
   },
   {
     text: "Logout",
-    src: "/register",
+    src: "/",
   }
 ];
 
 function HeaderHome() {
+
+  const {logout} = useAuth()
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -67,6 +71,9 @@ function HeaderHome() {
   };
 
   const handleUserMenuItemClick = (src) => {
+    if (src=="/") {
+      logout();
+    }
     navigate(src);
     setAnchorElUser(null); // Cerrar el menú de usuario después de la navegación
   };

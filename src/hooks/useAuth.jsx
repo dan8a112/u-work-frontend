@@ -9,13 +9,14 @@ export const useAuth = () =>{
 
 export const AuthProvider = ({children}) =>{
     const [isAuthenticated, setIsAuthenticated] = useState({
-        applicant: false,
-        enterprise: false,
-        admin: false
+        applicant: !!localStorage.getItem('idPersonaSoli'),
+        enterprise: !!localStorage.getItem('idEmpresa'),
+        admin: !!localStorage.getItem('idAdmin')
     });
 
     const loginApplicant = ()=>{
         const idApplicant = localStorage.getItem('idPersonaSoli');
+        console.log("entro aqui")
         if(idApplicant){
             setIsAuthenticated({... isAuthenticated, applicant: true});
         }
